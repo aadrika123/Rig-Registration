@@ -12,20 +12,21 @@ function PetRegWorkflowEntry() {
 
     // const ServerUrl = 'http://203.129.217.246:8005'
     // const ServerUrl = 'https://www.jharkhandegovernance.com/auth'
+    // const ServerUrl = 'https://aadrikainfomedia.com/auth'
     const ServerUrl = 'https://aadrikainfomedia.com/auth'
 
-    const petInbox = `${ServerUrl}/api/pet/inbox` //Pet Inbox
-    const petOutbox = `${ServerUrl}/api/pet/outbox` //Pet Inbox
-    const petSpecial = `${ServerUrl}/api/pet/special-inbox` //Pet Inbox
-    const petPostNextLevel = `${ServerUrl}/api/pet/post-next-level` //Pet Post Next Level
-    const petEscalateNextLevel = `${ServerUrl}/api/pet/escalate` //Pet Escalate Next Level
-    const petDocVerifyReject = `${ServerUrl}/api/pet/doc-verify-reject` //Pet Document Verify
-    const petDocViewList = `${ServerUrl}/api/pet/application/get-uploaded-docs` //Pet Document Verify
-    const petDocUpload = `${ServerUrl}/api/pet/application/upload-docs`
-    const petDocShowOnDocUpload = `${ServerUrl}/api/pet/application/get-doc-to-upload`
-    const petFinalVerifyReject = `${ServerUrl}/api/pet/final-verify-reject`
+    const petInbox = `${ServerUrl}/api/rig/inbox` //Pet Inbox
+    const petOutbox = `${ServerUrl}/api/rig/outbox` //Pet Inbox
+    const petSpecial = `${ServerUrl}/api/rig/special-inbox` //Pet Inbox
+    const petPostNextLevel = `${ServerUrl}/api/rig/post-next-level` //Pet Post Next Level
+    const petEscalateNextLevel = `${ServerUrl}/api/rig/escalate` //Pet Escalate Next Level
+    const petDocVerifyReject = `${ServerUrl}/api/rig/doc-verify-reject` //Pet Document Verify
+    const petDocViewList = `${ServerUrl}/api/rig/application/get-uploaded-docs` //Pet Document Verify
+    const petDocUpload = `${ServerUrl}/api/rig/application/upload-docs`
+    const petDocShowOnDocUpload = `${ServerUrl}/api/rig/application/get-doc-to-upload`
+    const petFinalVerifyReject = `${ServerUrl}/api/rig/final-verify-reject`
 
-    const petWorkflowApplicationDetails = `${ServerUrl}/api/pet/application/get-wf-detials`
+    const petWorkflowApplicationDetails = `${ServerUrl}/api/rig/application/get-wf-detials`
 
     // LIST OF API'S
     const { api_safBTCList, api_backToCitizen, api_workflowInfo, api_postDepartmental, api_getDepartmentalData, api_uploadDocumentShow, api_fieldVerificationList } = ProjectApiList()
@@ -75,9 +76,9 @@ function PetRegWorkflowEntry() {
 
         },
         workflow: {
-            workflowName: 'Pet Workflow',
-            workflowId: 31,
-            moduleId: 9,
+            workflowName: 'Rig Workflow',
+            workflowId: 200,
+            moduleId: 15,
             formUrl: `/advertisement/lodgeEdit`,
             fullDetailsUrl: '/advertisement/lodgeApplicationDetail'
         },

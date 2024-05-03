@@ -31,8 +31,8 @@ function PilotWorkflowIndex(props) {
   const [tabIndex, settabIndex] = useState(0); //state to store current tab index
   const [tabs, setTabs] = useState([
     { title: "Inbox", tabIndex: 0 },
-    { title: "Outbox", tabIndex: 1 },
-    { title: "Special", tabIndex: 2 },
+    // { title: "Outbox", tabIndex: 1 },
+    // { title: "Special", tabIndex: 2 },
     // { title: "BTC List", tabIndex: 3 },
     // { title: "Field Verified List", tabIndex: 4 },
   ]);

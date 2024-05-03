@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-// 👉 Author      : R U Bharti
+// 👉 Author      : Akshay
 // 👉 Component   : App.js
 // 👉 Status      : Open
 // 👉 Description : This screen is designed for waive off demand.
@@ -72,7 +72,7 @@ function App() {
     { path: '/change-password', element: <ChangePassword /> },
     // { path: '/home', element: <PetDashboard /> },
     { path: '/home', element: <PetRegDashboard /> },
-    { path: '/pet-workflow', element: <PetRegWorkflowEntry /> },
+    { path: '/rig-workflow', element: <PetRegWorkflowEntry /> },
     { path: '/search-pet-registration', element: <SearchPetApplicationForm /> },
     { path: '/search-approved-pet-registration', element: <SearchApprovedPetApplication /> },
     { path: '/PetRegistrationPreviewList/:registration_id', element: <PetRegistrationPreviewList /> },
@@ -80,7 +80,7 @@ function App() {
     { path: '/search-rejected-pet-registration', element: <SearchRejectPetApplication /> },
     { path: '/approved-pet-application', element: <ApprovedPetApplication /> },
     { path: '/reject-pet-application', element: <RejectPetApplication /> },
-    { path: '/pet-registration', element: <PetRegistrationIndex /> },
+    // { path: '/pet-registration', element: <PetRegistrationIndex /> },
     { path: '/pet-renewal/:id', element: <PetRenewalFormIndex /> },
     { path: '/viewPetApplication/:id', element: <ViewPetApplication /> },
     { path: '/viewRejectApplication/:id', element: <ViewRejectApplication /> },
