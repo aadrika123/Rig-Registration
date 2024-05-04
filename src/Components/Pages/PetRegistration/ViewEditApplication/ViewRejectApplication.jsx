@@ -11,14 +11,14 @@ import useSetTitle from '@/Components/Common/useSetTitle';
 // Component for viewing details of a rejected pet application
 const ViewRejectApplication = () => {
 
-// Hook to set the title of the page
+    // Hook to set the title of the page
     useSetTitle("View Pet Application")
 
-// Hook for programmatic navigation and getting the application ID from the URL parameters
+    // Hook for programmatic navigation and getting the application ID from the URL parameters
     const navigate = useNavigate()
     const { id } = useParams()
 
-// State variables for managing application data, loading state, and error state
+    // State variables for managing application data, loading state, and error state
     const [applicationFullData, setApplicationFullData] = useState()
     const [loader, setLoader] = useState(false)
     const [somethingWentWrong, setSomethingWentWrong] = useState(false)
@@ -72,11 +72,6 @@ const ViewRejectApplication = () => {
                                                 <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.ward_name ? applicationFullData?.ward_name : "N/A"}</div>
                                             </div>
                                             <div className='flex-1 text-xs'>
-                                                <div className='text-[#37517e]'>Apply Through</div>
-                                                <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.apply_through_name ? applicationFullData?.apply_through_name : "N/A"}</div>
-                                            </div>
-
-                                            <div className='flex-1 text-xs'>
                                                 <div className='text-[#37517e]'>Category of Application</div>
                                                 <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.ref_application_type ? applicationFullData?.ref_application_type : "N/A"}</div>
                                             </div>
@@ -114,20 +109,20 @@ const ViewRejectApplication = () => {
                             </div>
                             {/* Pet  details */}
                             <div className='bg-white shadow-xl p-4 border border-gray-200 my-3'>
-                                <h1 className='px-1 font-semibold font-serif text-xs mt-2 text-[#37517e]'><img src={petIcon} alt="Pet Detail" className='w-5 inline text-[#37517e]' /> Pet Details</h1>
+                                <h1 className='px-1 font-semibold font-serif text-xs mt-2 text-[#37517e]'><img src={petIcon} alt="Pet Detail" className='w-5 inline text-[#37517e]' /> Vehicle Details</h1>
                                 {loader ? <ShimmerEffectInline /> :
                                     <div className='mt-2 space-y-5'>
                                         <div className="flex space-x-10 pl-4 ">
                                             <div className='flex-1 text-xs'>
-                                                <div className='text-[#37517e]'>Pet Type</div>
+                                                <div className='text-[#37517e]'>Name of Driver</div>
                                                 <div className='font-semibold text-sm text-[#37517e]'>{applicationFullData?.pet_type ? applicationFullData?.pet_type == 1 && "Dog" : "N/A"}</div>
                                             </div>
                                             <div className='flex-1 text-xs'>
-                                                <div className='text-[#37517e]'>Name of Pet</div>
+                                                <div className='text-[#37517e]'>Gender</div>
                                                 <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.pet_name ? applicationFullData?.pet_name : "N/A"}</div>
                                             </div>
                                             <div className='flex-1 text-xs'>
-                                                <div className='text-[#37517e]'>Gender</div>
+                                                <div className='text-[#37517e]'>Date of Birth</div>
                                                 <div className='font-bold text-sm text-[#37517e]'>
                                                     {applicationFullData?.sex == 1 && "Male"}
                                                     {applicationFullData?.sex == 2 && "Female"}
@@ -135,55 +130,26 @@ const ViewRejectApplication = () => {
                                                 </div>
                                             </div>
                                             <div className='flex-1 text-xs'>
-                                                <div className='text-[#37517e]'>Date of Birth</div>
+                                                <div className='text-[#37517e]'>Vehicle Company</div>
                                                 <div className='font-bold text-sm text-[#37517e]'>
-                                                    <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.dob  ? moment(applicationFullData.dob).format('DD-MM-Y') : "N/A"}</div>
+                                                    <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.dob ? moment(applicationFullData.dob).format('DD-MM-Y') : "N/A"}</div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="flex space-x-10 pl-4 ">
-                                            {/* <div className='flex-1 text-xs'>
-                                                <div className='text-[#37517e]'>Identity Mark</div>
-                                                <div className='font-semibold text-sm text-[#37517e]'>{applicationFullData?.identification_mark ? applicationFullData?.identification_mark : "N/A"}</div>
-                                            </div> */}
                                             <div className='flex-1 text-xs'>
-                                                <div className='text-[#37517e]'>Breed</div>
+                                                <div className='text-[#37517e]'>Registration No.</div>
                                                 <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.breed ? applicationFullData?.breed : "N/A"}</div>
                                             </div>
                                             <div className='flex-1 text-xs'>
-                                                <div className='text-[#37517e]'>Color</div>
+                                                <div className='text-[#37517e]'>Vehicle From</div>
                                                 <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.color ? applicationFullData?.color : "N/A"}</div>
                                             </div>
-                                            <div className='flex-1 text-xs'>
-                                                <div className='text-[#37517e]'>Veterinary Doctor Name</div>
-                                                <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.vet_doctor_name ? applicationFullData?.vet_doctor_name : "N/A"}</div>
-                                            </div>
+
                                             <div className='flex-1 text-xs'>
                                             </div>
                                         </div>
-                                        <div className="flex space-x-10 pl-4 ">
-                                            <div className='flex-1 text-xs'>
-                                                <div className='text-[#37517e]'>Doctor’s MSVC/VCI number</div>
-                                                <div className='font-semibold text-sm text-[#37517e]'>{applicationFullData?.doctor_registration_no ? applicationFullData?.doctor_registration_no : "N/A"}</div>
-                                            </div>
-                                            <div className='flex-1 text-xs'>
-                                                <div className='text-[#37517e]'>Date of Rabies</div>
-                                                <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.rabies_vac_date  ? moment(applicationFullData.rabies_vac_date).format('DD-MM-Y') : "N/A"}</div>
-                                               
-                                            </div>
-                                            {/* <div className='flex-1 text-xs'>
-                                                <div className='text-[#37517e]'>Date of Rabies</div>
-                                                <div className='font-bold text-sm text-[#37517e]'> {applicationFullData?.rabies_vac_date  ? moment(applicationFullData.rabies_vac_date).format('DD-MM-YYYY') : "N/A"}</div>     
-                                            </div> */}
-                                            <div className='flex-1 text-xs'>
-                                                <div className='text-[#37517e]'>Leptospirosis Vaccination Date</div>
-                                                <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.leptospirosis_vac_date  ? moment(applicationFullData.leptospirosis_vac_date).format('DD-MM-Y') : "N/A"}</div>
-                                            </div>
-                                            <div className='flex-1 text-xs'>
-                                                <div className='text-[#37517e]'>Pet From</div>
-                                                <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.occurrence_types ? applicationFullData?.occurrence_types : "N/A"}</div>
-                                            </div>
-                                        </div>
+
                                     </div>
                                 }
                             </div>

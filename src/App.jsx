@@ -78,17 +78,21 @@ function App() {
     { path: '/PetRegistrationPreviewList/:registration_id', element: <PetRegistrationPreviewList /> },
     { path: '/viewPreviewApplication/:id', element: <ViewApprovedPreviewApplication /> },
     { path: '/search-rejected-pet-registration', element: <SearchRejectPetApplication /> },
-    { path: '/approved-pet-application', element: <ApprovedPetApplication /> },
-    { path: '/reject-pet-application', element: <RejectPetApplication /> },
+    
+   
     // { path: '/pet-registration', element: <PetRegistrationIndex /> },
     { path: '/pet-renewal/:id', element: <PetRenewalFormIndex /> },
     { path: '/viewPetApplication/:id', element: <ViewPetApplication /> },
-    { path: '/viewRejectApplication/:id', element: <ViewRejectApplication /> },
-    { path: '/viewApprovedApplication/:id', element: <ViewApprovedApplication /> },
+    
+    
     { path: '/pet-payment-offline/:id', element: <PetOfflinePayment /> },
     { path: '/pet-payment-receipt/:transNo', element: <PetPaymentReceiptIndex /> },
-    
 
+    
+    { path: '/viewRejectApplication/:id', element: <ViewRejectApplication /> },
+    { path: '/viewApprovedApplication/:id', element: <ViewApprovedApplication /> },
+     { path: '/reject-rig-application', element: <RejectPetApplication /> },
+    { path: '/approved-rig-application', element: <ApprovedPetApplication /> },
   ]
 
   return (

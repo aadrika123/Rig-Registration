@@ -3,6 +3,7 @@ import ProjectApiList from '@/Components/api/ProjectApiList'
 import PilotWorkflowIndex from '@/Components/Common/WORKFLOW_PILOT/PilotWorkflowIndex'
 import React from 'react'
 import { format } from 'date-fns'
+import BackendUrl from '@/Components/api/BackendUrl'
 // import AdvertisementApiList from '../../../../../Components/ApiList/AdvertisementApiList'
 // import BackendUrlAdvt from '../../../../../Components/ApiList/BackendUrlAdvt'
 // import ProjectApiList from '../../../../../Components/ApiList/ProjectApiList'
@@ -13,7 +14,7 @@ function PetRegWorkflowEntry() {
     // const ServerUrl = 'http://203.129.217.246:8005'
     // const ServerUrl = 'https://www.jharkhandegovernance.com/auth'
     // const ServerUrl = 'https://aadrikainfomedia.com/auth'
-    const ServerUrl = 'https://aadrikainfomedia.com/auth'
+    const ServerUrl = BackendUrl
 
     const petInbox = `${ServerUrl}/api/rig/inbox` //Pet Inbox
     const petOutbox = `${ServerUrl}/api/rig/outbox` //Pet Inbox

@@ -28,30 +28,34 @@ export default function PetRegAPIList() {
         api_ulbList: `${baseUrl}/api/get-all-ulb`, //GET
         api_wardList: `${baseUrl}/api/workflow/getWardByUlb`, // post,
 
-        api_PetRegistrationMaster: `${baseUrl}/api/pet/get-master-data`,
-        api_PetRegistrationApplyForm: `${baseUrl}/api/pet/application/apply-pet-registration`,
-        api_PetApplyRenewalForm: `${baseUrl}/api/pet/registration/apply-renewal`,
-        api_PetRegistrationDocUploadList: `${baseUrl}/api/pet/application/get-doc-to-upload`,
-        api_PetRegistrationList: `${baseUrl}/api/pet/application/get-registration-list`,
+        api_PetRegistrationMaster: `${baseUrl}/api/rig/get-master-data`,
+        api_PetRegistrationApplyForm: `${baseUrl}/api/rig/application/apply-rig-registration`,
+        api_PetApplyRenewalForm: `${baseUrl}/api/rig/registration/apply-renewal`,
+        api_PetRegistrationDocUploadList: `${baseUrl}/api/rig/application/get-doc-to-upload`,
+        api_PetRegistrationList: `${baseUrl}/api/rig/application/get-registration-list`,
 
-        api_PetRegDeleteApplication: `${baseUrl}/api/pet/application/delete`,
-        api_PetRegViewApplication: `${baseUrl}/api/pet/application/get-details`,
-        api_PetRejectedViewApplication: `${baseUrl}/api/pet/get-rejected-registration-list`,
-        api_PetApproveViewApplication: `${baseUrl}/api/pet/get-approve-registration-list`,
-        api_PetPreviewViewApplication: `${baseUrl}/api/pet/get-renewal-registration-details`,
-        api_PetRegUploadDocument: `${baseUrl}/api/pet/application/upload-docs`,
-        api_ListOfSafHolding: `${baseUrl}/api/pet/citizen-holding-saf`,
-        api_getUserDetailsByHoldingSaf: `${baseUrl}/api/pet/application/get-prop-details`,
-        api_searchPetApplication: `${baseUrl}/api/pet/application/searh-application`,
-        api_searchApprovedPetApplication: `${baseUrl}/api/pet/search-approved-applications`,
-        api_searchRejectedPetApplication: `${baseUrl}/api/pet/search-rejected-applications`,
-        api_ApprovedPetApplication: `${baseUrl}/api/pet/list-approved-application`,
-        api_petRegistrationsPreviewList: `${baseUrl}/api/pet/get-renewal-history`,
-        api_RejectedPetApplication: `${baseUrl}/api/pet/list-rejected-application`,
-        api_petOfflinePayment: `${baseUrl}/api/pet/application/offline-payment`,
-        api_petPaymentReceipt: `${baseUrl}/api/pet/application/payment-receipt`,
-        api_peteditdetails: `${baseUrl}/api/pet/application/edit-pet-details`,
-        api_petDashboardDetails: `${baseUrl}/api/pet/dashboard_details`,
+        api_PetRegDeleteApplication: `${baseUrl}/api/rig/application/delete`,
+        api_PetRegViewApplication: `${baseUrl}/api/rig/application/get-details`,
+       
+        api_PetApproveViewApplication: `${baseUrl}/api/rig/get-approve-registration-list`,
+        api_PetPreviewViewApplication: `${baseUrl}/api/rig/get-renewal-registration-details`,
+        api_PetRegUploadDocument: `${baseUrl}/api/rig/application/upload-docs`,
+        api_ListOfSafHolding: `${baseUrl}/api/rig/citizen-holding-saf`,
+        api_getUserDetailsByHoldingSaf: `${baseUrl}/api/rig/application/get-prop-details`,
+        api_searchPetApplication: `${baseUrl}/api/rig/application/searh-application`,
+        
+        
+        api_petRegistrationsPreviewList: `${baseUrl}/api/rig/get-renewal-history`,
+        api_petOfflinePayment: `${baseUrl}/api/rig/application/offline-payment`,
+        api_peteditdetails: `${baseUrl}/api/rig/application/edit-rig-details`,
+       
+        api_PetRejectedViewApplication: `${baseUrl}/api/rig/get-rejected-registration-list`,
+        api_searchApprovedPetApplication: `${baseUrl}/api/rig/search-approved-applications`,
+        api_searchRejectedPetApplication: `${baseUrl}/api/rig/search-rejected-applications`,
+        api_RejectedPetApplication: `${baseUrl}/api/rig/list-rejected-application`,
+        api_petPaymentReceipt: `${baseUrl}/api/rig/application/payment-receipt`,
+        api_petDashboardDetails: `${baseUrl}/api/rig/dashboard_details`,
+        api_ApprovedPetApplication: `${baseUrl}/api/rig/list-approved-application`,
     }
 
     return apiList
