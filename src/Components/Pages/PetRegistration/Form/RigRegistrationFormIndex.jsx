@@ -8,8 +8,11 @@ import BarLoader from "@/Components/Common/Loaders/BarLoader";
 import { allowCharacterInput } from "@/Components/Common/PowerupFunctions";
 // import { toast } from "react-toastify";
 import ApiHeader from "@/Components/api/ApiHeader";
-import {toast} from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import ApiHeader2 from "@/Components/api/ApiHeader2";
+import useSetTitle from "@/Components/Common/useSetTitle";
+import { useNavigate } from "react-router-dom";
+import SuccessfulSubmitModal from "./SuccessfulSubmitModal";
 // import WaterApiList from "../../../Components/ApiList/WaterApiList";
 // import AxiosInterceptors from "../../../Components/GlobalData/AxiosInterceptors";
 // import PetRegAPIList from "../../../Components/ApiList/PetRegAPIList";
@@ -39,9 +42,10 @@ const RigRegistrationFormIndex = (props) => {
   const [fitnessImage, setFitnessImage] = useState();
   const [taxCopyImage, setTaxCopyImage] = useState();
   const [licenseImage, setLicenseImage] = useState();
+  const [responseScreen, setresponseScreen] = useState();
 
   // const { api_ulbList, header, api_wardList } = WaterApiList();
-
+  useSetTitle("Search Application")
   const {
     api_RigRegistrationApplyForm,
     api_PetRegistrationMaster,
@@ -49,41 +53,41 @@ const RigRegistrationFormIndex = (props) => {
     api_getUserDetailsByHoldingSaf,
     header1, api_ulbList, header, api_wardList
   } = PetRegAPIList();
-
+  const navigate = useNavigate();
   // ==== Formik Start
   const validationSchema = yup.object({
-    // ulb: yup.string().required("Kindly enter a value."),
-    // address: yup.string().required("Kindly enter a value."),
+    ulb: yup.string().required("Kindly enter a value."),
+    address: yup.string().required("Kindly enter a value."),
 
-    // applicantName: yup
-    //   .string()
-    //   .matches(/^[a-zA-Z0-9\s,.:-]+$/, "Only text is allowed")
-    //   .required("Kindly enter a value."),
-    // // ownerCategory: yup.string().required("Kindly enter a value."),
-    // ward: yup.string().required("Kindly enter a value."),
-    // mobileNo: yup
-    //   .string()
-    //   .matches(/^\d{10}$/, "Mobile number must be exactly 10 digits")
-    //   .required("Kindly enter a value."),
-    // email: yup.string().email().required("Kindly enter a value."),
-    // panNo: yup
-    //   .string()
-    //   .matches(/^[A-Za-z0-9]{10}$/, "Enter 10 Character PAN No.")
-    //   .required("Kindly enter a value."),
-    // // address: yup.string().matches(/^[a-zA-Z0-9\s,.:-]+$/, 'Special characters are not allowed').required('Kindly enter a value.'),
+    applicantName: yup
+      .string()
+      .matches(/^[a-zA-Z0-9\s,.:-]+$/, "Only text is allowed")
+      .required("Kindly enter a value."),
+    ownerCategory: yup.string().required("Kindly enter a value."),
+    ward: yup.string().required("Kindly enter a value."),
+    mobileNo: yup
+      .string()
+      .matches(/^\d{10}$/, "Mobile number must be exactly 10 digits")
+      .required("Kindly enter a value."),
+    email: yup.string().email().required("Kindly enter a value."),
+    panNo: yup
+      .string()
+      .matches(/^[A-Za-z0-9]{10}$/, "Enter 10 Character PAN No.")
+      .required("Kindly enter a value."),
+    // address: yup.string().matches(/^[a-zA-Z0-9\s,.:-]+$/, 'Special characters are not allowed').required('Kindly enter a value.'),
 
-    // driverName: yup
-    //   .string()
-    //   .matches(/^[a-zA-Z0-9\s,.:-]+$/, "Special characters are not allowed")
-    //   .required("Kindly enter a value."),
-    // driverGender: yup.string().required("Kindly enter a value."),
-    // driverBirthDate: yup.string().required("Kindly enter a value."),
-    // vehicleComapny: yup.string().required("Kindly enter a value."),
-    // vehicleFrom: yup.string().required("Kindly enter a value."),
-    // fitness: yup.string().required("Kindly enter a value."),
-    // taxCopy: yup.string().required("Kindly enter a value."),
-    // license: yup.string().required("Kindly enter a value."),
-    // registrationNumber: yup.string().required("Kindly enter a value."),
+    driverName: yup
+      .string()
+      .matches(/^[a-zA-Z0-9\s,.:-]+$/, "Special characters are not allowed")
+      .required("Kindly enter a value."),
+    driverGender: yup.string().required("Kindly enter a value."),
+    driverBirthDate: yup.string().required("Kindly enter a value."),
+    vehicleComapny: yup.string().required("Kindly enter a value."),
+    vehicleFrom: yup.string().required("Kindly enter a value."),
+    fitness: yup.string().required("Kindly enter a value."),
+    taxCopy: yup.string().required("Kindly enter a value."),
+    license: yup.string().required("Kindly enter a value."),
+    registrationNumber: yup.string().required("Kindly enter a value."),
   });
 
   const initialValues = {
@@ -117,9 +121,7 @@ const RigRegistrationFormIndex = (props) => {
       console.log("clicked");
       console.log(values, "formSubmitValues==>");
       submitForm(values);
-      // console.log("Value.....", values)
-      //   props.data(values);
-      //   props.screen(2);
+
     },
     validationSchema,
   });
@@ -149,7 +151,7 @@ const RigRegistrationFormIndex = (props) => {
   // ==== Formik End
 
   const submitForm = (data) => {
-    // setFormSubmitting(true);
+    setFormSubmitting(true);
     const payload = {
       ulbId: data?.ulb,
       applicantName: data?.applicantName,
@@ -165,9 +167,6 @@ const RigRegistrationFormIndex = (props) => {
       vehicleComapny: data?.vehicleComapny,
       vehicleFrom: data?.vehicleFrom,
       registrationNumber: data?.registrationNumber,
-      // fitness: documents.length && documents[0],
-      // taxCopy: documents.length && documents[1],
-      // license: documents.length && documents[2],
     };
     console.log(payload, "payload====>>");
 
@@ -187,18 +186,18 @@ const RigRegistrationFormIndex = (props) => {
     payloadFormData.append("documents[2][docCode]", "LICENSE");
     payloadFormData.append("documents[2][ownerDtlId]", "");
 
-
-    // alert("dsfdsfdsfsdfds")
-    // console.log("complete payload", payloadFormData);
     AxiosInterceptors.post(api_RigRegistrationApplyForm, payloadFormData, ApiHeader2())
       .then((res) => {
-        // setFormSubmitting(false);
+        setFormSubmitting(false);
+        // setresponseScreen(response?.data);
         if (res.data.status) {
-          // console.log("Form applied successfully");
-          // props.data(res.data.data);
-          // console.log("1", res.data.data);
-          // props.screen(2);
           toast.success(res?.data?.message, "success");
+          // window.location.reload(); 
+          // setresponseScreen(response?.data);
+          // navigate('/successfull-submit', (response?.data));
+          navigate('/successfull-submit', {
+            state: res?.data
+          });
         } else {
           toast.error(res?.data?.message, "error");
           setErrorMessage(res?.data?.message);
@@ -208,7 +207,7 @@ const RigRegistrationFormIndex = (props) => {
       .catch((err) => {
         setErrorMessage(err?.response?.data?.error);
         toast.error("Something Went wrong", "error");
-        // setFormSubmitting(false);
+        setFormSubmitting(false);
         console.log(
           "Error while applying for pet registration..",
           err?.response?.data?.error
@@ -267,68 +266,14 @@ const RigRegistrationFormIndex = (props) => {
       });
   }, [formik.values.ulb]);
 
-  //Get List of holding/saf of a logged in user
-  //   useEffect(() => {
-  //     setLoader(true);
-  //     let type;
-  //     const payload = {
-  //       type: type,
-  //       ulbId: formik.values.ulb,
-  //     };
 
-  //     AxiosInterceptors.post(api_ListOfSafHolding, payload, header)
-  //       .then((res) => {
-  //         setLoader(false);
-  //         if (res.data.status) {
-  //           setListOfHoldingSaf(res.data.data);
-  //           console.log("List of holding saf", res.data);
-  //         } else {
-  //           console.log("Error fetching saf holding");
-  //         }
-  //       })
-  //       .catch((err) => {
-  //         setLoader(false);
-  //         console.log("Error while getting saf holding");
-  //       });
-  //   }, [formik.values.ulb]);
-
-  //Get user Details by holding/saf
-  //   useEffect(() => {
-  //     setLoader(true);
-  //     const payload = {
-  //       //   connectionThrough: formik.values.applyThrough,
-  //       id: formik.values.holdingNo,
-  //       ulbId: formik.values.ulb,
-  //     };
-  //     AxiosInterceptors.post(api_getUserDetailsByHoldingSaf, payload, header)
-  //       .then((res) => {
-  //         setLoader(false);
-  //         if (res.data.status) {
-  //           setUserDetails(res.data.data);
-  //           console.log("User Details", res.data);
-  //           //Set Property Data in Prefilled
-  //           //   formik.setFieldValue("address", res?.data?.data?.prop_address);
-  //           formik.setFieldValue("ward", res?.data?.data?.wardDetails?.wardId);
-  //           //   formik.setFieldValue(
-  //           //     "applicantName",
-  //           //     res?.data?.data?.owners[0]?.ownerName
-  //           //   );
-  //           //   formik.setFieldValue(
-  //           //     "mobileNo",
-  //           //     res?.data?.data?.owners[0]?.mobileNo
-  //           //   );
-  //           //   formik.setFieldValue("email", res?.data?.data?.owners[0]?.email);
-  //         } else {
-  //           console.log("Error fetching user Details");
-  //         }
-  //       })
-  //       .catch((err) => {
-  //         setLoader(false);
-  //         console.log("Error while getting user Details");
-  //       });
-  //   }, []);
-
-  // console.log("formik.values.owner_type", formik.values.ownerCategory);
+  // if (responseScreen?.status == true) {
+  //   return (
+  //     <>
+        // <SuccessfulSubmitModal responseScreenData={responseScreen} />
+  //     </>
+  //   );
+  // }
 
   return (
     <>
@@ -337,7 +282,7 @@ const RigRegistrationFormIndex = (props) => {
       <form
         onSubmit={formik.handleSubmit}
         onChange={handleChange}
-        className='mb-20'
+        className='mb-20 px-20  py-8 rounded-md'
       >
         <div className="text-center font-semibold text-2xl ">
           <h1 className="bg-indigo-600 px-auto text-white ">
@@ -376,56 +321,6 @@ const RigRegistrationFormIndex = (props) => {
               </p>
             </div>
 
-            {/* <div className='m-2'>
-              <label className={style?.label} htmlFor='applyThrough'>
-                Apply Through<span className={style?.required}>*</span>
-              </label>
-              <select
-                {...formik.getFieldProps("applyThrough")}
-                name='applyThrough'
-                className={style?.textFiled}
-              >
-                <option value=''>Select</option>
-                {masterData?.registrationThrough?.map((item, index) => (
-                  <option key={index} value={item.id}>
-                    {item.registration_through}
-                  </option>
-                ))}
-              </select>
-              <p className='text-red-500 text-xs'>
-                {formik.touched.applyThrough && formik.errors.applyThrough
-                  ? formik.errors.applyThrough
-                  : null}
-              </p>
-            </div> */}
-
-            {/* <div className='m-3'>
-              <label className={style?.label} htmlFor='holdingNo'>
-                Holding / SAF No.<span className={style?.required}>*</span>
-              </label>
-              <select
-                {...formik.getFieldProps("holdingNo")}
-                name='holdingNo'
-                className={style?.textFiled}
-              >
-                <option value=''>Select</option>
-                {listOfHoldingSaf &&
-                  listOfHoldingSaf?.map((item, i) => (
-                    <option
-                      key={i}
-                      value={item?.saf_no || item?.new_holding_no}
-                    >
-                      {item?.saf_no || item?.new_holding_no}
-                    </option>
-                  ))}
-              </select>
-              <p className='text-red-500 text-xs'>
-                {formik.touched.holdingNo && formik.errors.holdingNo
-                  ? formik.errors.holdingNo
-                  : null}
-              </p>
-            </div> */}
-
             <div className='m-2'>
               <label className={style?.label} htmlFor='ownerCategory'>
                 Category of Application
@@ -439,7 +334,7 @@ const RigRegistrationFormIndex = (props) => {
                 <option value=''>Select</option>
                 <option value='1'>Owner</option>
                 <option value='2'>Tenant</option>
-                
+
               </select>
               <p className='text-red-500 text-xs'>
                 {formik.touched.ownerCategory && formik.errors.ownerCategory
@@ -452,14 +347,7 @@ const RigRegistrationFormIndex = (props) => {
               <label className={style?.label} htmlFor='ward'>
                 Ward Number<span className={style?.required}>*</span>
               </label>
-              {/* <input
-                type='text'
-                disabled
-                {...formik.getFieldProps("ward")}
-                value={wardList?.wardDetails?.wardNo}
-                name='ward'
-                className={style?.textFiled}
-              /> */}
+
               <select
                 {...formik.getFieldProps("ward")}
                 name='ward'
@@ -591,14 +479,6 @@ const RigRegistrationFormIndex = (props) => {
           </div>
 
           <div className='grid grid-cols-1 md:grid-cols-4 bg-white shadow-md rounded-md py-2'>
-            {/* <div className='m-3'>
-                            <label className={style?.label} htmlFor="petType">Pet Type<span className={style?.required}>*</span></label>
-                            <select {...formik.getFieldProps('petType')} type="text" name='petType' className={style?.textFiled}>
-                                <option value="">Select</option>
-                                <option value="1">Dog</option>
-                            </select>
-                            <p className='text-red-500 text-xs'>{formik.touched.petType && formik.errors.petType ? formik.errors.petType : null}</p>
-                        </div> */}
             <div className='m-3'>
               <label className={style?.label} htmlFor='driverName'>
                 Name of Driver<span className={style?.required}>*</span>
@@ -654,37 +534,6 @@ const RigRegistrationFormIndex = (props) => {
                   : null}
               </p>
             </div>
-
-            {/* <div className='m-3'>
-                            <label className={style?.label} htmlFor="breed">Breed<span className={style?.required}>*</span></label>
-                            <input {...formik.getFieldProps('breed')} type="text" maxLength="20" name='breed' className={style?.textFiled} />
-                            <p className='text-red-500 text-xs'>{formik.touched.breed && formik.errors.breed ? formik.errors.breed : null}</p>
-                        </div>
-                        <div className='m-3'>
-                            <label className={style?.label} htmlFor="color">Color<span className={style?.required}>*</span></label>
-                            <input {...formik.getFieldProps('color')} type="text" maxLength="20" name='color' className={style?.textFiled} />
-                            <p className='text-red-500 text-xs'>{formik.touched.color && formik.errors.color ? formik.errors.color : null}</p>
-                        </div>
-                        <div className='m-3'>
-                            <label className={style?.label} htmlFor="doctorName">Veterinary Doctor Name<span className={style?.required}>*</span></label>
-                            <input {...formik.getFieldProps('doctorName')} type="text" maxLength="70" name='doctorName' className={style?.textFiled} />
-                            <p className='text-red-500 text-xs'>{formik.touched.doctorName && formik.errors.doctorName ? formik.errors.doctorName : null}</p>
-                        </div>
-                        <div className='m-3'>
-                            <label className={style?.label} htmlFor="doctorRegNo">Doctor’s MSVC/VCI number <span className={style?.required}>*</span></label>
-                            <input {...formik.getFieldProps('doctorRegNo')} type="text" maxLength="70" name='doctorRegNo' className={style?.textFiled} />
-                            <p className='text-red-500 text-xs'>{formik.touched.doctorRegNo && formik.errors.doctorRegNo ? formik.errors.doctorRegNo : null}</p>
-                        </div>
-                        <div className='m-3'>
-                            <label className={style?.label} htmlFor="dateOfRabies">Date of Rabies<span className={style?.required}>*</span></label>
-                            <input {...formik.getFieldProps('dateOfRabies')} type="date" name='dateOfRabies' className={style?.textFiled} max={new Date().toISOString().split('T')[0]} />
-                            <p className='text-red-500 text-xs'>{formik.touched.dateOfRabies && formik.errors.dateOfRabies ? formik.errors.dateOfRabies : null}</p>
-                        </div>
-                        <div className='m-3'>
-                            <label className={style?.label} htmlFor="dateOfLepVaccine">Leptospirosis Vaccination Date<span className={style?.required}>*</span></label>
-                            <input {...formik.getFieldProps('dateOfLepVaccine')} type="date" name='dateOfLepVaccine' className={style?.textFiled} max={new Date().toISOString().split('T')[0]} />
-                            <p className='text-red-500 text-xs'>{formik.touched.dateOfLepVaccine && formik.errors.dateOfLepVaccine ? formik.errors.dateOfLepVaccine : null}</p>
-                        </div> */}
             <div className='m-3'>
               <label className={style?.label} htmlFor='vehicleComapny'>
                 Vehicle Company<span className={style?.required}>*</span>

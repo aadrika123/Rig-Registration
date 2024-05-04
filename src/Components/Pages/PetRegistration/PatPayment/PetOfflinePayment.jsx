@@ -352,7 +352,7 @@ const PetOfflinePayment = () => {
                                                             </div>
                                                             <div className='flex-1 text-xs'>
                                                                 <div className='font-semibold text-sm text-[#37517e]'>
-                                                                    <button onClick={() => navigate(`/pet-payment-receipt/${applicationFullData?.transactionDetails?.tran_no}`)} className="hover:bg-blue-500 whitespace-nowrap border rounded shadow px-5 py-2 border-blue-500 hover:text-white text-blue-500" >Print Receipt</button>
+                                                                    <button onClick={() => navigate(`/rig-payment-receipt/${applicationFullData?.transactionDetails?.tran_no}`)} className="hover:bg-blue-500 whitespace-nowrap border rounded shadow px-5 py-2 border-blue-500 hover:text-white text-blue-500" >Print Receipt</button>
                                                                 </div>
                                                             </div>
                                                         </div>

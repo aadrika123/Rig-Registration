@@ -350,16 +350,16 @@ export default function PilotWorkflowTabs(props) {
           <div class="p-6 text-center">
             <div className="w-full flex h-10">
               {" "}
-              <span className="mx-auto text-green-400 text-xl font-semibold">
+              <span className="mx-auto text-green-700 text-xl font-semibold">
                 <FiAlertCircle size={30} />
               </span>
             </div>
-            <h3 class="mb-5 text-lg font-semibold text-gray-500 dark:text-gray-400">
+            <h3 class="mb-5 text-lg font-semibold text-gray-800 dark:text-gray-800">
               {approvedMsg}
             </h3>
             <button
               type="button"
-              class="text-white bg-green-400  hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 dark:focus:ring-sky-800 font-medium rounded-lg text-sm inline-flex items-center px-8 py-2.5 text-center mr-2"
+              class="text-white bg-green-600  hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 dark:focus:ring-sky-800 font-medium rounded-lg text-sm inline-flex items-center px-8 py-2.5 text-center mr-2"
               onClick={closeModal}
             >
               Back

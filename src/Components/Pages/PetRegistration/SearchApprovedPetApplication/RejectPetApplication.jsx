@@ -140,7 +140,7 @@ const RejectPetApplication = (props) => {
                         Reject Application
                     </h2>
                     <p className="mt-2 text-sm md:text-base text-gray-600">
-                        You can search pet application and perform actions like : renewal, payment, print receipt etc.
+                    You can search approved rig application and perform actions like : renewal, payment, print receipt etc.
                     </p>
                     <form className='mt-8 my-6' onSubmit={formik.handleSubmit} onChange={handleChange}>
                         <div className="flex flex-row flex-wrap gap-x-4 items-center gap-y-2 pb-4 mb-2 border-b">

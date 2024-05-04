@@ -36,6 +36,7 @@ import PetRegistrationPreviewList from './Components/Pages/PetRegistration/Searc
 import ViewApprovedPreviewApplication from './Components/Pages/PetRegistration/ViewEditApplication/ViewApprovedPreviewApplication';
 import PetRegistrationFormIndex from './Components/Pages/PetRegistration/Form/RigRegistrationFormIndex';
 import RigRegistrationFormIndex from './Components/Pages/PetRegistration/Form/RigRegistrationFormIndex';
+import SuccessfulSubmitModal from './Components/Pages/PetRegistration/Form/SuccessfulSubmitModal';
 
 
 function App() {
@@ -87,6 +88,7 @@ function App() {
     // { path: '/pet-registration', element: <PetRegistrationIndex /> },
     { path: '/rig-renewal/:id', element: <PetRenewalFormIndex /> },
     { path: '/viewRigApplication/:id', element: <ViewPetApplication /> },
+    { path: '/successfull-submit', element: <SuccessfulSubmitModal /> },
     
     
     { path: '/rig-payment-offline/:id', element: <PetOfflinePayment /> },

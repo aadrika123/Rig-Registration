@@ -117,10 +117,28 @@ const SearchPetApplicationForm = (props) => {
             Header: "Type",
             accessor: "application_type",
         },
+        
         {
             Header: "Applied Date",
             accessor: "application_apply_date",
             Cell: ({ value }) => { return format(new Date(value), 'dd-MM-yyyy') }
+        },
+        {
+            Header: "Payment Status",
+            accessor: "payment_status",
+            // Define a custom cell renderer for the Payment Status column
+            Cell: ({ value }) => {
+                if (value === 0) {
+                    // Return "Unpaid" in red-600 color
+                    return <span className="text-red-600">Unpaid</span>;
+                } else if (value === 1) {
+                    // Return "Paid" in green-600 color
+                    return <span className="text-green-600">Paid</span>;
+                } else {
+                    // Handle any unexpected status
+                    return <span>Unknown</span>;
+                }
+            },
         },
         {
             Header: 'Action',

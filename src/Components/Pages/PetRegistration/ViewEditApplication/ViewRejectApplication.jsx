@@ -239,7 +239,7 @@ const ViewRejectApplication = () => {
                                                 </div>
                                                 <div className='flex-1 text-xs'>
                                                     <div className='font-semibold text-sm text-[#37517e]'>
-                                                        <button className="border px-3 py-1 rounded shadow border-blue-500 hover:bg-blue-500 hover:text-white text-blue-500 whitespace-nowrap" onClick={() => navigate(`/pet-payment-receipt/${applicationFullData?.transactionDetails?.tran_no}`)}>Print Receipt</button>
+                                                        <button className="border px-3 py-1 rounded shadow border-blue-500 hover:bg-blue-500 hover:text-white text-blue-500 whitespace-nowrap" onClick={() => navigate(`/rig-payment-receipt/${applicationFullData?.transactionDetails?.tran_no}`)}>Print Receipt</button>
                                                     </div>
                                                 </div>
                                             </div>
