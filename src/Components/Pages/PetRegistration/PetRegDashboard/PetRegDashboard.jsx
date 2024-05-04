@@ -121,7 +121,7 @@ const pendingDatas = landingDashboardData?.pendingApplicationCount?.total_pendin
                 </div>
 
                 {/* 👉 Shortcuts Card 👈 */}
-                <div class="flex flex-col flex-wrap gap-4 justify-center col-span-12 md:col-span-6 md:mt-0 mt-10">
+                {/* <div class="flex flex-col flex-wrap gap-4 justify-center col-span-12 md:col-span-6 md:mt-0 mt-10">
                     <div className="w-full md:w-[50%]">
 
                         <ShortcutCard
@@ -137,7 +137,7 @@ const pendingDatas = landingDashboardData?.pendingApplicationCount?.total_pendin
                         />
                     </div>
 
-                </div>
+                </div> */}
 
             </div>
 

@@ -69,14 +69,14 @@ const SearchPetApplicationForm = (props) => {
         // { name == 'mobileNo' && formik.setFieldValue("mobileNo", allowNumberInput(value, formik.values.mobileNo, 10)) }
     };
 
-    useEffect(()=>{
+    useEffect(() => {
         setRequestBody({
             "filterBy": values.searchBy,
             "parameter": values.searchText,
-        }) 
-    },[])
+        })
+    }, [])
 
-    
+
     // These variables are used for pagination
     const values = {
         totalDataCount: totalDataCount,
@@ -93,7 +93,7 @@ const SearchPetApplicationForm = (props) => {
     // Event handler for viewing details of a pet application
     const handleViewBtn = (value) => {
         console.log("View button clicked", value)
-        navigate(`/viewPetApplication/${value}`)
+        navigate(`/viewRigApplication/${value}`)
     }
     // Definition of table columns for displaying search results
     const tableColumns = [
@@ -140,7 +140,7 @@ const SearchPetApplicationForm = (props) => {
                         Search Pending Application
                     </h2>
                     <p className="mt-2 text-sm md:text-base text-gray-600">
-                        You can search pet application and perform actions like : renewal, payment, print receipt etc.
+                        You can search rig application and perform actions like : renewal, payment, print receipt etc.
                     </p>
                     <form className='mt-8 my-6' onSubmit={formik.handleSubmit} onChange={handleChange}>
                         <div className="flex flex-row flex-wrap gap-x-4 items-center gap-y-2 pb-4 mb-2 border-b">
@@ -156,8 +156,8 @@ const SearchPetApplicationForm = (props) => {
                                     <option value="applicationNo">Application No</option>
                                     <option value="applicantName">Applicant Name</option>
                                     <option value="mobileNo">Mobile No</option>
-                                    <option value="safNo">SAF No</option>
-                                    <option value="holdingNo">Holding No</option>
+                                    {/* <option value="safNo">SAF No</option>
+                                    <option value="holdingNo">Holding No</option> */}
                                 </select>
 
                             </div>

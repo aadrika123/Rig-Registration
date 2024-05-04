@@ -16,7 +16,7 @@ const PetPaymentReceiptIndex = () => {
   const [isDataLoading, setIsDataLoading] = useState(false);
 
   // Custom hook to set the document title
-  useSetTitle("Pet Payment Receipt")
+  useSetTitle("Rig Payment Receipt")
 
   // Extracting transaction number from the route parameters
   const { transNo } = useParams()
@@ -118,7 +118,7 @@ console.log("data",fetchedData);
                     </h1> */}
 
                   </div>
-                  <h1 className="font-semibold text-center underline text-2xl mt-2">Pet Registration Receipt</h1>
+                  <h1 className="font-semibold text-center underline text-2xl mt-2">Rig Registration Receipt</h1>
                 </div>
 
 
@@ -164,16 +164,15 @@ console.log("data",fetchedData);
 
                   <h1 className="ml-8 mt-4 ">
                     A Sum of Rs <span className="font-semibold">{fetchedData?.paidAmount} </span>
-                    <span className="font-semibold">(One hundred only/-)</span>
+                    <span className="font-semibold">(Twenty Five Thousand only/-)</span>
                     <span className="ml-2">
                       {" "}
                       towards <span className="font-semibold">{fetchedData?.toward}</span>{" "}
                     </span>{" "}
                     <span>
-                      Vide Cash/Cheque/Demand Draft/Bankers 
                     <h1 className="mt-1"> Payment Mode :   <span className="font-semibold">  {fetchedData?.paymentMode} </span> dated <span className="font-semibold">{fetchedData?.paymentDate}.</span></h1>
-                    <h1 className="mt-1"> Type of Animal :   <span className="font-semibold">  {fetchedData?.typeOfAnimal || 'NA'} </span></h1>
-                   <h1 className="mt-1"> Type of Breed :   <span className="font-semibold">  {fetchedData?.typeOfBreed || 'NA' } </span></h1>
+                    {/* <h1 className="mt-1"> Type of Animal :   <span className="font-semibold">  {fetchedData?.typeOfAnimal || 'NA'} </span></h1>
+                   <h1 className="mt-1"> Type of Breed :   <span className="font-semibold">  {fetchedData?.typeOfBreed || 'NA' } </span></h1> */}
                     
                     </span>
                     {/* <span>

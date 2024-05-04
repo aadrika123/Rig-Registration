@@ -1,9 +1,11 @@
 
 import ProjectApiList from '@/Components/api/ProjectApiList'
 import PilotWorkflowIndex from '@/Components/Common/WORKFLOW_PILOT/PilotWorkflowIndex'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { format } from 'date-fns'
 import BackendUrl from '@/Components/api/BackendUrl'
+import axios from 'axios'
+import ApiHeader from '@/Components/api/ApiHeader'
 // import AdvertisementApiList from '../../../../../Components/ApiList/AdvertisementApiList'
 // import BackendUrlAdvt from '../../../../../Components/ApiList/BackendUrlAdvt'
 // import ProjectApiList from '../../../../../Components/ApiList/ProjectApiList'
@@ -31,7 +33,7 @@ function PetRegWorkflowEntry() {
 
     // LIST OF API'S
     const { api_safBTCList, api_backToCitizen, api_workflowInfo, api_postDepartmental, api_getDepartmentalData, api_uploadDocumentShow, api_fieldVerificationList } = ProjectApiList()
-
+    // const [inboxData, setInboxData] = useState(null);
 
     const workflowRules = {
         api: {
@@ -40,7 +42,7 @@ function PetRegWorkflowEntry() {
             // 2 - API TO FETCH OUTBOX LIST
             api_outboxList: { method: 'post', url: petOutbox },
             // 3 - API TO FETCH SPECIAL LIST
-            api_specialList: { method: 'post', url: petSpecial},
+            api_specialList: { method: 'post', url: petSpecial },
             // 4 - API TO FETCH BACK TO CITIZEN LIST
             apt_btcList: { method: 'post', url: "" },
             // 5 - API TO FETCH FIELD VERIFICATION LIST
@@ -78,7 +80,7 @@ function PetRegWorkflowEntry() {
         },
         workflow: {
             workflowName: 'Rig Workflow',
-            workflowId: 200,
+            // workflowId: 200,
             moduleId: 15,
             formUrl: `/advertisement/lodgeEdit`,
             fullDetailsUrl: '/advertisement/lodgeApplicationDetail'
@@ -109,6 +111,30 @@ function PetRegWorkflowEntry() {
         ],
 
     }
+
+    // const fetchInboxData = () => {
+    //     axios.post(petInbox, {}, ApiHeader())
+    //         .then(function (response) {
+
+    //             console.log("response after pushing saf data", response);
+    //             if (response?.data?.status) {
+    //                 setInboxData(response.data.data);
+    //             }
+    //             else {
+    //                 toast.warn(response.data.message)
+    //             }
+    //         })
+    //         .catch(function (error) {
+    //             console.log("error in submitting saf form ", "error");
+    //         });
+    // }
+
+    // console.log("object", inboxData)
+    // useEffect(() => {
+    //     fetchInboxData()
+    // }, [])
+
+    { console.log("object", workflowRules) }
     return (
         <>
             < PilotWorkflowIndex workflowData={workflowRules} />

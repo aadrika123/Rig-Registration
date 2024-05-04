@@ -10,7 +10,7 @@ import AxiosInterceptors from '@/Components/Common/AxiosInterceptors';
 import useSetTitle from '@/Components/Common/useSetTitle';
 
 // Component for viewing details of an approved pet application
-const ViewApprovedApplication = () => {
+const ViewApprovedApplication = () => { 
 
 // Hook to set the title of the page
     useSetTitle(" Approved Application")

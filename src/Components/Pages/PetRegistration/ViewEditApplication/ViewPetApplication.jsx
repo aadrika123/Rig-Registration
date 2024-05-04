@@ -10,11 +10,12 @@ import ShimmerEffectInline from '@/Components/Common/Loaders/ShimmerEffectInline
 import AxiosInterceptors from '@/Components/Common/AxiosInterceptors';
 import EditPetDetailsForm from './EditPetDetailsForm';
 import useSetTitle from '@/Components/Common/useSetTitle';
+import { nullToNA } from '@/Components/Common/PowerupFunctions';
 
 // Component for viewing details of a pet application
 const ViewPetApplication = () => {
-// Hook to set the title of the page
-    useSetTitle("View Pet Application")
+    // Hook to set the title of the page
+    useSetTitle("View Rig Application")
 
     // Hook for programmatic navigation and getting the application ID from the URL parameters
     const navigate = useNavigate()
@@ -22,17 +23,31 @@ const ViewPetApplication = () => {
 
     // State variables for managing application data, deletion, and editing
     const [applicationFullData, setApplicationFullData] = useState()
+    const [docDetails, setDocDetails] = useState()
     const [dataTobeDeleted, setDataTobeDeleted] = useState();
     const [editPetData, setEditPetData] = useState(false)
     const [loader, setLoader] = useState(false)
     const [somethingWentWrong, setSomethingWentWrong] = useState(false)
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const editPetApplicationRef = useRef()
-    
+
     // API endpoints for fetching pet application details
-    const { api_PetRegViewApplication, header } = PetRegAPIList();
+    const { api_PetRegViewApplication, header, api_RigUploadedDoc } = PetRegAPIList();
 
     // Effect hook to fetch application data when the component mounts
+    const [selectedDoc, setSelectedDoc] = useState(null);
+
+    // Function to handle opening the modal
+    const handleViewClick = (docPath, docName) => {
+        setSelectedDoc({ path: docPath, name: docName });
+    };
+
+    // Function to handle closing the modal
+    const handleCloseModal = () => {
+        setSelectedDoc(null);
+    };
+
+
     useEffect(() => {
         setLoader(true)
         AxiosInterceptors.post(api_PetRegViewApplication, { "applicationId": id }, header)
@@ -50,6 +65,26 @@ const ViewPetApplication = () => {
                 console.log("Error while getting application data")
             })
     }, [])
+
+    useEffect(() => {
+        setLoader(true)
+        AxiosInterceptors.post(api_RigUploadedDoc, { "applicationId": id }, header)
+            .then((res) => {
+                setLoader(false)
+                if (res.data.status) {
+                    setDocDetails(res.data.data)
+                } else {
+                    setDocDetails(null)
+                    console.log("Failed to fetch application data")
+                }
+            })
+            .catch((err) => {
+                setLoader(false)
+                console.log("Error while getting application data")
+            })
+    }, [])
+
+    console.log("applicationFullData", docDetails)
     console.log("applicationFullData", applicationFullData)
 
     // Function to handle deletion of the application
@@ -58,18 +93,23 @@ const ViewPetApplication = () => {
         // setOpenDeleteModal(prev => prev + 1)
         setOpenDeleteModal(true)
     }
-    
+
     // Function to open the edit pet details modal
     const openDialogModal = () => {
         editPetApplicationRef.current.showModal()
         setEditPetData(applicationFullData)
     }
+
+
+
+
+
     return (
         <>
             {openDeleteModal && <PetRegDeleteModal setOpenDeleteModal={setOpenDeleteModal} dataTobeDeleted={dataTobeDeleted} />}
             {/* <PetRegTopButtons active="application" consumerNo={applicationFullData?.application_no} /> */}
             <div className="col-span-2 space-y-2">
-              {applicationFullData?.payment_status == 1 ? <p className="text-xl font-serif">Your application is under : <span className="font-semibold">{applicationFullData?.roleName}</span></p> :<>{applicationFullData?.payment_status == 2 ? <p className="text-xl font-serif"> Your application payment is under : <span className="font-semibold">verification</span></p>: ''}</>} 
+                {applicationFullData?.payment_status == 1 ? <p className="text-xl font-serif">Your application is under : <span className="font-semibold">{applicationFullData?.roleName}</span></p> : <>{applicationFullData?.payment_status == 2 ? <p className="text-xl font-serif"> Your application payment is under : <span className="font-semibold">verification</span></p> : ''}</>}
                 <p className="text-xl font-serif">Application No : <span className="font-semibold ">{applicationFullData?.application_no}</span></p>
                 {/* <button onClick={() => navigate(-1)} className={`font-semibold md:text-base text-xs bg-indigo-500 text-white border border-indigo-500  px-4 py-1 shadow-lg hover:scale-105 rounded-sm`} >Back</button> */}
             </div>
@@ -140,83 +180,51 @@ const ViewPetApplication = () => {
                             </div>
                             {/* Pet  details */}
                             <div className='bg-white shadow-xl p-4 border border-gray-200 my-3'>
-                                <h1 className='px-1 font-semibold font-serif text-xs mt-2 text-[#37517e]'><img src={petIcon} alt="Pet Detail" className='w-5 inline text-[#37517e]' /> Pet Details</h1>
-                                {
+                                <h1 className='px-1 font-semibold font-serif text-xs mt-2 text-[#37517e]'><img src={petIcon} alt="Pet Detail" className='w-5 inline text-[#37517e]' /> Vehicle Details</h1>
+                                {/* {
                                     applicationFullData?.payment_status == 0 && applicationFullData?.application_type == "New_Apply" ?
-                                    <div className='space-x-5 flex justify-end'>
-                                        <button className='bg-sky-600 hover:bg-sky-500 text-white px-5 py-1 rounded shadow flex justify-end ' onClick={openDialogModal}>Edit Application</button>
-                                        {/* <button onClick={() => handleDeleteApplication({ "application_no": applicationFullData?.application_no, "id": applicationFullData?.id })} type='button' className='bg-red-600 hover:bg-red-500 text-white px-5 py-1 rounded shadow'>Delete Application</button> */}
+                                        <div className='space-x-5 flex justify-end'>
+                                            <button className='bg-sky-600 hover:bg-sky-500 text-white px-5 py-1 rounded shadow flex justify-end ' onClick={openDialogModal}>Edit Application</button>
+                                            <button onClick={() => handleDeleteApplication({ "application_no": applicationFullData?.application_no, "id": applicationFullData?.id })} type='button' className='bg-red-600 hover:bg-red-500 text-white px-5 py-1 rounded shadow'>Delete Application</button>
 
-                                    </div> : ""
-                                }
+                                        </div> : ""
+                                } */}
                                 {loader ? <ShimmerEffectInline /> :
                                     <div className='mt-2 space-y-5'>
                                         <div className="flex space-x-10 pl-4 ">
                                             <div className='flex-1 text-xs'>
-                                                <div className='text-[#37517e]'>Pet Type</div>
-                                                <div className='font-semibold text-sm text-[#37517e]'>{applicationFullData?.pet_type ? applicationFullData?.pet_type == 1 && "Dog" : "N/A"}</div>
-                                            </div>
-                                            <div className='flex-1 text-xs'>
-                                                <div className='text-[#37517e]'>Name of Pet</div>
-                                                <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.pet_name ? applicationFullData?.pet_name : "N/A"}</div>
+                                                <div className='text-[#37517e]'>Name of Driver</div>
+                                                <div className='font-semibold text-sm text-[#37517e]'>{applicationFullData?.driver_name}</div>
                                             </div>
                                             <div className='flex-1 text-xs'>
                                                 <div className='text-[#37517e]'>Gender</div>
-                                                <div className='font-bold text-sm text-[#37517e]'>
-                                                    {applicationFullData?.sex == 1 && "Male"}
-                                                    {applicationFullData?.sex == 2 && "Female"}
-                                                    {!applicationFullData?.sex && "N/A"}
-                                                </div>
+                                                <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.ref_gender}</div>
                                             </div>
                                             <div className='flex-1 text-xs'>
                                                 <div className='text-[#37517e]'>Date of Birth</div>
                                                 <div className='font-bold text-sm text-[#37517e]'>
-                                                    <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.dob  ? moment(applicationFullData.dob).format('DD-MM-Y') : "N/A"}</div>
+                                                    {applicationFullData?.dob}
+
+                                                </div>
+                                            </div>
+                                            <div className='flex-1 text-xs'>
+                                                <div className='text-[#37517e]'>Vehicle Company</div>
+                                                <div className='font-bold text-sm text-[#37517e]'>
+                                                    <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.vehicle_name}</div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="flex space-x-10 pl-4 ">
-                                            {/* <div className='flex-1 text-xs'>
-                                                <div className='text-[#37517e]'>Identity Mark</div>
-                                                <div className='font-semibold text-sm text-[#37517e]'>{applicationFullData?.identification_mark ? applicationFullData?.identification_mark : "N/A"}</div>
-                                            </div> */}
                                             <div className='flex-1 text-xs'>
-                                                <div className='text-[#37517e]'>Breed</div>
-                                                <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.breed ? applicationFullData?.breed : "N/A"}</div>
+                                                <div className='text-[#37517e]'>Registration No.</div>
+                                                <div className='font-bold text-sm text-[#37517e]'>{nullToNA(applicationFullData?.vehicle_no)}</div>
                                             </div>
                                             <div className='flex-1 text-xs'>
-                                                <div className='text-[#37517e]'>Color</div>
-                                                <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.color ? applicationFullData?.color : "N/A"}</div>
+                                                <div className='text-[#37517e]'>Vehicle From</div>
+                                                <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.vehicle_from}</div>
                                             </div>
-                                            <div className='flex-1 text-xs'>
-                                                <div className='text-[#37517e]'>Veterinary Doctor Name</div>
-                                                <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.vet_doctor_name ? applicationFullData?.vet_doctor_name : "N/A"}</div>
-                                            </div>
-                                            <div className='flex-1 text-xs'>
-                                            </div>
-                                        </div>
-                                        <div className="flex space-x-10 pl-4 ">
-                                            <div className='flex-1 text-xs'>
-                                                <div className='text-[#37517e]'>Doctor’s MSVC/VCI number</div>
-                                                <div className='font-semibold text-sm text-[#37517e]'>{applicationFullData?.doctor_registration_no ? applicationFullData?.doctor_registration_no : "N/A"}</div>
-                                            </div>
-                                            <div className='flex-1 text-xs'>
-                                                <div className='text-[#37517e]'>Date of Rabies</div>
-                                                <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.rabies_vac_date  ? moment(applicationFullData.rabies_vac_date).format('DD-MM-Y') : "N/A"}</div>
-                                               
-                                            </div>
-                                            {/* <div className='flex-1 text-xs'>
-                                                <div className='text-[#37517e]'>Date of Rabies</div>
-                                                <div className='font-bold text-sm text-[#37517e]'> {applicationFullData?.rabies_vac_date  ? moment(applicationFullData.rabies_vac_date).format('DD-MM-YYYY') : "N/A"}</div>     
-                                            </div> */}
 
                                             <div className='flex-1 text-xs'>
-                                                <div className='text-[#37517e]'>Leptospirosis Vaccination Date</div>
-                                                <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.leptospirosis_vac_date  ? moment(applicationFullData.leptospirosis_vac_date).format('DD-MM-Y') : "N/A"}</div>
-                                            </div>
-                                            <div className='flex-1 text-xs'>
-                                                <div className='text-[#37517e]'>Pet From</div>
-                                                <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.occurrence_types ? applicationFullData?.occurrence_types : "N/A"}</div>
                                             </div>
                                         </div>
 
@@ -226,7 +234,7 @@ const ViewPetApplication = () => {
 
 
                             {/* Document details */}
-                            {loader ? <ShimmerEffectInline /> : applicationFullData?.documentDetails?.doc_upload_status &&
+                            {loader ? <ShimmerEffectInline /> : applicationFullData?.doc_upload_status &&
                                 <div className='bg-white shadow-xl p-4 border border-gray-200 my-5'>
                                     <h1 className='px-1 font-semibold font-serif text-xs text-[#37517e]'><img src='https://cdn-icons-png.flaticon.com/512/2029/2029957.png' alt="pin" className='w-5 inline text-[#37517e]' /> Document Details</h1>
 
@@ -242,7 +250,7 @@ const ViewPetApplication = () => {
                                         </thead>
                                         <tbody className="text-sm">
                                             <>
-                                                {applicationFullData?.documentDetails?.documentsList?.map((items, i) => (
+                                                {docDetails?.map((items, i) => (
                                                     <tr className="bg-white shadow-lg border-b border-gray-200">
                                                         <td className="px-2 py-2 text-sm text-left text-[#37517e]">{i + 1}</td>
                                                         <td className="px-2 py-2 text-sm text-left text-[#37517e]">{items?.docName ? items?.docName : "N/A"}</td>
@@ -250,13 +258,23 @@ const ViewPetApplication = () => {
                                                         <td className="px-2 py-2 text-sm text-left text-[#37517e]">
 
                                                             {items?.uploadDoc?.doc_path?.split('.').pop() == "pdf" ? <img className="h-10 w-10 border rounded shadow-md" src={pdfImage} /> :
-                                                                items?.uploadDoc?.doc_path ? <img className="h-10 w-10 border rounded shadow-md" src={items?.uploadDoc?.doc_path} /> : "N/A"}
+                                                                items?.doc_path ? <img className="h-10 w-10 border rounded shadow-md" src={items?.doc_path} /> : "N/A"}
 
                                                         </td>
-                                                        <td className="px-2 py-2 text-sm text-left text-[#37517e]">{items?.uploadDoc?.doc_path ?
-                                                            <button
-                                                                // onClick={() => handleViewUploadedDoc(items?.uploadDoc?.doc_path, items?.uploadDoc?.docName)}
-                                                                className="bg-indigo-600 text-white px-2 py-1 rounded">View</button> : <button disabled className="bg-indigo-200 text-white px-2 py-1 rounded">View</button>}</td>
+                                                        <td className="px-2 py-2 text-sm text-left text-[#37517e]">
+                                                            {items?.doc_path ? (
+                                                                <button
+                                                                    onClick={() => handleViewClick(items?.doc_path, items?.docName)}
+                                                                    className="bg-indigo-600 text-white px-2 py-1 rounded"
+                                                                >
+                                                                    View
+                                                                </button>
+                                                            ) : (
+                                                                <button disabled className="bg-indigo-200 text-white px-2 py-1 rounded">
+                                                                    View
+                                                                </button>
+                                                            )}
+                                                        </td>
                                                     </tr>
                                                 ))}
                                             </>
@@ -272,6 +290,7 @@ const ViewPetApplication = () => {
                                             <button onClick={() => navigate(`/apply-pet-registration/document-upload/${id}`)} className="px-2 py-1 bg-indigo-600 text-sm text-white">Upload Document</button>
                                         </div>
                                     </div> */}
+
                                 </div>
                             }
 
@@ -317,7 +336,7 @@ const ViewPetApplication = () => {
                                                 <p>Please Make Payment</p>
                                             </div>
                                             <div className="flex justify-center">
-                                                <button onClick={() => navigate(`/pet-payment-offline/${id}`)}
+                                                <button onClick={() => navigate(`/rig-payment-offline/${id}`)}
                                                     className="px-2 py-1 bg-indigo-600 text-sm text-white">Pay Now</button>
                                             </div>
                                         </div>
@@ -389,12 +408,36 @@ const ViewPetApplication = () => {
                     <EditPetDetailsForm editPetApplicationRef={editPetApplicationRef} applicationFullData={editPetData} applicationFullData1={applicationFullData} />
                 </div>
             </dialog>
-            {
+
+            {/* Modal */}
+            {selectedDoc && (
+                <div className="fixed inset-0 flex items-center justify-center bg-gray-200 bg-opacity-50 z-auto">
+                    <div className="bg-white p-4 rounded-lg shadow-lg">
+                        <div className="flex justify-between items-center mb-4">
+                            <h2 className="text-lg font-semibold">{selectedDoc.name}</h2>
+                            <button onClick={handleCloseModal} className="text-gray-500">
+                                &times;
+                            </button>
+                        </div>
+                        {/* Render the content based on document type */}
+                        {selectedDoc.path.endsWith(".pdf") ? (
+                            <iframe
+                                src={selectedDoc.path}
+                                className="w-full h-96"
+                                title={selectedDoc.name}
+                            ></iframe>
+                        ) : (
+                            <img src={selectedDoc.path} alt={selectedDoc.name} className="w-full h-96 object-contain" />
+                        )}
+                    </div>
+                </div>
+            )}
+            {/* {
                 applicationFullData?.payment_status == 0 &&
                 <div className='space-x-5 flex justify-center'>
                     <button onClick={() => handleDeleteApplication({ "application_no": applicationFullData?.application_no, "id": applicationFullData?.ref_application_id })} type='button' className='bg-red-600 hover:bg-red-500 text-white px-5 py-1 rounded shadow'>Delete Application</button>
                 </div>
-            }
+            } */}
         </>
     )
 }

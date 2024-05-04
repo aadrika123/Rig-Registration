@@ -34,6 +34,8 @@ import SearchRejectPetApplication from './Components/Pages/PetRegistration/Searc
 import ViewRejectApplication from './Components/Pages/PetRegistration/ViewEditApplication/ViewRejectApplication';
 import PetRegistrationPreviewList from './Components/Pages/PetRegistration/SearchApprovedPetApplication/PetRegistrationPreviewList';
 import ViewApprovedPreviewApplication from './Components/Pages/PetRegistration/ViewEditApplication/ViewApprovedPreviewApplication';
+import PetRegistrationFormIndex from './Components/Pages/PetRegistration/Form/RigRegistrationFormIndex';
+import RigRegistrationFormIndex from './Components/Pages/PetRegistration/Form/RigRegistrationFormIndex';
 
 
 function App() {
@@ -72,23 +74,26 @@ function App() {
     { path: '/change-password', element: <ChangePassword /> },
     // { path: '/home', element: <PetDashboard /> },
     { path: '/home', element: <PetRegDashboard /> },
+    // { path: '/rig-registration-form', element: <RegRegisterForm /> },
     { path: '/rig-workflow', element: <PetRegWorkflowEntry /> },
-    { path: '/search-pet-registration', element: <SearchPetApplicationForm /> },
+   
     { path: '/search-approved-pet-registration', element: <SearchApprovedPetApplication /> },
     { path: '/PetRegistrationPreviewList/:registration_id', element: <PetRegistrationPreviewList /> },
     { path: '/viewPreviewApplication/:id', element: <ViewApprovedPreviewApplication /> },
     { path: '/search-rejected-pet-registration', element: <SearchRejectPetApplication /> },
+   
     
    
     // { path: '/pet-registration', element: <PetRegistrationIndex /> },
-    { path: '/pet-renewal/:id', element: <PetRenewalFormIndex /> },
-    { path: '/viewPetApplication/:id', element: <ViewPetApplication /> },
+    { path: '/rig-renewal/:id', element: <PetRenewalFormIndex /> },
+    { path: '/viewRigApplication/:id', element: <ViewPetApplication /> },
     
     
-    { path: '/pet-payment-offline/:id', element: <PetOfflinePayment /> },
-    { path: '/pet-payment-receipt/:transNo', element: <PetPaymentReceiptIndex /> },
+    { path: '/rig-payment-offline/:id', element: <PetOfflinePayment /> },
+    { path: '/rig-payment-receipt/:transNo', element: <PetPaymentReceiptIndex /> },
 
-    
+    { path: '/rig-registration-form', element: <RigRegistrationFormIndex /> },
+    { path: '/search-rig-registration', element: <SearchPetApplicationForm /> },
     { path: '/viewRejectApplication/:id', element: <ViewRejectApplication /> },
     { path: '/viewApprovedApplication/:id', element: <ViewApprovedApplication /> },
      { path: '/reject-rig-application', element: <RejectPetApplication /> },

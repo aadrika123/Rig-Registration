@@ -9,6 +9,7 @@ import AxiosInterceptors from '@/Components/Common/AxiosInterceptors';
 import PetRegAPIList from '@/Components/api/PetRegAPIList';
 import useSetTitle from '@/Components/Common/useSetTitle'
 import { contextVar } from '@/Components/context/contextVar'
+import { nullToNA } from '@/Components/Common/PowerupFunctions'
 
 // Component for offline payment
 const PetOfflinePayment = () => {
@@ -68,7 +69,7 @@ const PetOfflinePayment = () => {
     const formik = useFormik({
         enableReinitialize: true,
         initialValues: {
-            paymentMode: '',
+            paymentMode: "CASH",
             remarks: '',
             bankName: '',
             branchName: '',
@@ -98,7 +99,7 @@ const PetOfflinePayment = () => {
         setIsMakingPayment(true)
         // Creating payload for API request
         const payload = {
-            "paymentMode": data?.paymentMode,
+            "paymentMode": "CASH",
             "remarks": data?.remarks,
             "bankName": data?.branchName,
             "branchName": data?.remarks,
@@ -136,70 +137,44 @@ const PetOfflinePayment = () => {
                             <div className='bg-white shadow-xl p-4 border border-gray-200 my-3'>
                                 {loader ? <ShimmerEffectInline /> :
                                     <div className='mt-2 space-y-5'>
-                                        <div className="flex space-x-10 pl-4 ">
-                                            <div className='flex-1 text-xs'>
-                                                <div className='text-[#37517e]'>Pet Type</div>
-                                                <div className='font-semibold text-sm text-[#37517e]'>{applicationFullData?.pet_type ? applicationFullData?.pet_type == 1 && "Dog" : "N/A"}</div>
-                                            </div>
-                                            <div className='flex-1 text-xs'>
-                                                <div className='text-[#37517e]'>Name of Pet</div>
-                                                <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.pet_name ? applicationFullData?.pet_name : "N/A"}</div>
-                                            </div>
-                                            <div className='flex-1 text-xs'>
-                                                <div className='text-[#37517e]'>Gender</div>
-                                                <div className='font-bold text-sm text-[#37517e]'>
-                                                    {applicationFullData?.sex == 1 && "Male"}
-                                                    {applicationFullData?.sex == 2 && "Female"}
-                                                    {!applicationFullData?.sex && "N/A"}
-                                                </div>
-                                            </div>
-                                            <div className='flex-1 text-xs'>
-                                                <div className='text-[#37517e]'>Date of Birth</div>
-                                                <div className='font-bold text-sm text-[#37517e]'>
-                                                    <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.dob ? moment(applicationFullData.dob).format('DD-MM-Y') : "N/A"}</div>
-                                                </div>
+                                    <div className="flex space-x-10 pl-4 ">
+                                        <div className='flex-1 text-xs'>
+                                            <div className='text-[#37517e]'>Name of Driver</div>
+                                            <div className='font-semibold text-sm text-[#37517e]'>{applicationFullData?.driver_name}</div>
+                                        </div>
+                                        <div className='flex-1 text-xs'>
+                                            <div className='text-[#37517e]'>Gender</div>
+                                            <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.ref_gender}</div>
+                                        </div>
+                                        <div className='flex-1 text-xs'>
+                                            <div className='text-[#37517e]'>Date of Birth</div>
+                                            <div className='font-bold text-sm text-[#37517e]'>
+                                                {applicationFullData?.dob}
+
                                             </div>
                                         </div>
-                                        <div className="flex space-x-10 pl-4 ">
-                                            {/* <div className='flex-1 text-xs'>
-                                                <div className='text-[#37517e]'>Identity Mark</div>
-                                                <div className='font-semibold text-sm text-[#37517e]'>{applicationFullData?.identification_mark ? applicationFullData?.identification_mark : "N/A"}</div>
-                                            </div> */}
-                                            <div className='flex-1 text-xs'>
-                                                <div className='text-[#37517e]'>Breed</div>
-                                                <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.breed ? applicationFullData?.breed : "N/A"}</div>
-                                            </div>
-                                            <div className='flex-1 text-xs'>
-                                                <div className='text-[#37517e]'>Color</div>
-                                                <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.color ? applicationFullData?.color : "N/A"}</div>
-                                            </div>
-                                            <div className='flex-1 text-xs'>
-                                                <div className='text-[#37517e]'>Veterinary Doctor Name</div>
-                                                <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.vet_doctor_name ? applicationFullData?.vet_doctor_name : "N/A"}</div>
-                                            </div>
-                                            <div className='flex-1 text-xs'>
+                                        <div className='flex-1 text-xs'>
+                                            <div className='text-[#37517e]'>Vehicle Company</div>
+                                            <div className='font-bold text-sm text-[#37517e]'>
+                                                <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.vehicle_name}</div>
                                             </div>
                                         </div>
-                                        <div className="flex space-x-10 pl-4 ">
-                                            <div className='flex-1 text-xs'>
-                                                <div className='text-[#37517e]'>Doctor’s MSVC/VCI number</div>
-                                                <div className='font-semibold text-sm text-[#37517e]'>{applicationFullData?.doctor_registration_no ? applicationFullData?.doctor_registration_no : "N/A"}</div>
-                                            </div>
-                                            <div className='flex-1 text-xs'>
-                                                <div className='text-[#37517e]'>Date of Rabies</div>
-                                                <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.rabies_vac_date ? moment(applicationFullData.rabies_vac_date).format('DD-MM-Y') : "N/A"} </div>
-                                            </div>
-                                            <div className='flex-1 text-xs'>
-                                                <div className='text-[#37517e]'>Leptospirosis Vaccination Date</div>
-                                                <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.leptospirosis_vac_date ? moment(applicationFullData.leptospirosis_vac_date).format('DD-MM-Y') : "N/A"}</div>
-                                            </div>
-                                            <div className='flex-1 text-xs'>
-                                                <div className='text-[#37517e]'>Pet From</div>
-                                                <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.occurrence_types ? applicationFullData?.occurrence_types : "N/A"}</div>
-                                            </div>
+                                    </div>
+                                    <div className="flex space-x-10 pl-4 ">
+                                        <div className='flex-1 text-xs'>
+                                            <div className='text-[#37517e]'>Registration No.</div>
+                                            <div className='font-bold text-sm text-[#37517e]'>{nullToNA(applicationFullData?.vehicle_no)}</div>
+                                        </div>
+                                        <div className='flex-1 text-xs'>
+                                            <div className='text-[#37517e]'>Vehicle From</div>
+                                            <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.vehicle_from}</div>
                                         </div>
 
+                                        <div className='flex-1 text-xs'>
+                                        </div>
                                     </div>
+
+                                </div>
                                 }
                             </div>
 
@@ -245,10 +220,10 @@ const PetOfflinePayment = () => {
                                                                 <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold"><small className=" mt-1 text-sm font-semibold text-red-600 inline ">*</small>Payment Mode</label>
                                                                 <select {...formik.getFieldProps('paymentMode')} type="text" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
                                                                 >
-                                                                    <option value="" >Select</option>
-                                                                    <option value="CASH" >CASH</option>
-                                                                    <option value="CHEQUE" >CHEQUE</option>
-                                                                    <option value="DD" >DD</option>
+                                                                    {/* <option  value="" >Select</option> */}
+                                                                    <option selected value="CASH" >CASH</option>
+                                                                    {/* <option value="CHEQUE" >CHEQUE</option>
+                                                                    <option value="DD" >DD</option> */}
                                                                 </select>
                                                                 <span className="text-red-600 absolute text-xs">{formik.touched.paymentMode && formik.errors.paymentMode ? formik.errors.paymentMode : null}</span>
                                                             </div>
@@ -434,7 +409,7 @@ const PetOfflinePayment = () => {
                                                         <div className='text-xs'>
                                                             <div className='font-semibold text-sm text-[#37517e]'>
                                                                 {applicationFullData?.transactionDetails?.verify_status == 1 && "Paid"}
-                                                                {applicationFullData?.transactionDetails?.verify_status == 2 && "Processing"}
+                                                                {applicationFullData?.transactionDetails?.verify_status == 0 && "Processing"}
                                                             </div>
                                                         </div>
 
@@ -443,7 +418,7 @@ const PetOfflinePayment = () => {
                                                         </div>
                                                         <div className='flex-1 text-xs'>
                                                             <div className='font-semibold text-sm text-[#37517e]'>
-                                                                <button onClick={() => navigate(`/pet-payment-receipt/${applicationFullData?.transactionDetails?.tran_no}`)} className="hover:bg-blue-500 whitespace-nowrap border rounded shadow px-5 py-2 border-blue-500 hover:text-white text-blue-500" >Print Receipt</button>
+                                                                <button onClick={() => navigate(`/rig-payment-receipt/${applicationFullData?.transactionDetails?.tran_no}`)} className="hover:bg-blue-500 whitespace-nowrap border rounded shadow px-5 py-2 border-blue-500 hover:text-white text-blue-500" >Print Receipt</button>
                                                             </div>
                                                         </div>
                                                     </div>

@@ -56,6 +56,10 @@ export default function PetRegAPIList() {
         api_petPaymentReceipt: `${baseUrl}/api/rig/application/payment-receipt`,
         api_petDashboardDetails: `${baseUrl}/api/rig/dashboard_details`,
         api_ApprovedPetApplication: `${baseUrl}/api/rig/list-approved-application`,
+        api_RigRegistrationApplyForm: `${baseUrl}/api/rig/application/apply-rig-registration`,
+        api_RigUploadedDoc: `${baseUrl}/api/rig/application/get-uploaded-docs`,
+
+        
     }
 
     return apiList

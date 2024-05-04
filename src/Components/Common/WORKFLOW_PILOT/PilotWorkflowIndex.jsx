@@ -123,7 +123,7 @@ function PilotWorkflowIndex(props) {
           <div
             className="col-span-12 sm:col-span-12 bg-white "
           >
-            <PilotWorkflowListBox
+            <PilotWorkflowListBox 
               tabIndex={tabIndex}
               autoTabIndex={autoTabIndex}
               tabButtonClickState={tabButtonClickState}

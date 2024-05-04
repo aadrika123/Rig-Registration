@@ -1,7 +1,7 @@
 // Importing necessary dependencies and components
 import React, { useState } from 'react'
 import FormAppliedSuccess from './Form/FormAppliedSuccess'
-import PetRegistrationFormIndex from './Form/PetRegistrationFormIndex'
+import PetRegistrationFormIndex from './Form/RigRegistrationFormIndex'
 // Importing custom hook for setting the page title
 import useSetTitle from '@/Components/Common/useSetTitle'
 

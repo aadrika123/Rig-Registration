@@ -13,6 +13,7 @@ import { getLocalStorageItem, setLocalStorageItem, setLocalStorageItemStrigified
 import ulb_data from '@/Components/Common/DynamicData';
 import { checkErrorMessage } from '@/Components/Common/PowerupFunctions';
 import { contextVar } from '@/Components/context/contextVar';
+import rigm from '@/Components/assets/rigm.png';
 
 const { api_login, api_getFreeMenuList } = ProjectApiList()
 
@@ -131,7 +132,7 @@ function Login() {
                         <a className="flex items-center py-2 ltr:mr-4 rtl:ml-4 text-xl" href="../index.html">
                             <div> <span className="font-bold text-xl uppercase">
 
-                          {/* //  {`${ulb_data().ulb_name}`} // */}Login - Pet Registration System
+                          {/* //  {`${ulb_data().ulb_name}`} // */}Login - Rig Registration System
 
 
                             </span> <span className="hidden text-gray-700 darks:text-gray-200">{`${ulb_data().ulb_name}`}</span></div>
@@ -230,7 +231,7 @@ function Login() {
                                     </nav>
                                 </div>
                             </li>{/* End Customizer (Only for demo purpose) */}
-                            <li className="relative">
+                            {/* <li className="relative">
                                 <a href="#" className="py-3 px-4 flex hover:text-indigo-500 focus:outline-none">
                                     <div className="relative inline-block">Login</div>
                                 </a>
@@ -239,7 +240,7 @@ function Login() {
                                 <a href="#" className="py-3 px-4 flex hover:text-indigo-500 focus:outline-none">
                                     <div className="relative inline-block">Register</div>
                                 </a>
-                            </li>
+                            </li> */}
                         </ul>
                     </nav>
 
@@ -317,7 +318,8 @@ function Login() {
                                 <div className="text-center mt-6 lg:mt-0">
 
                                     {/* <img src={img} alt="welcome" className="max-w-full h-auto mx-auto" /> */}
-                                    <img src="https://res.cloudinary.com/djkewhhqs/image/upload/v1708499439/JUIDCO_IMAGE/Juidco%20svg%20file/Trade_Blue_4_qy3kj6.svg" alt="welcome" className="w-full h-72" />
+                                    {/* <img src="https://res.cloudinary.com/djkewhhqs/image/upload/v1708499439/JUIDCO_IMAGE/Juidco%20svg%20file/Trade_Blue_4_qy3kj6.svg" alt="welcome" className="w-full h-72" /> */}
+                                    <img src={rigm} alt="welcome" className="w-full h-96" />
                                     <div className="px-4 mt-2">
                                         <h1 className="text-bold text-2xl mb-2">Serve Citizen Services with Ease of Access</h1>
                                         <p className="text-base mb-4 text-gray-500">Manage citizen government services with easy of access and serve them in no time. </p>
