@@ -24,8 +24,18 @@ const ViewRejectApplication = () => {
     const [somethingWentWrong, setSomethingWentWrong] = useState(false)
 
     // API endpoints for fetching rejected pet application details
-    const { api_PetRejectedViewApplication, header } = PetRegAPIList();
+    const { api_PetRejectedViewApplication, header, api_RigUploadedDoc } = PetRegAPIList();
+    const [selectedDoc, setSelectedDoc] = useState(null);
+    const [docDetails, setDocDetails] = useState()
+    // Function to handle opening the modal
+    const handleViewClick = (docPath, docName) => {
+        setSelectedDoc({ path: docPath, name: docName });
+    };
 
+    // Function to handle closing the modal
+    const handleCloseModal = () => {
+        setSelectedDoc(null);
+    };
     // Effect hook to fetch application data when the component mounts
     useEffect(() => {
         setLoader(true)
@@ -36,6 +46,24 @@ const ViewRejectApplication = () => {
                     setApplicationFullData(res.data.data)
                 } else {
                     setApplicationFullData(null)
+                    console.log("Failed to fetch application data")
+                }
+            })
+            .catch((err) => {
+                setLoader(false)
+                console.log("Error while getting application data")
+            })
+    }, [])
+
+    useEffect(() => {
+        setLoader(true)
+        AxiosInterceptors.post(api_RigUploadedDoc, { "applicationId": id }, header)
+            .then((res) => {
+                setLoader(false)
+                if (res.data.status) {
+                    setDocDetails(res.data.data)
+                } else {
+                    setDocDetails(null)
                     console.log("Failed to fetch application data")
                 }
             })
@@ -185,6 +213,67 @@ const ViewRejectApplication = () => {
                                     </table>
                                 }
                             </div>
+
+                            {/* Document details */}
+                            {loader ? <ShimmerEffectInline /> : applicationFullData?.doc_upload_status &&
+                                <div className='bg-white shadow-xl p-4 border border-gray-200 my-5'>
+                                    <h1 className='px-1 font-semibold font-serif text-xs text-[#37517e]'><img src='https://cdn-icons-png.flaticon.com/512/2029/2029957.png' alt="pin" className='w-5 inline text-[#37517e]' /> Document Details</h1>
+
+                                    <table className='min-w-full leading-normal mt-2 bg-white'>
+                                        <thead className='font-bold text-left text-sm border text-[#37517e] bg-sky-100'>
+                                            <tr>
+                                                <th className="px-2 py-3 border-b border-gray-200 text-xs uppercase text-left">#</th>
+                                                <th className="px-2 py-3 border-b border-gray-200 text-xs uppercase text-left">Document Name</th>
+                                                <th className="px-2 py-3 border-b border-gray-200 text-xs uppercase text-left">Status</th>
+                                                <th className="px-2 py-3 border-b border-gray-200 text-xs uppercase text-left">Preview</th>
+                                                <th className="px-2 py-3 border-b border-gray-200 text-xs uppercase text-left">View </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="text-sm">
+                                            <>
+                                                {docDetails?.map((items, i) => (
+                                                    <tr className="bg-white shadow-lg border-b border-gray-200">
+                                                        <td className="px-2 py-2 text-sm text-left text-[#37517e]">{i + 1}</td>
+                                                        <td className="px-2 py-2 text-sm text-left text-[#37517e]">{items?.doc_code ? items?.doc_code : "N/A"}</td>
+                                                        <td className="px-2 py-2 text-sm text-left text-[#37517e]">{items?.doc_path == "" ? <p className="text-red-400 font-semibold">Not Upload</p> : <p className="text-green-400 font-semibold">Uploaded</p>}</td>
+                                                        <td className="px-2 py-2 text-sm text-left text-[#37517e]">
+
+                                                            {items?.doc_path?.split('.').pop() == "pdf" ? <img className="h-10 w-10 border rounded shadow-md" src={pdfImage} /> :
+                                                                items?.doc_path ? <img className="h-10 w-10 border rounded shadow-md" src={items?.doc_path} /> : "N/A"}
+
+                                                        </td>
+                                                        <td className="px-2 py-2 text-sm text-left text-[#37517e]">
+                                                            {items?.doc_path ? (
+                                                                <button
+                                                                    onClick={() => handleViewClick(items?.doc_path, items?.doc_code)}
+                                                                    className="bg-indigo-600 text-white px-2 py-1 rounded"
+                                                                >
+                                                                    View
+                                                                </button>
+                                                            ) : (
+                                                                <button disabled className="bg-indigo-200 text-white px-2 py-1 rounded">
+                                                                    View
+                                                                </button>
+                                                            )}
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </>
+
+                                        </tbody>
+                                    </table>
+                                    {/*
+                                    <div>
+                                        <div className="text-center">
+                                            <p>Please Upload Document</p>
+                                        </div>
+                                        <div className="flex justify-center">
+                                            <button onClick={() => navigate(`/apply-pet-registration/document-upload/${id}`)} className="px-2 py-1 bg-indigo-600 text-sm text-white">Upload Document</button>
+                                        </div>
+                                    </div> */}
+
+                                </div>
+                            }
                             {/* Payment Details */}
                             <div className='bg-white shadow-xl p-4 border border-gray-200'>
                                 <h1 className='px-1 font-semibold font-serif text-xs mt-2 text-[#37517e]'><img src='https://cdn-icons-png.flaticon.com/512/8948/8948774.png' alt="Upload" className='w-5 inline text-[#37517e]' /> Payment Details</h1>

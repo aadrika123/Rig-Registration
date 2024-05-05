@@ -51,7 +51,6 @@ const SearchPetApplicationForm = (props) => {
         enableReinitialize: true,
         onSubmit: (values, resetForm) => {
             console.log("Value.....", values)
-            // searchData(values)
             setRequestBody({
                 "filterBy": values.searchBy,
                 "parameter": values.searchText,
@@ -65,16 +64,15 @@ const SearchPetApplicationForm = (props) => {
     const handleChange = (event) => {
         let name = event.target.name
         let value = event.target.value
-        // { name === 'propertyType' && ((value == '1') ? setpropertyTypeStatusToggle(true) : setpropertyTypeStatusToggle(false)) }
-        // { name == 'mobileNo' && formik.setFieldValue("mobileNo", allowNumberInput(value, formik.values.mobileNo, 10)) }
+
     };
 
-    useEffect(() => {
-        setRequestBody({
-            "filterBy": values.searchBy,
-            "parameter": values.searchText,
-        })
-    }, [])
+    // useEffect(() => {
+    //     setRequestBody({
+    //         "filterBy": values.searchBy,
+    //         "parameter": values.searchText,
+    //     })
+    // }, [])
 
 
     // These variables are used for pagination
@@ -116,6 +114,16 @@ const SearchPetApplicationForm = (props) => {
         {
             Header: "Type",
             accessor: "application_type",
+            Cell: ({ value }) => {
+                if (value == "New_Apply") {
+                    return <span className="text-green-600">New Apply</span>;
+                } else if (value == "Renewal") {
+                   
+                    return <span className="text-orange-600">Renewal</span>;
+                } else {
+                    return <span>Unknown</span>;
+                }
+            },
         },
         
         {

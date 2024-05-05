@@ -10,24 +10,36 @@ import AxiosInterceptors from '@/Components/Common/AxiosInterceptors';
 import useSetTitle from '@/Components/Common/useSetTitle';
 
 // Component for viewing details of an approved pet application
-const ViewApprovedApplication = () => { 
+const ViewApprovedApplication = () => {
 
-// Hook to set the title of the page
+    // Hook to set the title of the page
     useSetTitle(" Approved Application")
 
-// Hook for programmatic navigation and getting the application ID from the URL parameters
+    // Hook for programmatic navigation and getting the application ID from the URL parameters
     const navigate = useNavigate()
     const { id } = useParams()
 
-// State variables for managing application data, loading state, and error state
+    // State variables for managing application data, loading state, and error state
     const [applicationFullData, setApplicationFullData] = useState()
     const [loader, setLoader] = useState(false)
     const [somethingWentWrong, setSomethingWentWrong] = useState(false)
 
-// API endpoints for fetching approved pet application details
-    const { api_PetApproveViewApplication, header } = PetRegAPIList();
+    // API endpoints for fetching approved pet application details
+    const { api_PetApproveViewApplication, header, api_RigUploadedDoc } = PetRegAPIList();
 
-// Effect hook to fetch application data when the component mounts
+
+    const [selectedDoc, setSelectedDoc] = useState(null);
+    const [docDetails, setDocDetails] = useState()
+    // Function to handle opening the modal
+    const handleViewClick = (docPath, docName) => {
+        setSelectedDoc({ path: docPath, name: docName });
+    };
+
+    // Function to handle closing the modal
+    const handleCloseModal = () => {
+        setSelectedDoc(null);
+    };
+    // Effect hook to fetch application data when the component mounts
     useEffect(() => {
         setLoader(true)
         AxiosInterceptors.post(api_PetApproveViewApplication, { "registrationId": id }, header)
@@ -35,8 +47,27 @@ const ViewApprovedApplication = () => {
                 setLoader(false)
                 if (res.data.status) {
                     setApplicationFullData(res.data.data)
-                } else { 
+                } else {
                     setApplicationFullData(null)
+                    console.log("Failed to fetch application data")
+                }
+            })
+            .catch((err) => {
+                setLoader(false)
+                console.log("Error while getting application data")
+            })
+    }, [])
+
+
+    useEffect(() => {
+        setLoader(true)
+        AxiosInterceptors.post(api_RigUploadedDoc, { "applicationId": id }, header)
+            .then((res) => {
+                setLoader(false)
+                if (res.data.status) {
+                    setDocDetails(res.data.data)
+                } else {
+                    setDocDetails(null)
                     console.log("Failed to fetch application data")
                 }
             })
@@ -50,10 +81,10 @@ const ViewApprovedApplication = () => {
         <>
             <div className="flex justify-between">
                 <p className="text-xl">Application No : <span className="font-semibold">{applicationFullData?.application_no}</span></p>
-           {applicationFullData?.viewRenewalButton == true ? <div className='space-x-5'>
-                    <button className={`font-semibold md:text-base text-xs bg-indigo-500 text-white border border-indigo-500  px-4 py-1 shadow-lg hover:scale-105 rounded-sm`} onClick={() => navigate(`/pet-renewal/${id}`)}>Renewal</button>
-                </div> : ''} 
-       </div>
+                {applicationFullData?.viewRenewalButton == true ? <div className='space-x-5'>
+                    <button className={`font-semibold md:text-base text-xs bg-indigo-500 text-white border border-indigo-500  px-4 py-1 shadow-lg hover:scale-105 rounded-sm`} onClick={() => navigate(`/rig-renewal/${id}`)}>Renewal</button>
+                </div> : ''}
+            </div>
             <div className="grid grid-cols-12 mb-20">
                 {/* <BreadCrumb title="abc" /> */}
                 <div className="rounded-md col-span-12">
@@ -118,37 +149,35 @@ const ViewApprovedApplication = () => {
                                         <div className="flex space-x-10 pl-4 ">
                                             <div className='flex-1 text-xs'>
                                                 <div className='text-[#37517e]'>Name of Driver</div>
-                                                <div className='font-semibold text-sm text-[#37517e]'>{applicationFullData?.pet_type ? applicationFullData?.pet_type == 1 && "Dog" : "N/A"}</div>
+                                                <div className='font-semibold text-sm text-[#37517e]'>{applicationFullData?.driver_name}</div>
                                             </div>
                                             <div className='flex-1 text-xs'>
                                                 <div className='text-[#37517e]'>Gender</div>
-                                                <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.pet_name ? applicationFullData?.pet_name : "N/A"}</div>
+                                                <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.ref_gender}</div>
                                             </div>
                                             <div className='flex-1 text-xs'>
                                                 <div className='text-[#37517e]'>Date of Birth</div>
                                                 <div className='font-bold text-sm text-[#37517e]'>
-                                                    {applicationFullData?.sex == 1 && "Male"}
-                                                    {applicationFullData?.sex == 2 && "Female"}
-                                                    {!applicationFullData?.sex && "N/A"}
+                                                    {applicationFullData?.dob}
                                                 </div>
                                             </div>
                                             <div className='flex-1 text-xs'>
                                                 <div className='text-[#37517e]'>Vehicle Company</div>
                                                 <div className='font-bold text-sm text-[#37517e]'>
-                                                    <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.dob ? moment(applicationFullData.dob).format('DD-MM-Y') : "N/A"}</div>
+                                                    <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.vehicle_name}</div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="flex space-x-10 pl-4 ">
                                             <div className='flex-1 text-xs'>
                                                 <div className='text-[#37517e]'>Registration No.</div>
-                                                <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.breed ? applicationFullData?.breed : "N/A"}</div>
+                                                <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.vehicle_no}</div>
                                             </div>
                                             <div className='flex-1 text-xs'>
                                                 <div className='text-[#37517e]'>Vehicle From</div>
-                                                <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.color ? applicationFullData?.color : "N/A"}</div>
+                                                <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.vehicle_from}</div>
                                             </div>
-                                           
+
                                             <div className='flex-1 text-xs'>
                                             </div>
                                         </div>
@@ -176,7 +205,7 @@ const ViewApprovedApplication = () => {
                                                 <tr className="bg-white shadow-lg border-b border-gray-200">
                                                     <td className="px-2 py-2 text-sm text-left text-[#37517e]">1</td>
                                                     <td className="px-2 py-2 text-sm text-left text-[#37517e]">{applicationFullData?.applicant_name ? applicationFullData?.applicant_name : "N/A"}</td>
-                                                    
+
                                                     <td className="px-2 py-2 text-sm text-left text-[#37517e]">{applicationFullData?.mobile_no ? applicationFullData?.mobile_no : "N/A"}</td>
                                                     <td className="px-2 py-2 text-sm text-left text-[#37517e]">{applicationFullData?.email ? applicationFullData?.email : "N/A"}</td>
                                                     <td className="px-2 py-2 text-sm text-left text-[#37517e]">{applicationFullData?.pan_no ? applicationFullData?.pan_no : "N/A"}</td>
@@ -186,7 +215,68 @@ const ViewApprovedApplication = () => {
                                         </tbody>
                                     </table>
                                 }
-                            </div>
+                            </div> 
+
+                            {/* Document details */}
+                            {loader ? <ShimmerEffectInline /> : applicationFullData?.doc_upload_status &&
+                                <div className='bg-white shadow-xl p-4 border border-gray-200 my-5'>
+                                    <h1 className='px-1 font-semibold font-serif text-xs text-[#37517e]'><img src='https://cdn-icons-png.flaticon.com/512/2029/2029957.png' alt="pin" className='w-5 inline text-[#37517e]' /> Document Details</h1>
+
+                                    <table className='min-w-full leading-normal mt-2 bg-white'>
+                                        <thead className='font-bold text-left text-sm border text-[#37517e] bg-sky-100'>
+                                            <tr>
+                                                <th className="px-2 py-3 border-b border-gray-200 text-xs uppercase text-left">#</th>
+                                                <th className="px-2 py-3 border-b border-gray-200 text-xs uppercase text-left">Document Name</th>
+                                                <th className="px-2 py-3 border-b border-gray-200 text-xs uppercase text-left">Status</th>
+                                                <th className="px-2 py-3 border-b border-gray-200 text-xs uppercase text-left">Preview</th>
+                                                <th className="px-2 py-3 border-b border-gray-200 text-xs uppercase text-left">View </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="text-sm">
+                                            <>
+                                                {docDetails?.map((items, i) => (
+                                                    <tr className="bg-white shadow-lg border-b border-gray-200">
+                                                        <td className="px-2 py-2 text-sm text-left text-[#37517e]">{i + 1}</td>
+                                                        <td className="px-2 py-2 text-sm text-left text-[#37517e]">{items?.doc_code ? items?.doc_code : "N/A"}</td>
+                                                        <td className="px-2 py-2 text-sm text-left text-[#37517e]">{items?.doc_path == "" ? <p className="text-red-400 font-semibold">Not Upload</p> : <p className="text-green-400 font-semibold">Uploaded</p>}</td>
+                                                        <td className="px-2 py-2 text-sm text-left text-[#37517e]">
+
+                                                            {items?.doc_path?.split('.').pop() == "pdf" ? <img className="h-10 w-10 border rounded shadow-md" src={pdfImage} /> :
+                                                                items?.doc_path ? <img className="h-10 w-10 border rounded shadow-md" src={items?.doc_path} /> : "N/A"}
+
+                                                        </td>
+                                                        <td className="px-2 py-2 text-sm text-left text-[#37517e]">
+                                                            {items?.doc_path ? (
+                                                                <button
+                                                                    onClick={() => handleViewClick(items?.doc_path, items?.doc_code)}
+                                                                    className="bg-indigo-600 text-white px-2 py-1 rounded"
+                                                                >
+                                                                    View
+                                                                </button>
+                                                            ) : (
+                                                                <button disabled className="bg-indigo-200 text-white px-2 py-1 rounded">
+                                                                    View
+                                                                </button>
+                                                            )}
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </>
+
+                                        </tbody>
+                                    </table>
+                                    {/*
+                                    <div>
+                                        <div className="text-center">
+                                            <p>Please Upload Document</p>
+                                        </div>
+                                        <div className="flex justify-center">
+                                            <button onClick={() => navigate(`/apply-pet-registration/document-upload/${id}`)} className="px-2 py-1 bg-indigo-600 text-sm text-white">Upload Document</button>
+                                        </div>
+                                    </div> */}
+
+                                </div>
+                            }
                             {/* Payment Details */}
                             <div className='bg-white shadow-xl p-4 border border-gray-200'>
                                 <h1 className='px-1 font-semibold font-serif text-xs mt-2 text-[#37517e]'><img src='https://cdn-icons-png.flaticon.com/512/8948/8948774.png' alt="Upload" className='w-5 inline text-[#37517e]' /> Payment Details</h1>

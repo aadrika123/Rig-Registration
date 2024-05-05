@@ -179,7 +179,7 @@ const RigRegistrationFormIndex = (props) => {
     payloadFormData.append("documents[0][ownerDtlId]", "");
 
     payloadFormData.append("documents[1][image]", taxCopyImage);
-    payloadFormData.append("documents[1][docCode]", "TAXCOPY");
+    payloadFormData.append("documents[1][docCode]", "TAX");
     payloadFormData.append("documents[1][ownerDtlId]", "");
 
     payloadFormData.append("documents[2][image]", licenseImage);

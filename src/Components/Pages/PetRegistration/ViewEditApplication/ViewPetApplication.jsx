@@ -85,7 +85,7 @@ const ViewPetApplication = () => {
     }, [])
 
     console.log("applicationFullData", docDetails)
-    console.log("applicationFullData", applicationFullData)
+    console.log("applicationFullData", applicationFullData) 
 
     // Function to handle deletion of the application
     const handleDeleteApplication = (data) => {
@@ -253,18 +253,18 @@ const ViewPetApplication = () => {
                                                 {docDetails?.map((items, i) => (
                                                     <tr className="bg-white shadow-lg border-b border-gray-200">
                                                         <td className="px-2 py-2 text-sm text-left text-[#37517e]">{i + 1}</td>
-                                                        <td className="px-2 py-2 text-sm text-left text-[#37517e]">{items?.docName ? items?.docName : "N/A"}</td>
-                                                        <td className="px-2 py-2 text-sm text-left text-[#37517e]">{items?.uploadDoc == "" ? <p className="text-red-400 font-semibold">NotUpload</p> : <p className="text-green-400 font-semibold">Uploaded</p>}</td>
+                                                        <td className="px-2 py-2 text-sm text-left text-[#37517e]">{items?.doc_code ? items?.doc_code : "N/A"}</td>
+                                                        <td className="px-2 py-2 text-sm text-left text-[#37517e]">{items?.doc_path == "" ? <p className="text-red-400 font-semibold">Not Upload</p> : <p className="text-green-400 font-semibold">Uploaded</p>}</td>
                                                         <td className="px-2 py-2 text-sm text-left text-[#37517e]">
 
-                                                            {items?.uploadDoc?.doc_path?.split('.').pop() == "pdf" ? <img className="h-10 w-10 border rounded shadow-md" src={pdfImage} /> :
+                                                            {items?.doc_path?.split('.').pop() == "pdf" ? <img className="h-10 w-10 border rounded shadow-md" src={pdfImage} /> :
                                                                 items?.doc_path ? <img className="h-10 w-10 border rounded shadow-md" src={items?.doc_path} /> : "N/A"}
 
                                                         </td>
                                                         <td className="px-2 py-2 text-sm text-left text-[#37517e]">
                                                             {items?.doc_path ? (
                                                                 <button
-                                                                    onClick={() => handleViewClick(items?.doc_path, items?.docName)}
+                                                                    onClick={() => handleViewClick(items?.doc_path, items?.doc_code)}
                                                                     className="bg-indigo-600 text-white px-2 py-1 rounded"
                                                                 >
                                                                     View

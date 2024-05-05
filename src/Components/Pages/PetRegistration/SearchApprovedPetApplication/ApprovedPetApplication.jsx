@@ -129,6 +129,11 @@ const ApprovedPetApplication = (props) => {
             Cell: ({ value }) => { return format(new Date(value), 'dd-MM-yyyy') }
         },
         {
+            Header: "Approved Date",
+            accessor: "approve_date",
+            Cell: ({ value }) => { return format(new Date(value), 'dd-MM-yyyy') }
+        },
+        {
             Header: 'Action',
             accessor: "id",
             Cell: ({ cell }) => (
@@ -163,8 +168,8 @@ const ApprovedPetApplication = (props) => {
                                     <option value="applicationNo">Application No</option>
                                     <option value="applicantName">Applicant Name</option>
                                     <option value="mobileNo">Mobile No</option>
-                                    <option value="safNo">SAF No</option>
-                                    <option value="holdingNo">Holding No</option>
+                                    {/* <option value="safNo">SAF No</option>
+                                    <option value="holdingNo">Holding No</option> */}
                                 </select>
                             </div>
                             <div className='w-full md:w-[25%]'>
