@@ -37,6 +37,8 @@ import ViewApprovedPreviewApplication from './Components/Pages/PetRegistration/V
 import PetRegistrationFormIndex from './Components/Pages/PetRegistration/Form/RigRegistrationFormIndex';
 import RigRegistrationFormIndex from './Components/Pages/PetRegistration/Form/RigRegistrationFormIndex';
 import SuccessfulSubmitModal from './Components/Pages/PetRegistration/Form/SuccessfulSubmitModal';
+import RigLIcenseReceipt from './Components/Pages/PetRegistration/PetPaymentReceipt/RigLIcenseReceiptEntry';
+import RigLIcenseReceiptEntry from './Components/Pages/PetRegistration/PetPaymentReceipt/RigLIcenseReceiptEntry';
 
 
 function App() {
@@ -89,8 +91,9 @@ function App() {
     { path: '/rig-renewal/:id', element: <PetRenewalFormIndex /> },
     { path: '/viewRigApplication/:id', element: <ViewPetApplication /> },
     { path: '/successfull-submit', element: <SuccessfulSubmitModal /> },
-    
-    
+
+
+    { path: '/rig-license-details/:id', element: <RigLIcenseReceiptEntry /> },
     { path: '/rig-payment-offline/:id', element: <PetOfflinePayment /> },
     { path: '/rig-payment-receipt/:transNo', element: <PetPaymentReceiptIndex /> },
 

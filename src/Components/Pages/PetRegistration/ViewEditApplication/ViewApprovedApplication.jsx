@@ -81,10 +81,15 @@ const ViewApprovedApplication = () => {
         <>
             <div className="flex justify-between">
                 <p className="text-xl">Application No : <span className="font-semibold">{applicationFullData?.application_no}</span></p>
-                {applicationFullData?.viewRenewalButton == true ? <div className='space-x-5'>
+                {/* {applicationFullData?.viewRenewalButton == true ? <div className='space-x-5'>
                     <button className={`font-semibold md:text-base text-xs bg-indigo-500 text-white border border-indigo-500  px-4 py-1 shadow-lg hover:scale-105 rounded-sm`} onClick={() => navigate(`/rig-renewal/${id}`)}>Renewal</button>
-                </div> : ''}
+                </div> : ''} */}
             </div>
+            {applicationFullData?.payment_status == 1 && applicationFullData?.registrationStatus == 1 &&
+                <div className='font-semibold text-lg text-[#37517e]'>
+                    <button className="border px-3 py-1 rounded shadow border-orange-500 hover:bg-orange-500 hover:text-white text-orange-500 whitespace-nowrap" onClick={() => navigate(`/rig-license-details/${applicationFullData?.application_id}`)}>Print License</button>
+                </div>
+            }
             <div className="grid grid-cols-12 mb-20">
                 {/* <BreadCrumb title="abc" /> */}
                 <div className="rounded-md col-span-12">
@@ -215,7 +220,7 @@ const ViewApprovedApplication = () => {
                                         </tbody>
                                     </table>
                                 }
-                            </div> 
+                            </div>
 
                             {/* Document details */}
                             {loader ? <ShimmerEffectInline /> : applicationFullData?.doc_upload_status &&
@@ -280,14 +285,14 @@ const ViewApprovedApplication = () => {
                             {/* Payment Details */}
                             <div className='bg-white shadow-xl p-4 border border-gray-200'>
                                 <h1 className='px-1 font-semibold font-serif text-xs mt-2 text-[#37517e]'><img src='https://cdn-icons-png.flaticon.com/512/8948/8948774.png' alt="Upload" className='w-5 inline text-[#37517e]' /> Payment Details</h1>
-                                {loader ? <ShimmerEffectInline /> : applicationFullData?.payment_status == 0 ?
+                                {loader ? <ShimmerEffectInline /> : (applicationFullData?.payment_status == 0 && applicationFullData?.registrationStatus == 1) ?
                                     <div className="text-center text-indigo-600">
                                         <div>
                                             <div className="text-center">
                                                 <p>Please Make Payment</p>
                                             </div>
                                             <div className="flex justify-center">
-                                                <button onClick={() => navigate(`/pet-payment-offline/${id}`)}
+                                                <button onClick={() => navigate(`/rig-payment-offline/${id}`)}
                                                     className="px-2 py-1 bg-indigo-600 text-sm text-white">Pay Now</button>
                                             </div>
                                         </div>

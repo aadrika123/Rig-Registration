@@ -277,7 +277,7 @@ const ViewRejectApplication = () => {
                             {/* Payment Details */}
                             <div className='bg-white shadow-xl p-4 border border-gray-200'>
                                 <h1 className='px-1 font-semibold font-serif text-xs mt-2 text-[#37517e]'><img src='https://cdn-icons-png.flaticon.com/512/8948/8948774.png' alt="Upload" className='w-5 inline text-[#37517e]' /> Payment Details</h1>
-                                {loader ? <ShimmerEffectInline /> : applicationFullData?.payment_status == 0 ?
+                                {loader ? <ShimmerEffectInline /> : applicationFullData?.payment_status == 1 ?
                                     ""
                                     :
                                     <div className='mt-2'>
