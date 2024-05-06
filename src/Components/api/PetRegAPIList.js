@@ -54,10 +54,13 @@ export default function PetRegAPIList() {
         api_searchRejectedPetApplication: `${baseUrl}/api/rig/search-rejected-applications`,
         api_RejectedPetApplication: `${baseUrl}/api/rig/list-rejected-application`,
         api_petPaymentReceipt: `${baseUrl}/api/rig/application/payment-receipt`,
-        api_petDashboardDetails: `${baseUrl}/api/rig/dashboard_details`,
+        
         api_ApprovedPetApplication: `${baseUrl}/api/rig/list-approved-application`,
         api_RigRegistrationApplyForm: `${baseUrl}/api/rig/application/apply-rig-registration`,
         api_RigUploadedDoc: `${baseUrl}/api/rig/application/get-uploaded-docs`,
+
+        // api_petDashboardDetails: `${baseUrl}/api/rig/dashboard_details`,
+        api_petDashboardDetails: `${baseUrl}/api/rig/application/dashboard-details`,
 
         
     }

@@ -149,6 +149,23 @@ const SearchPetApplicationForm = (props) => {
             },
         },
         {
+            Header: "Application Status",
+            accessor: "application_status",
+            // Define a custom cell renderer for the Payment Status column
+            Cell: ({ value }) => {
+                if (value =="Approve") {
+                    // Return "Unpaid" in red-600 color
+                    return <span className="text-green-600">Approved</span>;
+                } else if (value =="Reject") {
+                    // Return "Paid" in green-600 color
+                    return <span className="text-red-600">Rejected</span>;
+                } else {
+                    // Handle any unexpected status
+                    return <span>Unknown</span>;
+                }
+            },
+        },
+        {
             Header: 'Action',
             accessor: "id",
             Cell: ({ cell }) => (

@@ -11,6 +11,8 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { nullToNA } from '@/Components/Common/PowerupFunctions';
 // import { nullToNA } from '../../../../Components/Common/PowerUps/PowerupFunctions';
 import jharkhand from "../../../assets/logo1.png";
+import { date } from 'yup';
+import moment from 'moment';
 
 class RigLIcenseReceipt extends React.Component {
 
@@ -33,7 +35,7 @@ class RigLIcenseReceipt extends React.Component {
 
                 >
                     <div className='mx-auto border-2 border-dashed text-[12px]  border-red-700 bg-white text-red-700 overflow-auto' >
-                        <div className=' text-justify font-poppins '>
+                        <div className=' text-justify font-poppins px-2'>
                             <div
                                 className='  py-2 px-2 text-red-700 '
                             // styles={{
@@ -45,8 +47,8 @@ class RigLIcenseReceipt extends React.Component {
 
                                 {/* <img src={logo} alt="" className='h-16 w-16 mx-auto' /> */}
 
-                                <h1 className='font-bold text-center capitalize'>
-                                    Municipal Rig Machine License Approval Certificate{" "}
+                                <h1 className='font-bold text-center capitalize text-lg mt-8'>
+                                    {this.props?.licenceData?.ulb_name} Rig Machine License{" "}
                                 </h1>
                                 {this.props?.licenceData?.application?.ulb_logo != "" ? (
                                     <img
@@ -95,18 +97,18 @@ class RigLIcenseReceipt extends React.Component {
                                 <h1 className='font-bold text-center uppercase'>
                                     {this.props?.licenceData?.application?.ulb_name}{" "}
                                 </h1>
-                                <h1 className='font-bold text-center'>
+                                {/* <h1 className='font-bold text-center'>
                                     {" "}
                                     Municipal Rig Machine License{" "}
-                                </h1>
+                                </h1> */}
                                 <div className='mx-auto text-center'>
                                     <p className=' py-1 my-1'>
                                         {" "}
-                                        (This Certificate relates to Section 455 (i) Under Jharkhand
+                                        (This Certificate relates to Under Jharkhand
                                         Municipal Act of 2011){" "}
                                     </p>
                                 </div>
-                                <div className='w-full px-1.5 '>
+                                <div className='w-full px-1.5 mt-4 '>
                                     {/* license details */}
                                     <div className='grid grid-cols-3 h-auto capitalize'>
                                         <div className='col-span-2 '>
@@ -117,140 +119,55 @@ class RigLIcenseReceipt extends React.Component {
                                                 </span>
                                             </p>
 
-                                            {/* <p className=' font-semibold'>
-                                                Provisional License No :{" "}
-                                                <span className='font-normal leading-6'>
-                                                    {
-                                                        this.props?.licenceData?.registration_id
-                                                    }{" "}
-                                                </span>
-                                            </p> */}
-
+                                           
                                             <p className=' font-semibold'>
                                                 Approval date of Municipal Rig License :{" "}
                                                 <span className='font-normal leading-6'>
-                                                    {this.props?.licenceData?.approve_date}{" "}
+                                                    {/* {this.props?.licenceData?.approve_date}{" "} */}
+                                                    {moment(this.props?.licenceData?.approve_date, 'YYYY-MM-DD').format('DD-MM-YYYY')}
                                                 </span>{" "}
                                             </p>
                                             <p className=' font-semibold'>
                                                 Validity of Municipal Rig License :{" "}
                                                 <span className='font-normal  leading-6'>
-                                                    {this.props?.licenceData?.approve_date} to{" "}
-                                                    {this.props?.licenceData?.approve_end_date}{" "}
+                                                    {moment(this.props?.licenceData?.approve_date, 'YYYY-MM-DD').format('DD-MM-YYYY')} to{" "}
+                                                    {moment(this.props?.licenceData?.approve_end_date, 'YYYY-MM-DD').format('DD-MM-YYYY')}{" "}
                                                 </span>{" "}
                                             </p>
 
-                                            {/*<p className=' font-semibold'>Occupancy certificate No : <span className='font-normal  leading-6'>N/A </span> </p>*/}
-
+                                           
                                             <p className=' font-semibold'>
-                                                Owner Name :{" "}
+                                                Licence Owner Name :{" "}
                                                 <span className='font-normal  leading-6'>
                                                     {" "}
                                                     {this.props?.licenceData?.applicant_name}
                                                 </span>
                                             </p>
                                         </div>
-                                        {/* {`${QrUrl}/trade/trade-approved-license/${btoa(
-                  this.props?.licenceData?.application?.id
-                )}`} */}
                                         <div className=' mx-auto mt-1'>
-                                            {/* <QrCode
-                    size='100'
-                    url={`${QrUrl}/trade/trade-approved-license/${btoa(
-                      this.props?.licenceData?.application?.id
-                    )}`}
-                  /> */}
+                                          
                                         </div>
                                     </div>
                                     <div className='grid grid-cols-3 w-full capitalize'>
                                         <div className='col-span-2'>
-                                            {/* <p className=' font-semibold'>
-                                                Owner Name of entity :{" "}
-                                                <span className='font-normal '>
-                                                    {" "}
-                                                    {this.props?.licenceData?.application?.owner_name}
-                                                </span>
-                                            </p> */}
 
                                             <p className=' font-semibold'>
-                                                Nature of entity :{" "}
+                                                Vehicle Registration No. :{" "}
                                                 <span className='font-normal '>
                                                     {" "}
                                                     {
-                                                        "RIG MACHINE"
-                                                    }
-                                                </span>
-                                            </p>
-
-                                            <p className=' font-semibold'>
-                                                Holding No. of Business Premises :{" "}
-                                                <span className='font-normal '>
-                                                    {" "}
-                                                    {this.props?.licenceData?.holding_no}
-                                                </span>
-                                            </p>
-
-                                            {/* <p className=' font-semibold'>
-                                                Owner of business premises :{" "}
-                                                <span className='font-normal '>
-                                                    {" "}
-                                                    {
-                                                        this.props?.licenceData?.application
-                                                            ?.premises_owner_name
-                                                    }
-                                                </span>
-                                            </p> */}
-
-                                            <p className=' font-semibold'>
-                                                Vehicle Name :{" "}
-                                                <span className='font-normal '>
-                                                    {" "}
-                                                    {
-                                                        this.props?.licenceData?.vehicle_name
+                                                        this.props?.licenceData?.vehicle_no
                                                     }{" "}
 
                                                 </span>
                                             </p>
 
-                                            <p className=' font-semibold'>
-                                                Vehicle From :{" "}
-                                                <span className='font-normal '>
-                                                    {" "}
-                                                    {this.props?.licenceData?.vehicle_from}
-                                                </span>
-                                            </p>
-
-                                            {/* <p className=' font-semibold'>
-                                                Date of Establishment :{" "}
-                                                <span className='font-normal '>
-                                                    {" "}
-                                                    {
-                                                        this.props?.licenceData?.application
-                                                            ?.establishment_date
-                                                    }
-                                                </span>
-                                            </p> */}
                                         </div>
-                                        <div className='col-span-1 pb-2'>
-                                            <p className=' font-semibold'>
-                                                Ward No :{" "}
-                                                <span className='font-normal '>
-                                                    {" "}
-                                                    {this.props?.licenceData?.ward_name}
-                                                </span>
-                                            </p>
-
-                                            <p className=' font-semibold'>
-                                                Address :{" "}
-                                                <span className='font-normal  capitalize'>
-                                                    {" "}
-                                                    {this.props?.licenceData?.address?.toLowerCase()}
-                                                </span>
-                                            </p>
+                                        <div className='col-span-1 pb-2 -ml-6 mt-2'>
 
                                             <p className=' font-semibold whitespace-nowrap'>
                                                 Application No :{" "}
-                                                <span className='font-normal text-[10px] whitespace-nowrap'>
+                                                <span className='font-normal text-[12px] whitespace-nowrap'>
                                                     {" "}
                                                     {this.props?.licenceData?.application_no}
                                                 </span>
@@ -259,10 +176,7 @@ class RigLIcenseReceipt extends React.Component {
                                             <p className=' font-semibold'>
                                                 Date of Application:
                                                 <span className='font-normal '>
-                                                    {
-                                                        this.props?.licenceData?.application_apply_date
-
-                                                    }
+                                                    {moment(this.props?.licenceData?.application_apply_date, 'YYYY-MM-DD').format('DD-MM-YYYY')}{" "}
                                                 </span>
                                             </p>
 
@@ -278,94 +192,54 @@ class RigLIcenseReceipt extends React.Component {
                                 </div>
 
                                 {/* Owner Details */}
-                                <div className='grid grid-cols-1 w-full'>
+                                <div className='grid grid-cols-1 w-full mt-4 text-[12px]'>
                                     <div>
                                         This is to declare that{" "}
                                         <span className='font-semibold capitalize'>
                                             {" "}
                                             "RIG MACHINE"
                                         </span>
-                                        &nbsp;having application number{" "}
+                                        &nbsp;having registration licence number{" "}
                                         <span className='font-semibold capitalize'>
                                             {" "}
                                             {
-                                                this.props?.licenceData?.application_no
+                                                this.props?.licenceData?.registration_id
                                             }{" "}
                                         </span>{" "}
-                                        has been successfully registered with us with satisfactory
-                                        compliance of registration criteria and to certify that
-                                        trade license number{" "}
-                                        <span className='font-semibold capitalize'>
-                                            {" "}
-                                            {this.props?.licenceData?.registration_id}{" "}
-                                        </span>{" "}
+                                       
                                         has been allocated to{" "}
                                         <span className='font-semibold capitalize'>
                                             {this.props?.licenceData?.applicant_name}{" "}
                                         </span>
-                                        {/* for conducting business which is{" "}
-                                        <span className='font-semibold capitalize'>
-                                            ({this.props?.licenceData?.application?.items_code})
-                                        </span>{" "} */}
-                                        as per business code mentioned in Jharkhand Municipal Act
-                                        2011 in the regime of this local body. The validity of this
-                                        subject to meeting the terms and conditions as specified in
-                                        U/S 455 of Jharkhand Municipal Act 2011 and other applicable
-                                        sections in the act along with following terms and
+                                        as mentioned in Jharkhand Municipal Act
+                                        2011 in the regime of {this.props?.licenceData?.ulb_name}. The validity of this
+                                        licence is for TWO YEARS along with following terms and
                                         conditions:-
                                     </div>
                                 </div>
 
                                 {/* reciept footer */}
-                                <div className=' mt-4 px-1  text-justify '>
+                                <div className=' mt-4 px-1  text-justify text-sm'>
                                     <p className='py-0.5'>
                                         1. Business will run according to license issued.{" "}
                                     </p>
+                                   
                                     <p className='py-0.5'>
-                                        2. Prior Permission from local body is necessary if nature
-                                        of business is changed.
-                                    </p>
-                                    <p className='py-0.5'>
-                                        3. Information to local body is necessary for extension of
-                                        area.{" "}
-                                    </p>
-                                    <p className='py-0.5'>
-                                        4. Prior information to local body regarding winding
+                                        2. Prior information to local body regarding winding
                                         up/closer of business is necessary.{" "}
                                     </p>
                                     <p className='py-0.5'>
-                                        5. Application for renewal of license is necessary one month
+                                        3. Application for renewal of license is necessary one month
                                         before expiry of license.
                                     </p>
                                     <p className='py-0.5'>
-                                        6. In the case of delay, penalty will be levied according to
+                                        4. In the case of delay, penalty will be levied according to
                                         section 459 of Jharkhand Municipal Act 2011.
                                     </p>
-                                    <p className='py-0.5'>
-                                        7. Illegal Parking in front of firm in non-permissible.
-                                    </p>
-                                    <p className='py-0.5'>
-                                        8. Sufficient number of containers for disposing-garbage and
-                                        refuse shall be made available within by the business
-                                        owner/organisation.
-                                    </p>
-                                    <p className='py-0.5'>
-                                        9. The premises and the licensee will co-operate with the
-                                        ULB for disposal of such waste.{" "}
-                                    </p>
-                                    <p className='py-0.5'>
-                                        10. SWM Rules, 2016 and Plastic Waste Management Rules 2016
-                                        shall be adhered to in words as well as spirit.{" "}
-                                    </p>
-                                    <p className='py-0.5'>
-                                        11. The license can be downloaded from{" "}
-                                        <span className='lowercase'>
-                                            {
-                                                this.props?.licenceData?.application
-                                                    ?.ulb_current_website
-                                            }
-                                        </span>
-                                    </p>
+                                    
+                                </div>
+                                <div className='mt-44'> 
+
                                 </div>
                                 <div className=' mt-4 mb-4 px-2  text-justify text-red-700'>
                                     <p>

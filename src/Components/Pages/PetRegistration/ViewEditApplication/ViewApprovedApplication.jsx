@@ -243,7 +243,7 @@ const ViewApprovedApplication = () => {
                                                     <tr className="bg-white shadow-lg border-b border-gray-200">
                                                         <td className="px-2 py-2 text-sm text-left text-[#37517e]">{i + 1}</td>
                                                         <td className="px-2 py-2 text-sm text-left text-[#37517e]">{items?.doc_code ? items?.doc_code : "N/A"}</td>
-                                                        <td className="px-2 py-2 text-sm text-left text-[#37517e]">{items?.doc_path == "" ? <p className="text-red-400 font-semibold">Not Upload</p> : <p className="text-green-400 font-semibold">Uploaded</p>}</td>
+                                                        <td className="px-2 py-2 text-sm text-left text-[#37517e]">{items?.verify_status == 1 ? <p className="text-green-400 font-semibold">Verified</p> : <p className="text-red-400 font-semibold">Pending</p>}</td>
                                                         <td className="px-2 py-2 text-sm text-left text-[#37517e]">
 
                                                             {items?.doc_path?.split('.').pop() == "pdf" ? <img className="h-10 w-10 border rounded shadow-md" src={pdfImage} /> :
@@ -355,7 +355,29 @@ const ViewApprovedApplication = () => {
                                 }
                             </div>
 
-
+                            {/* Modal */}
+                            {selectedDoc && (
+                                <div className="fixed inset-0 flex items-center justify-center bg-gray-200 bg-opacity-50 z-auto">
+                                    <div className="bg-white p-4 rounded-lg shadow-lg">
+                                        <div className="flex justify-between items-center mb-4">
+                                            <h2 className="text-lg font-semibold">{selectedDoc.name}</h2>
+                                            <button onClick={handleCloseModal} className="text-gray-500">
+                                                &times;
+                                            </button>
+                                        </div>
+                                        {/* Render the content based on document type */}
+                                        {selectedDoc.path.endsWith(".pdf") ? (
+                                            <iframe
+                                                src={selectedDoc.path}
+                                                className="w-full h-96"
+                                                title={selectedDoc.name}
+                                            ></iframe>
+                                        ) : (
+                                            <img src={selectedDoc.path} alt={selectedDoc.name} className="w-full h-96 object-contain" />
+                                        )}
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     }
                 </div>
