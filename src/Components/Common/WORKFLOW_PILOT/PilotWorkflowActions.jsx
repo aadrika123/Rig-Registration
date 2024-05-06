@@ -441,7 +441,7 @@ function PilotWorkflowActions(props) {
               props.toast("Application is Rejected", "de-escalated");
           }
           props.showTabFun(false); //HIDING TABS
-          props?.openModal(`Application has been approved ${nullToNA(response?.data?.data?.applicationNo) == "NA" ? `` : `with Registration No. ${response?.data?.data?.applicationNo} with Token No.${response?.data?.data?.uniqueTokenId}`}`) // OPENING MODAL
+          props?.openModal(`Application has been approved ${nullToNA(response?.data?.data?.applicationNo) == "NA" ? `` : `with Registration No. ${response?.data?.data?.applicationNo} with Licence No.${response?.data?.data?.uniqueTokenId}`}`) // OPENING MODAL
         } else {
           
           props?.activateBottomErrorCard(true, response?.data?.message)

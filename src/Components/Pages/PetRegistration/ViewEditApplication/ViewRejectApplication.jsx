@@ -158,7 +158,7 @@ const ViewRejectApplication = () => {
                                                 </div>
                                             </div>
                                             <div className='flex-1 text-xs'>
-                                                <div className='text-[#37517e]'>Vehicle Company</div>
+                                                <div className='text-[#37517e]'>VIN Number</div>
                                                 <div className='font-bold text-sm text-[#37517e]'>
                                                     <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.dob ? moment(applicationFullData.dob).format('DD-MM-Y') : "N/A"}</div>
                                                 </div>

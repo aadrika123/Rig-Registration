@@ -65,10 +65,11 @@ const RigRegistrationFormIndex = (props) => {
       .required("Kindly enter a value."),
     ownerCategory: yup.string().required("Kindly enter a value."),
     ward: yup.string().required("Kindly enter a value."),
-    mobileNo: yup
-      .string()
-      .matches(/^\d{10}$/, "Mobile number must be exactly 10 digits")
-      .required("Kindly enter a value."),
+
+    // mobileNo: yup.string()
+    // .matches(/^[0-9]{10}$/, 'Mobile number must be exactly 10 digits.')
+    // .required('Kindly enter a value.'),
+
     email: yup.string().email().required("Kindly enter a value."),
     panNo: yup
       .string()
@@ -270,7 +271,7 @@ const RigRegistrationFormIndex = (props) => {
   // if (responseScreen?.status == true) {
   //   return (
   //     <>
-        // <SuccessfulSubmitModal responseScreenData={responseScreen} />
+  // <SuccessfulSubmitModal responseScreenData={responseScreen} />
   //     </>
   //   );
   // }
@@ -404,11 +405,17 @@ const RigRegistrationFormIndex = (props) => {
                   //   disabled={formik.values.ownerCategory != 2}
                   {...formik.getFieldProps("mobileNo")}
                   type='text'
-                  maxLength='10'
+                  maxLength={10}
                   name='mobileNo'
+                  id='mobileNo'
                   className={style?.textFiled}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
+                  onKeyPress={(e) => {
+                    if (!(e.key >= "0" && e.key <= "9")) {
+                      e.preventDefault();
+                    }
+                  }}
                 />
                 <p className='text-red-500 text-xs'>
                   {formik.touched.mobileNo && formik.errors.mobileNo
@@ -536,14 +543,21 @@ const RigRegistrationFormIndex = (props) => {
             </div>
             <div className='m-3'>
               <label className={style?.label} htmlFor='vehicleComapny'>
-                Vehicle Company<span className={style?.required}>*</span>
+                VIN Number<span className={style?.required}>*</span>
               </label>
               <input
                 {...formik.getFieldProps("vehicleComapny")}
-                maxLength='50'
+                maxLength='17'
+
                 type='text'
                 name='vehicleComapny'
                 className={style?.textFiled}
+                onChange={(e) => {
+                  // Convert the input value to uppercase
+                  const upperCaseValue = e.target.value.toUpperCase();
+                  // Call formik's handleChange method with the transformed value
+                  formik.setFieldValue("vehicleComapny", upperCaseValue);
+                }}
               />
               <p className='text-red-500 text-xs'>
                 {formik.touched.vehicleComapny && formik.errors.vehicleComapny
@@ -557,10 +571,16 @@ const RigRegistrationFormIndex = (props) => {
               </label>
               <input
                 {...formik.getFieldProps("registrationNumber")}
-                maxLength='50'
+                maxLength='10'
                 type='text'
                 name='registrationNumber'
                 className={style?.textFiled}
+                onChange={(e) => {
+                  // Convert the input value to uppercase
+                  const upperCaseValue = e.target.value.toUpperCase();
+                  // Call formik's handleChange method with the transformed value
+                  formik.setFieldValue("registrationNumber", upperCaseValue);
+                }}
               />
               <p className='text-red-500 text-xs'>
                 {formik.touched.registrationNumber &&

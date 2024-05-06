@@ -167,7 +167,7 @@ const ViewApprovedApplication = () => {
                                                 </div>
                                             </div>
                                             <div className='flex-1 text-xs'>
-                                                <div className='text-[#37517e]'>Vehicle Company</div>
+                                                <div className='text-[#37517e]'>VIN Number</div>
                                                 <div className='font-bold text-sm text-[#37517e]'>
                                                     <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.vehicle_name}</div>
                                                 </div>
@@ -358,7 +358,7 @@ const ViewApprovedApplication = () => {
                             {/* Modal */}
                             {selectedDoc && (
                                 <div className="fixed inset-0 flex items-center justify-center bg-gray-200 bg-opacity-50 z-auto">
-                                    <div className="bg-white p-4 rounded-lg shadow-lg">
+                                    <div className="bg-white p-6 rounded-lg shadow-lg" style={{ width: '60vw', height: '90vh' }}>
                                         <div className="flex justify-between items-center mb-4">
                                             <h2 className="text-lg font-semibold">{selectedDoc.name}</h2>
                                             <button onClick={handleCloseModal} className="text-gray-500">
@@ -371,9 +371,10 @@ const ViewApprovedApplication = () => {
                                                 src={selectedDoc.path}
                                                 className="w-full h-96"
                                                 title={selectedDoc.name}
+                                                style={{ height: 'calc(100% - 20px)' }}
                                             ></iframe>
                                         ) : (
-                                            <img src={selectedDoc.path} alt={selectedDoc.name} className="w-full h-96 object-contain" />
+                                            <img src={selectedDoc.path} alt={selectedDoc.name} className="w-full h-full" />
                                         )}
                                     </div>
                                 </div>

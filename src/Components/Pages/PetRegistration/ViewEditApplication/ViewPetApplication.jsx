@@ -213,7 +213,7 @@ const ViewPetApplication = () => {
                                                 </div>
                                             </div>
                                             <div className='flex-1 text-xs'>
-                                                <div className='text-[#37517e]'>Vehicle Company</div>
+                                                <div className='text-[#37517e]'>VIN Number</div>
                                                 <div className='font-bold text-sm text-[#37517e]'>
                                                     <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.vehicle_name}</div>
                                                 </div>
@@ -335,7 +335,7 @@ const ViewPetApplication = () => {
                             <div className='bg-white shadow-xl p-4 border border-gray-200'>
                                 <h1 className='px-1 font-semibold font-serif text-xs mt-2 text-[#37517e]'><img src='https://cdn-icons-png.flaticon.com/512/8948/8948774.png' alt="Upload" className='w-5 inline text-[#37517e]' /> Payment Details</h1>
                                 {loader ? <ShimmerEffectInline /> :
-                                    (applicationFullData?.payment_status == 0 && applicationFullData?.registrationStatus == 1) ?
+                                    (applicationFullData?.payment_status == 0 && applicationFullData?.registrationStatus == 2) ?
                                         <div className="text-center text-indigo-600">
                                             <div>
                                                 <div className="text-center">
@@ -421,22 +421,23 @@ const ViewPetApplication = () => {
             {/* Modal */}
             {selectedDoc && (
                 <div className="fixed inset-0 flex items-center justify-center bg-gray-200 bg-opacity-50 z-auto">
-                    <div className="bg-white p-4 rounded-lg shadow-lg">
+                    <div className="bg-white p-6 rounded-lg shadow-lg" style={{ width: '60vw', height: '90vh' }}>
                         <div className="flex justify-between items-center mb-4">
-                            <h2 className="text-lg font-semibold">{selectedDoc.name}</h2>
-                            <button onClick={handleCloseModal} className="text-gray-500">
+                            <h2 className="text-xl font-semibold">{selectedDoc.name}</h2>
+                            <button onClick={handleCloseModal} className="text-gray-500 text-2xl">
                                 &times;
                             </button>
                         </div>
                         {/* Render the content based on document type */}
-                        {selectedDoc.path.endsWith(".pdf") ? (
+                        {selectedDoc.path.endsWith(".pdf") ? ( 
                             <iframe
                                 src={selectedDoc.path}
-                                className="w-full h-96"
+                                className="w-full h-full"
                                 title={selectedDoc.name}
+                                style={{ height: 'calc(100% - 20px)' }} // Adjust height to account for header
                             ></iframe>
                         ) : (
-                            <img src={selectedDoc.path} alt={selectedDoc.name} className="w-full h-96 object-contain" />
+                            <img src={selectedDoc.path} alt={selectedDoc.name} className="w-full h-full" />
                         )}
                     </div>
                 </div>

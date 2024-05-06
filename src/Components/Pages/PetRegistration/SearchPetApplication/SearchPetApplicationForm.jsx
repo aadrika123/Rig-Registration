@@ -118,14 +118,14 @@ const SearchPetApplicationForm = (props) => {
                 if (value == "New_Apply") {
                     return <span className="text-green-600">New Apply</span>;
                 } else if (value == "Renewal") {
-                   
+
                     return <span className="text-orange-600">Renewal</span>;
                 } else {
                     return <span>Unknown</span>;
                 }
             },
         },
-        
+
         {
             Header: "Applied Date",
             accessor: "application_apply_date",
@@ -153,14 +153,14 @@ const SearchPetApplicationForm = (props) => {
             accessor: "application_status",
             // Define a custom cell renderer for the Payment Status column
             Cell: ({ value }) => {
-                if (value =="Approve") {
-                    // Return "Unpaid" in red-600 color
+                if (value == "Approve") {
+
                     return <span className="text-green-600">Approved</span>;
-                } else if (value =="Reject") {
-                    // Return "Paid" in green-600 color
-                    return <span className="text-red-600">Rejected</span>;
+                } else if (value == "Pending") {
+
+                    return <span className="text-red-600">Pending</span>;
                 } else {
-                    // Handle any unexpected status
+
                     return <span>Unknown</span>;
                 }
             },
