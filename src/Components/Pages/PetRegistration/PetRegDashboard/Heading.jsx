@@ -48,7 +48,7 @@ const Heading = (props) => {
                         applyButton &&
                         <>
                             <Tooltip anchorId="button-2" />
-                            <button id="button-2" data-tooltip-content="Click to apply Pet Application." onClick={() => navigate(props?.applyLink)} className="cypress_floor_add_update text-white px-4 md:px-8 py-3 bg-indigo-500 font-medium border text-xs leading-tight capitalize rounded-xl shadow-md hover:bg-indigo-700 hover:shadow-lg focus:bg-indigo-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out">Apply Pet Registration</button>
+                            <button id="button-2" data-tooltip-content="Click to apply Rig Application." onClick={() => navigate(props?.applyLink)} className="cypress_floor_add_update text-white px-4 md:px-8 py-3 bg-indigo-500 font-medium border text-xs leading-tight capitalize rounded-xl shadow-md hover:bg-indigo-700 hover:shadow-lg focus:bg-indigo-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out">Apply Rig Registration</button>
                         </>}
 
                 </div>
