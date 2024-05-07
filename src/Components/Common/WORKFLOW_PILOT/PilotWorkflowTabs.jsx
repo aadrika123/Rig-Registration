@@ -350,11 +350,24 @@ export default function PilotWorkflowTabs(props) {
           <div class="p-6 text-center">
             <div className="w-full flex h-10">
               {" "}
-              <span className="mx-auto text-green-700 text-xl font-semibold">
+
+              {/* <span className="mx-auto text-green-700 text-xl font-semibold ">
+                <FiAlertCircle size={30} />
+              </span> */}
+              <span
+                className={`mx-auto text-xl font-semibold ${approvedMsg === "Application Successfully Rejected !!"
+                    ? "text-red-500" // Text color for rejected message
+                    : "text-green-700" // Text color for other messages
+                  }`}
+              >
                 <FiAlertCircle size={30} />
               </span>
             </div>
-            <h3 class="mb-5 text-lg font-semibold text-gray-800 dark:text-gray-800">
+            <h3 className={`mb-5 text-lg font-semibold ${approvedMsg === "Application Successfully Rejected !!"
+              ? "text-red-500" // Text color for rejected message
+              : "text-green-600" // Text color for other messages
+              }`}
+            >
               {approvedMsg}
             </h3>
             <button

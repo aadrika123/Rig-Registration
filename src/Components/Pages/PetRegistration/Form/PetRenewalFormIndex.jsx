@@ -175,7 +175,7 @@ const PetRenewalFormIndex = (props) => {
               <p className='text-red-500 text-xs'>{formik.touched.holdingNo && formik.errors.holdingNo ? formik.errors.holdingNo : null}</p>
             </div>
             <div className='m-3'>
-              <label className={style?.label} htmlFor="categoryApplication">Category of Application</label>
+              <label className={style?.label} htmlFor="categoryApplication">Application Type</label>
               <input disabled value={masterData?.application_type} type="text" name='holdingNo' className={style?.textFiled} />
               <p className='text-red-500 text-xs'>{formik.touched.categoryApplication && formik.errors.categoryApplication ? formik.errors.categoryApplication : null}</p>
             </div>

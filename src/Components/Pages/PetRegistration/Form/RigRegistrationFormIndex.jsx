@@ -12,7 +12,7 @@ import { toast } from "react-hot-toast";
 import ApiHeader2 from "@/Components/api/ApiHeader2";
 import useSetTitle from "@/Components/Common/useSetTitle";
 import { useNavigate } from "react-router-dom";
-import SuccessfulSubmitModal from "./SuccessfulSubmitModal";
+// import SuccessfulSubmitModal from "./SuccessfulSubmitModal";
 // import WaterApiList from "../../../Components/ApiList/WaterApiList";
 // import AxiosInterceptors from "../../../Components/GlobalData/AxiosInterceptors";
 // import PetRegAPIList from "../../../Components/ApiList/PetRegAPIList";
@@ -71,20 +71,20 @@ const RigRegistrationFormIndex = (props) => {
     // .required('Kindly enter a value.'),
 
     email: yup.string().email().required("Kindly enter a value."),
-    panNo: yup
-      .string()
-      .matches(/^[A-Za-z0-9]{10}$/, "Enter 10 Character PAN No.")
-      .required("Kindly enter a value."),
+    // panNo: yup
+    //   .string()
+    //   .matches(/^[A-Za-z0-9]{10}$/, "Enter 10 Character PAN No.")
+    //   .required("Kindly enter a value."),
     // address: yup.string().matches(/^[a-zA-Z0-9\s,.:-]+$/, 'Special characters are not allowed').required('Kindly enter a value.'),
 
-    driverName: yup
-      .string()
-      .matches(/^[a-zA-Z0-9\s,.:-]+$/, "Special characters are not allowed")
-      .required("Kindly enter a value."),
-    driverGender: yup.string().required("Kindly enter a value."),
-    driverBirthDate: yup.string().required("Kindly enter a value."),
+    // driverName: yup
+    //   .string()
+    //   .matches(/^[a-zA-Z0-9\s,.:-]+$/, "Special characters are not allowed")
+    //   .required("Kindly enter a value."),
+    // driverGender: yup.string().required("Kindly enter a value."),
+    // driverBirthDate: yup.string().required("Kindly enter a value."),
     vehicleComapny: yup.string().required("Kindly enter a value."),
-    vehicleFrom: yup.string().required("Kindly enter a value."),
+    // vehicleFrom: yup.string().required("Kindly enter a value."),
     fitness: yup.string().required("Kindly enter a value."),
     taxCopy: yup.string().required("Kindly enter a value."),
     license: yup.string().required("Kindly enter a value."),
@@ -95,22 +95,26 @@ const RigRegistrationFormIndex = (props) => {
     ulb: "",
     ulbId: "",
     applicantName: "",
-    // holdingNo: "",
     ownerCategory: "",
     ward: "",
     mobileNo: "",
     email: "",
-    panNo: "",
     address: "",
-    driverName: "",
-    driverGender: "",
-    driverBirthDate: "",
     vehicleComapny: "",
-    vehicleFrom: "",
     fitness: "",
     taxCopy: "",
     license: "",
     registrationNumber: "",
+
+    // driverName: "",
+    // driverGender: "",
+    // driverBirthDate: "",
+    // vehicleFrom: "",
+    // panNo: "",
+    // holdingNo: "",
+
+
+
   };
 
   let payloadFormData = new FormData();
@@ -152,7 +156,7 @@ const RigRegistrationFormIndex = (props) => {
   // ==== Formik End
 
   const submitForm = (data) => {
-    setFormSubmitting(true);
+    setLoader(true);
     const payload = {
       ulbId: data?.ulb,
       applicantName: data?.applicantName,
@@ -160,14 +164,17 @@ const RigRegistrationFormIndex = (props) => {
       ward: data?.ward,
       mobileNo: data?.mobileNo,
       email: data?.email,
-      panNo: data?.panNo,
       address: data?.address,
-      driverName: data?.driverName,
-      driverGender: data?.driverGender,
-      driverBirthDate: data?.driverBirthDate,
       vehicleComapny: data?.vehicleComapny,
-      vehicleFrom: data?.vehicleFrom,
       registrationNumber: data?.registrationNumber,
+
+      // driverName: data?.driverName,
+      // driverGender: data?.driverGender,
+      // driverBirthDate: data?.driverBirthDate,
+      // vehicleFrom: data?.vehicleFrom,
+      // panNo: data?.panNo,
+
+
     };
     console.log(payload, "payload====>>");
 
@@ -189,7 +196,7 @@ const RigRegistrationFormIndex = (props) => {
 
     AxiosInterceptors.post(api_RigRegistrationApplyForm, payloadFormData, ApiHeader2())
       .then((res) => {
-        setFormSubmitting(false);
+        setLoader(false);
         // setresponseScreen(response?.data);
         if (res.data.status) {
           toast.success(res?.data?.message, "success");
@@ -201,14 +208,15 @@ const RigRegistrationFormIndex = (props) => {
           });
         } else {
           toast.error(res?.data?.message, "error");
+          // toast.error("Something went wrong", "error");
           setErrorMessage(res?.data?.message);
           console.log("Failed to apply pet registration");
         }
       })
       .catch((err) => {
         setErrorMessage(err?.response?.data?.error);
-        toast.error("Something Went wrong", "error");
-        setFormSubmitting(false);
+        // toast.error("Something Went wrong", "error");
+        setLoader(false);
         console.log(
           "Error while applying for pet registration..",
           err?.response?.data?.error
@@ -378,7 +386,7 @@ const RigRegistrationFormIndex = (props) => {
           </div>
 
           <div className='bg-white shadow-md rounded-md py-2'>
-            <div className='grid grid-cols-1 md:grid-cols-4 '>
+            <div className='grid grid-cols-1 md:grid-cols-3 '>
               <div className='m-2'>
                 <label className={style?.label} htmlFor='applicantName'>
                   Name of Applicant<span className={style?.required}>*</span>
@@ -440,7 +448,7 @@ const RigRegistrationFormIndex = (props) => {
                     : null}
                 </p>
               </div>
-              <div className='m-2'>
+              {/* <div className='m-2'>
                 <label className={style?.label} htmlFor='panNo'>
                   PAN No.<span className={style?.required}>*</span>
                 </label>
@@ -456,7 +464,7 @@ const RigRegistrationFormIndex = (props) => {
                     ? formik.errors.panNo
                     : null}
                 </p>
-              </div>
+              </div> */}
             </div>
 
             <div className='m-3'>
@@ -484,9 +492,9 @@ const RigRegistrationFormIndex = (props) => {
               # Vehicle Details
             </div>
           </div>
+          <div className='grid grid-cols-1 md:grid-cols-3 bg-white shadow-md rounded-md py-2'>
 
-          <div className='grid grid-cols-1 md:grid-cols-4 bg-white shadow-md rounded-md py-2'>
-            <div className='m-3'>
+            {/*  <div className='m-3'>
               <label className={style?.label} htmlFor='driverName'>
                 Name of Driver<span className={style?.required}>*</span>
               </label>
@@ -540,31 +548,8 @@ const RigRegistrationFormIndex = (props) => {
                   ? formik.errors.driverBirthDate
                   : null}
               </p>
-            </div>
-            <div className='m-3'>
-              <label className={style?.label} htmlFor='vehicleComapny'>
-                VIN Number<span className={style?.required}>*</span>
-              </label>
-              <input
-                {...formik.getFieldProps("vehicleComapny")}
-                maxLength='17'
+            </div> */}
 
-                type='text'
-                name='vehicleComapny'
-                className={style?.textFiled}
-                onChange={(e) => {
-                  // Convert the input value to uppercase
-                  const upperCaseValue = e.target.value.toUpperCase();
-                  // Call formik's handleChange method with the transformed value
-                  formik.setFieldValue("vehicleComapny", upperCaseValue);
-                }}
-              />
-              <p className='text-red-500 text-xs'>
-                {formik.touched.vehicleComapny && formik.errors.vehicleComapny
-                  ? formik.errors.vehicleComapny
-                  : null}
-              </p>
-            </div>
             <div className='m-3'>
               <label className={style?.label} htmlFor='registrationNumber'>
                 Registration No.<span className={style?.required}>*</span>
@@ -590,6 +575,30 @@ const RigRegistrationFormIndex = (props) => {
               </p>
             </div>
             <div className='m-3'>
+              <label className={style?.label} htmlFor='vehicleComapny'>
+                VIN Number<span className={style?.required}>*</span>
+              </label>
+              <input
+                {...formik.getFieldProps("vehicleComapny")}
+                maxLength='17'
+
+                type='text'
+                name='vehicleComapny'
+                className={style?.textFiled}
+                onChange={(e) => {
+                  // Convert the input value to uppercase
+                  const upperCaseValue = e.target.value.toUpperCase();
+                  // Call formik's handleChange method with the transformed value
+                  formik.setFieldValue("vehicleComapny", upperCaseValue);
+                }}
+              />
+              <p className='text-red-500 text-xs'>
+                {formik.touched.vehicleComapny && formik.errors.vehicleComapny
+                  ? formik.errors.vehicleComapny
+                  : null}
+              </p>
+            </div>
+            {/* <div className='m-3'>
               <label className={style?.label} htmlFor='vehicleFrom'>
                 Vehicle From<span className={style?.required}>*</span>
               </label>
@@ -605,7 +614,7 @@ const RigRegistrationFormIndex = (props) => {
                   ? formik.errors.vehicleFrom
                   : null}
               </p>
-            </div>
+            </div> */}
             <div className='m-3'>
               <label className={style?.label} htmlFor='fitness'>
                 Fitness<span className={style?.required}>*</span>

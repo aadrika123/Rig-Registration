@@ -142,13 +142,13 @@ const ViewPetApplication = () => {
                                                 <div className='text-[#37517e]'>Ward No</div>
                                                 <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.ward_name ? applicationFullData?.ward_name : "N/A"}</div>
                                             </div>
-                                            <div className='flex-1 text-xs'>
+                                            {/* <div className='flex-1 text-xs'>
                                                 <div className='text-[#37517e]'>Apply Through</div>
                                                 <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.apply_through_name ? applicationFullData?.apply_through_name : "N/A"}</div>
-                                            </div>
+                                            </div> */}
 
                                             <div className='flex-1 text-xs'>
-                                                <div className='text-[#37517e]'>Category of Application</div>
+                                                <div className='text-[#37517e]'>Application Type</div>
                                                 <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.ref_application_type ? applicationFullData?.ref_application_type : "N/A"}</div>
                                             </div>
                                             {applicationFullData?.holding_no &&
@@ -197,7 +197,7 @@ const ViewPetApplication = () => {
                                 {loader ? <ShimmerEffectInline /> :
                                     <div className='mt-2 space-y-5'>
                                         <div className="flex space-x-10 pl-4 ">
-                                            <div className='flex-1 text-xs'>
+                                            {/* <div className='flex-1 text-xs'>
                                                 <div className='text-[#37517e]'>Name of Driver</div>
                                                 <div className='font-semibold text-sm text-[#37517e]'>{applicationFullData?.driver_name}</div>
                                             </div>
@@ -211,23 +211,24 @@ const ViewPetApplication = () => {
                                                     {applicationFullData?.dob}
 
                                                 </div>
-                                            </div>
+                                            </div> */}
                                             <div className='flex-1 text-xs'>
                                                 <div className='text-[#37517e]'>VIN Number</div>
                                                 <div className='font-bold text-sm text-[#37517e]'>
                                                     <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.vehicle_name}</div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div className="flex space-x-10 pl-4 ">
                                             <div className='flex-1 text-xs'>
                                                 <div className='text-[#37517e]'>Registration No.</div>
                                                 <div className='font-bold text-sm text-[#37517e]'>{nullToNA(applicationFullData?.vehicle_no)}</div>
                                             </div>
-                                            <div className='flex-1 text-xs'>
+                                        </div>
+                                        <div className="flex space-x-10 pl-4 ">
+
+                                            {/* <div className='flex-1 text-xs'>
                                                 <div className='text-[#37517e]'>Vehicle From</div>
                                                 <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.vehicle_from}</div>
-                                            </div>
+                                            </div> */}
 
                                             <div className='flex-1 text-xs'>
                                             </div>
@@ -311,7 +312,7 @@ const ViewPetApplication = () => {
                                                 {/* <th className="px-2 py-3 border-b border-gray-200 text-xs uppercase text-left">Father Name</th> */}
                                                 <th className="px-2 py-3 border-b border-gray-200 text-xs uppercase text-left">Mobile No.</th>
                                                 <th className="px-2 py-3 border-b border-gray-200 text-xs uppercase text-left">Email </th>
-                                                <th className="px-2 py-3 border-b border-gray-200 text-xs uppercase text-left">PAN No</th>
+                                                {/* <th className="px-2 py-3 border-b border-gray-200 text-xs uppercase text-left">PAN No</th> */}
                                             </tr>
                                         </thead>
                                         <tbody className="text-sm">
@@ -323,7 +324,7 @@ const ViewPetApplication = () => {
                                                     {/* <td className="px-2 py-2 text-sm text-left text-[#37517e]">{applicationFullData?.guardian_name ? applicationFullData?.guardian_name : "N/A"}</td> */}
                                                     <td className="px-2 py-2 text-sm text-left text-[#37517e]">{applicationFullData?.mobile_no ? applicationFullData?.mobile_no : "N/A"}</td>
                                                     <td className="px-2 py-2 text-sm text-left text-[#37517e]">{applicationFullData?.email ? applicationFullData?.email : "N/A"}</td>
-                                                    <td className="px-2 py-2 text-sm text-left text-[#37517e]">{applicationFullData?.pan_no ? applicationFullData?.pan_no : "N/A"}</td>
+                                                    {/* <td className="px-2 py-2 text-sm text-left text-[#37517e]">{applicationFullData?.pan_no ? applicationFullData?.pan_no : "N/A"}</td> */}
                                                 </tr>
                                                 {/* ))} */}
                                             </>
@@ -429,7 +430,7 @@ const ViewPetApplication = () => {
                             </button>
                         </div>
                         {/* Render the content based on document type */}
-                        {selectedDoc.path.endsWith(".pdf") ? ( 
+                        {selectedDoc.path.endsWith(".pdf") ? (
                             <iframe
                                 src={selectedDoc.path}
                                 className="w-full h-full"
