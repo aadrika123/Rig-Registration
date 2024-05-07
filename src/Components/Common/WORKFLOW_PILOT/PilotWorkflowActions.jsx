@@ -21,6 +21,8 @@ import { FiAlertCircle } from 'react-icons/fi'
 import BarLoader from "@/Components/Common/Loaders/BarLoader";
 import { nullToNA } from "@/Components/Common/PowerupFunctions";
 import { commonInputStyle, inputLabelStyle } from "./CommonTailwind";
+import AxiosInterceptors from "../AxiosInterceptors";
+import PetRegAPIList from "@/Components/api/PetRegAPIList";
 
 const customStyles = {
   content: {
@@ -55,7 +57,7 @@ function PilotWorkflowActions(props) {
   const [date, setDate] = useState('')
   const [place, setPlace] = useState('')
   const [hearing, setHearing] = useState(false)
-
+  const { api_sendToJSK } = PetRegAPIList();
   let prResponse // GLOBAL PROMISE FUNCTION VARIABLE
 
   function closeModal() {
@@ -131,6 +133,32 @@ function PilotWorkflowActions(props) {
       setHearing(true)
     }
   }, [props?.currentRoleId, props?.applicationData])
+
+
+  // send application to JSK 
+  const sendApplicationToJSK = () => {
+    setisLoading(true)
+    let requestbody = {
+      applicationId: props?.id,
+      comment: commentText,
+
+    }
+    AxiosInterceptors.post(api_sendToJSK, requestbody, header)
+    .then((res) => {
+      setisLoading(false)
+        if (res.data.status) {
+            // setDocDetails(res.data.data)
+            props.toast("Application Sent Back To JSK");
+        } else {
+            // setDocDetails(null)
+            console.log("Failed to fetch application data")
+        }
+    })
+    .catch((err) => {
+      setisLoading(false)
+        console.log("Error while getting application data")
+    })
+  }
 
   //{////********sending application to level*******//////}
   const sendApplicationToLevel = (e) => {
@@ -321,17 +349,17 @@ function PilotWorkflowActions(props) {
           props?.activateBottomErrorCard(true, response?.data?.message)
         }
         setisLoading(false)
-        
-        
+
+
       })
       .catch(function (error) {
         let msg
         if (escalateStatus == 1) {
-            msg = 'Something went wrong while escalting application. Please try again later.'
-          } 
-          else {
-            msg = 'Something went wrong while De-Ecalting application. Please try again later.'
-          }
+          msg = 'Something went wrong while escalting application. Please try again later.'
+        }
+        else {
+          msg = 'Something went wrong while De-Ecalting application. Please try again later.'
+        }
         // props?.activateBottomErrorCard(true, msg)
         setisLoading(false)
 
@@ -443,28 +471,28 @@ function PilotWorkflowActions(props) {
           props.showTabFun(false); //HIDING TABS
           props?.openModal(`Application has been approved ${nullToNA(response?.data?.data?.applicationNo) == "NA" ? `` : `with Registration No. ${response?.data?.data?.applicationNo} with Licence No.${response?.data?.data?.uniqueTokenId}`}`) // OPENING MODAL
         } else {
-          
+
           props?.activateBottomErrorCard(true, response?.data?.message)
- 
+
 
         }
         setisLoading(false)
 
 
       })
-      // .catch(function (error) {
-      //   console.log("errror ", error);
-      //   let msg
-      //     if (e.target.value == '1') {
-      //       msg = 'Something went wrong while approving application. Please try again later.'
-      //     } else {
-      //       msg = 'Something went wrong while rejecting application. Please try again later.'
-      //     }
-      //   props.toast("Oops! Something went wrong", 'error');
-      //   props?.activateBottomErrorCard(true, msg)
-      //   setisLoading(false)
+    // .catch(function (error) {
+    //   console.log("errror ", error);
+    //   let msg
+    //     if (e.target.value == '1') {
+    //       msg = 'Something went wrong while approving application. Please try again later.'
+    //     } else {
+    //       msg = 'Something went wrong while rejecting application. Please try again later.'
+    //     }
+    //   props.toast("Oops! Something went wrong", 'error');
+    //   props?.activateBottomErrorCard(true, msg)
+    //   setisLoading(false)
 
-      // });
+    // });
   };
   console.log("data at timeline .....", props?.id);
   console.log(
@@ -570,9 +598,9 @@ function PilotWorkflowActions(props) {
                     </select>
 
                   </div>
-                  {/* <div className="flex justify-center items-center">
-                    <button id="btn_independent_level" value={independentRoleId} onClick={sendApplicationToLevel} type="button" className="hover:scale-105 px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Send Application</button>
-                  </div> */}
+                  <div className="flex justify-center items-center">
+                    <button id="btn_independent_level" value={independentRoleId} onClick={sendApplicationToJSK} type="button" className="hover:scale-105 px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Send To JSK</button>
+                  </div>
                 </div>}
 
                 <div className="flex space-x-2">
@@ -600,7 +628,7 @@ function PilotWorkflowActions(props) {
                       </button>
                     </div>
                   }
-                 
+
                 </div>
                 {props?.permissions?.can_bt_da && (
                   <div className="flex-initial ">
@@ -727,7 +755,7 @@ function PilotWorkflowActions(props) {
             <svg class="w-5 h-5" fill="currentColor" ><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
           </button>
           <div class="p-6 flex flex-wrap gap-2 items-center">
-            
+
             <div className="flex flex-col gap-1 ">
               <label htmlFor="date" className={inputLabelStyle}>Hearing Date</label>
               <input onChange={(e) => setDate(e.target?.value)} className={commonInputStyle} type="date" name="" id="" />

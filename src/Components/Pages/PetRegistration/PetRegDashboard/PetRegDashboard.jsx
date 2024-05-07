@@ -92,7 +92,7 @@ const pendingDatas = landingDashboardData?.pendingApplicationCount?.total_pendin
                 heading={"Rig Home Page"}
                 subHeading={"Verified Account"}
                 changePasswordLink={'/change-password'}
-                mainWorkflowLink={'/rig-workflow'}
+                // mainWorkflowLink={'/rig-workflow'}
                 applyLink={'/rig-registration-form'}
                 // applyLink={'/rig-registration-form'}
             />

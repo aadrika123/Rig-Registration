@@ -21,6 +21,7 @@ function PetRegWorkflowEntry() {
     const petInbox = `${ServerUrl}/api/rig/inbox` //Pet Inbox
     const petOutbox = `${ServerUrl}/api/rig/outbox` //Pet Inbox
     const petSpecial = `${ServerUrl}/api/rig/special-inbox` //Pet Inbox
+    const rigBtc = `${ServerUrl}/api/rig/back-to-jsk-list` //Pet Inbox
     const petPostNextLevel = `${ServerUrl}/api/rig/post-next-level` //Pet Post Next Level
     const petEscalateNextLevel = `${ServerUrl}/api/rig/escalate` //Pet Escalate Next Level
     const petDocVerifyReject = `${ServerUrl}/api/rig/doc-verify-reject` //Pet Document Verify
@@ -44,7 +45,7 @@ function PetRegWorkflowEntry() {
             // 3 - API TO FETCH SPECIAL LIST
             api_specialList: { method: 'post', url: petSpecial },
             // 4 - API TO FETCH BACK TO CITIZEN LIST
-            apt_btcList: { method: 'post', url: "" },
+            apt_btcList: { method: 'post', url: rigBtc },
             // 5 - API TO FETCH FIELD VERIFICATION LIST
             // api_fieldVerificationList: , // ------not done
             api_fieldVerificationList: { method: 'post', url: api_fieldVerificationList },
