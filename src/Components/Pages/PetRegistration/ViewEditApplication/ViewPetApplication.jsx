@@ -295,15 +295,15 @@ const ViewPetApplication = () => {
                         <button className="border px-3 py-1 rounded shadow border-orange-500 hover:bg-orange-500 hover:text-white text-orange-500 whitespace-nowrap" onClick={() => navigate(`/rig-license-details/${applicationFullData?.application_id}`)}>Print License</button>
                     </div>
                 }
-                {/* Pet  details */}
-                {
-                                    applicationFullData?.payment_status == 0 && applicationFullData?.application_type == "New_Apply" ?
-                                        <div className='space-x-5 flex justify-end'>
-                                            <button className='bg-sky-600 hover:bg-sky-500 text-white px-5 py-1 rounded shadow flex justify-end ' onClick={openDialogModal2}>Edit Application</button>
-                                            {/* <button onClick={() => handleDeleteApplication({ "application_no": applicationFullData?.application_no, "id": applicationFullData?.id })} type='button' className='bg-red-600 hover:bg-red-500 text-white px-5 py-1 rounded shadow'>Delete Application</button> */}
+                {/* Rig edit  details */}
+                {/* {
+                    applicationFullData?.payment_status == 0 && applicationFullData?.application_type == "New_Apply" ?
+                        <div className='space-x-5 flex justify-end'>
+                            <button className='bg-sky-600 hover:bg-sky-500 text-white px-5 py-1 rounded shadow flex justify-end ' onClick={openDialogModal2}>Edit Application</button>
+                            <button onClick={() => handleDeleteApplication({ "application_no": applicationFullData?.application_no, "id": applicationFullData?.id })} type='button' className='bg-red-600 hover:bg-red-500 text-white px-5 py-1 rounded shadow'>Delete Application</button>
 
-                                        </div> : ""
-                                }
+                        </div> : ""
+                } */}
 
             </div>
             <div className="grid grid-cols-12 mb-20">
@@ -374,7 +374,7 @@ const ViewPetApplication = () => {
                             {/* Pet  details */}
                             <div className='bg-white shadow-xl p-4 border border-gray-200 my-3'>
                                 <h1 className='px-1 font-semibold font-serif text-xs mt-2 text-[#37517e]'><img src={petIcon} alt="Pet Detail" className='w-5 inline text-[#37517e]' /> Vehicle Details</h1>
-                               
+
                                 {loader ? <ShimmerEffectInline /> :
                                     <div className='mt-2 space-y-5'>
                                         <div className="flex space-x-10 pl-4 ">

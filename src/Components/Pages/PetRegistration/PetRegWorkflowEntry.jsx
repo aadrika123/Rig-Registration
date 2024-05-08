@@ -19,6 +19,7 @@ function PetRegWorkflowEntry() {
     const ServerUrl = BackendUrl
 
     const petInbox = `${ServerUrl}/api/rig/inbox` //Pet Inbox
+    const rigBtJsk = `${ServerUrl}/api/rig/inbox` //Pet Inbox
     const petOutbox = `${ServerUrl}/api/rig/outbox` //Pet Inbox
     const petSpecial = `${ServerUrl}/api/rig/special-inbox` //Pet Inbox
     const rigBtc = `${ServerUrl}/api/rig/back-to-jsk-list` //Pet Inbox
@@ -46,6 +47,8 @@ function PetRegWorkflowEntry() {
             api_specialList: { method: 'post', url: petSpecial },
             // 4 - API TO FETCH BACK TO CITIZEN LIST
             apt_btcList: { method: 'post', url: rigBtc },
+            //back to jsk 
+            apt_btjskList: { method: 'post', url: rigBtJsk },
             // 5 - API TO FETCH FIELD VERIFICATION LIST
             // api_fieldVerificationList: , // ------not done
             api_fieldVerificationList: { method: 'post', url: api_fieldVerificationList },

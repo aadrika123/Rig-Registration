@@ -150,8 +150,8 @@ const SearchApprovedPetApplication = (props) => {
                                         <option value="applicationNo">Application No</option>
                                         <option value="applicantName">Applicant Name</option>
                                         <option value="mobileNo">Mobile No</option>
-                                        <option value="safNo">SAF No</option>
-                                        <option value="holdingNo">Holding No</option>
+                                        {/* <option value="safNo">SAF No</option>
+                                        <option value="holdingNo">Holding No</option> */}
                                     </select>
                             </div>
                             <div className='w-full md:w-[25%]'>

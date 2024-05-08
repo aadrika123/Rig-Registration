@@ -63,6 +63,7 @@ export default function PetRegAPIList() {
         api_petDashboardDetails: `${baseUrl}/api/rig/application/dashboard-details`,
         docReUpload: `${baseUrl}/api/rig/application/reupload-document`,
         api_sendToJSK: `${baseUrl}/api/rig/back-to-citizen`,
+        api_collectionReport: `${baseUrl}/api/rig/application/collection-report`,
 
         
     }
