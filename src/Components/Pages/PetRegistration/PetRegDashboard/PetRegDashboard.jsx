@@ -181,7 +181,7 @@ const pendingDatas = landingDashboardData?.pendingApplicationCount?.total_pendin
                                                     <td className="px-2 py-2 text-sm text-left">{indianDate(data?.application_apply_date)}</td>
 
                                                     <td className="px-2 py-2 text-sm text-left">
-                                                        <button onClick={() => Navigate(`/viewApprovedApplication/${data?.id}`)} type="button" className="cypress_owner_add_update px-4 py-2 border border-indigo-500 text-indigo-500 font-medium text-xs leading-tight capitalize rounded shadow-xl hover:bg-indigo-700 hover:text-white hover:shadow-lg  active:shadow-lg transition duration-150 ease-in-out cursor-pointer">View</button>
+                                                        <button onClick={() => Navigate(`/viewRigApplication/${data?.id}`)} type="button" className="cypress_owner_add_update px-4 py-2 border border-indigo-500 text-indigo-500 font-medium text-xs leading-tight capitalize rounded shadow-xl hover:bg-indigo-700 hover:text-white hover:shadow-lg  active:shadow-lg transition duration-150 ease-in-out cursor-pointer">View</button>
                                                         {/* <button  type="button" className="cypress_owner_add_update px-4 py-2 border border-indigo-500 text-indigo-500 font-medium text-xs leading-tight capitalize rounded shadow-xl hover:bg-indigo-700 hover:text-white hover:shadow-lg  active:shadow-lg transition duration-150 ease-in-out cursor-pointer">View</button> */}
                                                     </td>
                                                 </tr>
