@@ -33,7 +33,7 @@ function PilotWorkflowIndex(props) {
     { title: "Inbox", tabIndex: 0 },
     // { title: "Outbox", tabIndex: 1 },
     // { title: "Special", tabIndex: 2 },
-    { title: "BTJSK List", tabIndex: 3 },
+    { title: "BTC List", tabIndex: 3 },
     // { title: "Field Verified List", tabIndex: 4 },
   ]);
 
