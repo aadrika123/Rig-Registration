@@ -132,6 +132,11 @@ const SearchPetApplicationForm = (props) => {
             Cell: ({ value }) => { return format(new Date(value), 'dd-MM-yyyy') }
         },
         {
+            Header: "Applied By",
+            accessor: "user_type",
+            // Cell: ({ value }) => { return format(new Date(value), 'dd-MM-yyyy') }
+        },
+        {
             Header: "Payment Status",
             accessor: "payment_status",
             // Define a custom cell renderer for the Payment Status column

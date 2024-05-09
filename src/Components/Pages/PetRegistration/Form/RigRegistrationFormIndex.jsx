@@ -617,7 +617,7 @@ const RigRegistrationFormIndex = (props) => {
             </div> */}
             <div className='m-3'>
               <label className={style?.label} htmlFor='fitness'>
-                Fitness<span className={style?.required}>*</span>
+              Pollution Certificate<span className={style?.required}>*</span>
               </label>
               <input
                 {...formik.getFieldProps("fitness")}

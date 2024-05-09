@@ -124,6 +124,10 @@ const ApprovedPetApplication = (props) => {
             accessor: "application_type",
         },
         {
+            Header: "APPLIED BY",
+            accessor: "user_type",
+        },
+        {
             Header: "Applied Date",
             accessor: "application_apply_date",
             Cell: ({ value }) => { return format(new Date(value), 'dd-MM-yyyy') }

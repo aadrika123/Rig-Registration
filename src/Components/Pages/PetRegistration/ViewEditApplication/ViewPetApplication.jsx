@@ -290,7 +290,7 @@ const ViewPetApplication = () => {
                 {applicationFullData?.payment_status == 0 ? <p className="text-xl font-serif">Your application is under : <span className="font-semibold text-orange-700">{applicationFullData?.roleName}</span></p> : <>{applicationFullData?.payment_status == 2 ? <p className="text-xl font-serif"> Your application payment is under : <span className="font-semibold">verification</span></p> : ''}</>}
                 <p className="text-xl font-serif">Application No : <span className="font-semibold text-blue-700">{applicationFullData?.application_no}</span></p>
                 {/* <button onClick={() => navigate(-1)} className={`font-semibold md:text-base text-xs bg-indigo-500 text-white border border-indigo-500  px-4 py-1 shadow-lg hover:scale-105 rounded-sm`} >Back</button> */}
-                {applicationFullData?.payment_status == 1 && applicationFullData?.registrationStatus == 1 &&
+                {applicationFullData?.payment_status == 1 && applicationFullData?.registrationStatus == 2 &&
                     <div className='font-semibold text-lg text-[#37517e]'>
                         <button className="border px-3 py-1 rounded shadow border-orange-500 hover:bg-orange-500 hover:text-white text-orange-500 whitespace-nowrap" onClick={() => navigate(`/rig-license-details/${applicationFullData?.application_id}`)}>Print License</button>
                     </div>

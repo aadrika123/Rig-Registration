@@ -160,12 +160,12 @@ const ViewRejectApplication = () => {
                                             <div className='flex-1 text-xs'>
                                                 <div className='text-[#37517e]'>VIN Number</div>
                                                 <div className='font-bold text-sm text-[#37517e]'>
-                                                    <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.dob ? moment(applicationFullData.dob).format('DD-MM-Y') : "N/A"}</div>
+                                                    <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.vehicle_name }</div>
                                                 </div>
                                             </div>
                                             <div className='flex-1 text-xs'>
                                                 <div className='text-[#37517e]'>Registration No.</div>
-                                                <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.breed ? applicationFullData?.breed : "N/A"}</div>
+                                                <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.vehicle_no}</div>
                                             </div>
                                         </div>
                                         <div className="flex space-x-10 pl-4 ">

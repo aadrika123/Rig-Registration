@@ -30,6 +30,7 @@ function PetRegWorkflowEntry() {
     const petDocUpload = `${ServerUrl}/api/rig/application/upload-docs`
     const petDocShowOnDocUpload = `${ServerUrl}/api/rig/application/get-doc-to-upload`
     const petFinalVerifyReject = `${ServerUrl}/api/rig/final-verify-reject`
+    const backToCitizen = `${ServerUrl}/api/rig/back-to-citizen`
 
     const petWorkflowApplicationDetails = `${ServerUrl}/api/rig/application/get-wf-detials`
 
@@ -63,7 +64,7 @@ function PetRegWorkflowEntry() {
             // 10 - API TO ESACALATE OR DEESCALATE
             api_escalate: { method: 'post', url: petEscalateNextLevel },
             // 11 - API TO SEND BACK TO CITIZEN
-            api_btc: { method: 'post', url: "" },
+            api_btc: { method: 'post', url: backToCitizen },
             // 12 - API TO APPROVE OR REJECT
             api_approveReject: { method: 'post', url: petFinalVerifyReject },
             // 13 - API TO post DEPARTMENTAL COMMUNICATION DATA
