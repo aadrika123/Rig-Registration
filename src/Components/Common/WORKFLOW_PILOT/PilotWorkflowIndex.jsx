@@ -17,7 +17,7 @@ import useSetTitle from "../useSetTitle";
 
 
 function PilotWorkflowIndex(props) {
-  useSetTitle("Pet Workflow")
+  useSetTitle("Rig Workflow")
   const [isLoading, setisLoading] = useState(false)
   const [isError, setisError] = useState(false)
   const [workflowInfo, setworkflowInfo] = useState()
