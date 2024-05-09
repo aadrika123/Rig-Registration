@@ -99,6 +99,11 @@ const CollectionReport = () => {
             className: ''
         },
         {
+            Header: "Tran. No.",
+            accessor: "tran_no",
+            // Cell: (props) => { return indianDate(props?.value) }
+        },
+        {
             Header: "Tran. Date",
             accessor: "tran_date",
             Cell: (props) => { return indianDate(props?.value) }

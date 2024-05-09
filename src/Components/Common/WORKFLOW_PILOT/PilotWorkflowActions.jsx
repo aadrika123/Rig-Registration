@@ -598,9 +598,9 @@ function PilotWorkflowActions(props) {
                     </select>
 
                   </div>
-                  <div className="flex justify-center items-center">
+                  {/* <div className="flex justify-center items-center">
                     <button id="btn_independent_level" value={independentRoleId} onClick={sendApplicationToJSK} type="button" className="hover:scale-105 px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Send To JSK</button>
-                  </div>
+                  </div> */}
                 </div>}
 
                 <div className="flex space-x-2">
