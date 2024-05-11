@@ -101,6 +101,10 @@ function PetRegWorkflowEntry() {
                 accessor: "application_no",
             },
             {
+                Header: "Applied By",
+                accessor: "user_type",
+            },
+            {
                 Header: "Applicant Name",
                 accessor: "owner_name",
             },

@@ -30,7 +30,7 @@ export default function PetRegAPIList() {
 
         api_PetRegistrationMaster: `${baseUrl}/api/rig/get-master-data`,
         api_PetRegistrationApplyForm: `${baseUrl}/api/rig/application/apply-rig-registration`,
-        api_PetApplyRenewalForm: `${baseUrl}/api/rig/registration/apply-renewal`,
+        api_RigApplyRenewalForm: `${baseUrl}/api/rig/registration/apply-renewal`,
         api_PetRegistrationDocUploadList: `${baseUrl}/api/rig/application/get-doc-to-upload`,
         api_PetRegistrationList: `${baseUrl}/api/rig/application/get-registration-list`,
 

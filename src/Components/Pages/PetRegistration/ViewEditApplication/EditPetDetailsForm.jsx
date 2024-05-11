@@ -43,12 +43,21 @@ const EditPetDetailsForm = (props) => {
     const [licenseImage, setLicenseImage] = useState();
     const [responseScreen, setresponseScreen] = useState();
 
+
+
+    console.log("editPetData", props?.editPetData)
+    console.log("applicationFullData", props?.applicationFullData)
+
+    const applicationFullData = props?.applicationFullData;
+    console.log("applicationFullData", applicationFullData)
+
     // const { api_ulbList, header, api_wardList } = WaterApiList();
     useSetTitle("Search Application")
     const {
         api_RigRegistrationApplyForm,
         api_PetRegistrationMaster,
         api_ListOfSafHolding,
+        api_peteditdetails,
         api_getUserDetailsByHoldingSaf,
         header1, api_ulbList, header, api_wardList
     } = PetRegAPIList();
@@ -64,26 +73,8 @@ const EditPetDetailsForm = (props) => {
             .required("Kindly enter a value."),
         ownerCategory: yup.string().required("Kindly enter a value."),
         ward: yup.string().required("Kindly enter a value."),
-
-        // mobileNo: yup.string()
-        // .matches(/^[0-9]{10}$/, 'Mobile number must be exactly 10 digits.')
-        // .required('Kindly enter a value.'),
-
         email: yup.string().email().required("Kindly enter a value."),
-        // panNo: yup
-        //   .string()
-        //   .matches(/^[A-Za-z0-9]{10}$/, "Enter 10 Character PAN No.")
-        //   .required("Kindly enter a value."),
-        // address: yup.string().matches(/^[a-zA-Z0-9\s,.:-]+$/, 'Special characters are not allowed').required('Kindly enter a value.'),
-
-        // driverName: yup
-        //   .string()
-        //   .matches(/^[a-zA-Z0-9\s,.:-]+$/, "Special characters are not allowed")
-        //   .required("Kindly enter a value."),
-        // driverGender: yup.string().required("Kindly enter a value."),
-        // driverBirthDate: yup.string().required("Kindly enter a value."),
         vehicleComapny: yup.string().required("Kindly enter a value."),
-        // vehicleFrom: yup.string().required("Kindly enter a value."),
         fitness: yup.string().required("Kindly enter a value."),
         taxCopy: yup.string().required("Kindly enter a value."),
         license: yup.string().required("Kindly enter a value."),
@@ -91,35 +82,28 @@ const EditPetDetailsForm = (props) => {
     });
 
     const initialValues = {
-        ulb: "",
-        ulbId: "",
-        applicantName: "",
-        ownerCategory: "",
-        ward: "",
-        mobileNo: "",
-        email: "",
-        address: "",
-        vehicleComapny: "",
+        ulbId: applicationFullData?.ulb_id,
+        applicantName: applicationFullData?.applicant_name,
+        ownerCategory: applicationFullData?.owner_type,
+        ward: applicationFullData?.ward_id,
+        mobileNo: applicationFullData?.mobile_no,
+        email: applicationFullData?.email,
+        address: applicationFullData?.address,
+        vehicleComapny: applicationFullData?.vehicle_name,
+        registrationNumber: applicationFullData?.vehicle_no,
         fitness: "",
         taxCopy: "",
         license: "",
-        registrationNumber: "",
-
-        // driverName: "",
-        // driverGender: "",
-        // driverBirthDate: "",
-        // vehicleFrom: "",
-        // panNo: "",
-        // holdingNo: "",
-
-
+        // registrationNumber: "",
 
     };
+    console.log("object", initialValues)
 
     let payloadFormData = new FormData();
 
     const formik = useFormik({
         initialValues: initialValues,
+
         enableReinitialize: true,
         onSubmit: (values, resetForm) => {
             console.log("clicked");
@@ -155,9 +139,10 @@ const EditPetDetailsForm = (props) => {
     // ==== Formik End
 
     const submitForm = (data) => {
+        console.log(data, "payload====>>");
         setLoader(true);
         const payload = {
-            ulbId: data?.ulb,
+            ulbId: data?.ulbId,
             applicantName: data?.applicantName,
             ownerCategory: data?.ownerCategory,
             ward: data?.ward,
@@ -167,14 +152,8 @@ const EditPetDetailsForm = (props) => {
             vehicleComapny: data?.vehicleComapny,
             registrationNumber: data?.registrationNumber,
 
-            // driverName: data?.driverName,
-            // driverGender: data?.driverGender,
-            // driverBirthDate: data?.driverBirthDate,
-            // vehicleFrom: data?.vehicleFrom,
-            // panNo: data?.panNo,
-
-
         };
+
         console.log(payload, "payload====>>");
 
         for (let key in payload) {
@@ -193,7 +172,7 @@ const EditPetDetailsForm = (props) => {
         payloadFormData.append("documents[2][docCode]", "LICENSE");
         payloadFormData.append("documents[2][ownerDtlId]", "");
 
-        AxiosInterceptors.post(api_RigRegistrationApplyForm, payloadFormData, ApiHeader2())
+        AxiosInterceptors.post(api_peteditdetails, payloadFormData, ApiHeader2())
             .then((res) => {
                 setLoader(false);
                 // setresponseScreen(response?.data);
@@ -273,7 +252,7 @@ const EditPetDetailsForm = (props) => {
                 console.log("Error while getting Ward list");
             });
     }, [formik.values.ulb]);
- 
+
 
     // if (responseScreen?.status == true) {
     //   return (
@@ -302,16 +281,15 @@ const EditPetDetailsForm = (props) => {
                         <div className='text-lg text-left text-gray-600 font-semibold'>
                             # Property Details
                         </div>
-                        {/* <p className='border-b border-gray-500'></p> */}
                     </div>
-
                     <div className='grid grid-cols-1 md:grid-cols-3 bg-white shadow-md rounded-md py-2'>
                         <div className='m-2'>
                             <label className={style?.label} htmlFor='ulb'>
                                 Select ULB <span className={style?.required}>*</span>
                             </label>
                             <select
-                                {...formik.getFieldProps("ulb")}
+                                // value={applicationFullData?.ulb_id}
+                                {...formik.getFieldProps("ulbId")}
                                 name='ulb'
                                 className={style?.textFiled}
                             >
@@ -381,7 +359,6 @@ const EditPetDetailsForm = (props) => {
                         <div className='text-lg text-left text-gray-600 font-semibold'>
                             # Applicant Details
                         </div>
-                        {/* <p className='border-b border-gray-500'></p> */}
                     </div>
 
                     <div className='bg-white shadow-md rounded-md py-2'>
@@ -391,8 +368,9 @@ const EditPetDetailsForm = (props) => {
                                     Name of Applicant<span className={style?.required}>*</span>
                                 </label>
                                 <input
-                                    //   disabled={formik.values.ownerCategory != 2}
+                                    value={applicationFullData?.applicant_name}
                                     {...formik.getFieldProps("applicantName")}
+
                                     maxLength='70'
                                     type='text'
                                     name='applicantName'
@@ -409,8 +387,9 @@ const EditPetDetailsForm = (props) => {
                                     Mobile No<span className={style?.required}>*</span>
                                 </label>
                                 <input
-                                    //   disabled={formik.values.ownerCategory != 2}
+                                    value={applicationFullData?.mobile_no}
                                     {...formik.getFieldProps("mobileNo")}
+
                                     type='text'
                                     maxLength={10}
                                     name='mobileNo'
@@ -435,6 +414,7 @@ const EditPetDetailsForm = (props) => {
                                     Email
                                 </label>
                                 <input
+                                    // value={applicationFullData.email}
                                     {...formik.getFieldProps("email")}
                                     type='email'
                                     maxLength='70'
@@ -447,23 +427,6 @@ const EditPetDetailsForm = (props) => {
                                         : null}
                                 </p>
                             </div>
-                            {/* <div className='m-2'>
-                  <label className={style?.label} htmlFor='panNo'>
-                    PAN No.<span className={style?.required}>*</span>
-                  </label>
-                  <input
-                    {...formik.getFieldProps("panNo")}
-                    maxLength='10'
-                    type='text'
-                    name='panNo'
-                    className={style?.textFiled}
-                  />
-                  <p className='text-red-500 text-xs'>
-                    {formik.touched.panNo && formik.errors.panNo
-                      ? formik.errors.panNo
-                      : null}
-                  </p>
-                </div> */}
                         </div>
 
                         <div className='m-3'>
@@ -485,84 +448,25 @@ const EditPetDetailsForm = (props) => {
                             </p>
                         </div>
                     </div>
-
                     <div className='col-span-12 ml-2 my-2'>
                         <div className='text-lg text-left text-gray-600 font-semibold'>
                             # Vehicle Details
                         </div>
                     </div>
                     <div className='grid grid-cols-1 md:grid-cols-3 bg-white shadow-md rounded-md py-2'>
-
-                        {/*  <div className='m-3'>
-                <label className={style?.label} htmlFor='driverName'>
-                  Name of Driver<span className={style?.required}>*</span>
-                </label>
-                <input
-                  {...formik.getFieldProps("driverName")}
-                  maxLength='50'
-                  type='text'
-                  name='driverName'
-                  className={style?.textFiled}
-                />
-                <p className='text-red-500 text-xs'>
-                  {formik.touched.driverName && formik.errors.driverName
-                    ? formik.errors.driverName
-                    : null}
-                </p>
-              </div>
-              <div className='m-3'>
-                <label className={style?.label} htmlFor='driverGender'>
-                  Gender<span className={style?.required}>*</span>
-                </label>
-                <select
-                  {...formik.getFieldProps("driverGender")}
-                  type='text'
-                  name='driverGender'
-                  className={style?.textFiled}
-                >
-                  <option value=''>Select</option>
-                  <option value='1'>Male</option>
-                  <option value='2'>Female</option>
-                  <option value='3'>Others</option>
-                </select>
-                <p className='text-red-500 text-xs'>
-                  {formik.touched.driverGender && formik.errors.driverGender
-                    ? formik.errors.driverGender
-                    : null}
-                </p>
-              </div>
-              <div className='m-3'>
-                <label className={style?.label} htmlFor='driverBirthDate'>
-                  Date of Birth<span className={style?.required}>*</span>
-                </label>
-                <input
-                  {...formik.getFieldProps("driverBirthDate")}
-                  type='date'
-                  name='driverBirthDate'
-                  max={new Date().toISOString().split("T")[0]}
-                  className={style?.textFiled}
-                />
-                <p className='text-red-500 text-xs'>
-                  {formik.touched.driverBirthDate && formik.errors.driverBirthDate
-                    ? formik.errors.driverBirthDate
-                    : null}
-                </p>
-              </div> */}
-
                         <div className='m-3'>
                             <label className={style?.label} htmlFor='registrationNumber'>
                                 Registration No.<span className={style?.required}>*</span>
                             </label>
                             <input
+                                // value={applicationFullData?.vehicle_no}
                                 {...formik.getFieldProps("registrationNumber")}
                                 maxLength='10'
                                 type='text'
                                 name='registrationNumber'
                                 className={style?.textFiled}
                                 onChange={(e) => {
-                                    // Convert the input value to uppercase
                                     const upperCaseValue = e.target.value.toUpperCase();
-                                    // Call formik's handleChange method with the transformed value
                                     formik.setFieldValue("registrationNumber", upperCaseValue);
                                 }}
                             />
@@ -585,9 +489,7 @@ const EditPetDetailsForm = (props) => {
                                 name='vehicleComapny'
                                 className={style?.textFiled}
                                 onChange={(e) => {
-                                    // Convert the input value to uppercase
                                     const upperCaseValue = e.target.value.toUpperCase();
-                                    // Call formik's handleChange method with the transformed value
                                     formik.setFieldValue("vehicleComapny", upperCaseValue);
                                 }}
                             />
@@ -597,23 +499,6 @@ const EditPetDetailsForm = (props) => {
                                     : null}
                             </p>
                         </div>
-                        {/* <div className='m-3'>
-                <label className={style?.label} htmlFor='vehicleFrom'>
-                  Vehicle From<span className={style?.required}>*</span>
-                </label>
-                <input
-                  {...formik.getFieldProps("vehicleFrom")}
-                  maxLength='50'
-                  type='text'
-                  name='vehicleFrom'
-                  className={style?.textFiled}
-                />
-                <p className='text-red-500 text-xs'>
-                  {formik.touched.vehicleFrom && formik.errors.vehicleFrom
-                    ? formik.errors.vehicleFrom
-                    : null}
-                </p>
-              </div> */}
                         <div className='m-3'>
                             <label className={style?.label} htmlFor='fitness'>
                                 Fitness<span className={style?.required}>*</span>
@@ -667,7 +552,6 @@ const EditPetDetailsForm = (props) => {
                         </div>
                     </div>
                 </div>
-
                 <p
                     className='flex mt-3 gap-x-3'
                     onClick={() => setIsChecked(!isChecked)}
@@ -684,7 +568,6 @@ const EditPetDetailsForm = (props) => {
                         conditions.
                     </p>
                 </p>
-
                 <p className='text-red-500 font-semibold text-center mt-3'>
                     {errorMessage && errorMessage}
                 </p>

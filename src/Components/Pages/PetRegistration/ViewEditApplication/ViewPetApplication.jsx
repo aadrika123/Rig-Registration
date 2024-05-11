@@ -296,15 +296,20 @@ const ViewPetApplication = () => {
                     </div>
                 }
                 {/* Rig edit  details */}
-                {/* {
+                {
                     applicationFullData?.payment_status == 0 && applicationFullData?.application_type == "New_Apply" ?
                         <div className='space-x-5 flex justify-end'>
                             <button className='bg-sky-600 hover:bg-sky-500 text-white px-5 py-1 rounded shadow flex justify-end ' onClick={openDialogModal2}>Edit Application</button>
-                            <button onClick={() => handleDeleteApplication({ "application_no": applicationFullData?.application_no, "id": applicationFullData?.id })} type='button' className='bg-red-600 hover:bg-red-500 text-white px-5 py-1 rounded shadow'>Delete Application</button>
+
+                            {/* <button onClick={() => handleDeleteApplication({ "application_no": applicationFullData?.application_no, "id": applicationFullData?.id })} type='button' className='bg-red-600 hover:bg-red-500 text-white px-5 py-1 rounded shadow'>Delete Application</button> */}
 
                         </div> : ""
-                } */}
-
+                }
+                {applicationFullData?.payment_status == 1 && applicationFullData?.registrationStatus == 2 &&
+                    <div className='space-x-5 text-right px-4'>
+                        <button className={`font-semibold md:text-base text-xs bg-indigo-500 text-white border border-indigo-500  px-4 py-1 shadow-lg hover:scale-105 rounded-sm`} onClick={() => navigate(`/rig-renewal/${id}`)}> Apply Renewal</button>
+                    </div>
+                }
             </div>
             <div className="grid grid-cols-12 mb-20">
                 {/* <BreadCrumb title="abc" /> */}
@@ -601,7 +606,7 @@ const ViewPetApplication = () => {
                     }
                 </div>
             </div >
-            <dialog ref={editPetApplicationRef2}>
+            <dialog ref={editPetApplicationRef2}> 
                 <div className='float-right p-2'>
                     <p className='bg-red-600 rounded-full px-3 py-1 cursor-pointer text-white font-semibold' onClick={closeDialogModal2}>
                         x
