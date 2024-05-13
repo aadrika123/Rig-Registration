@@ -81,9 +81,9 @@ const ViewApprovedApplication = () => {
         <>
             <div className="flex justify-between">
                 <p className="text-xl">Application No : <span className="font-semibold">{applicationFullData?.application_no}</span></p>
-                {/* {applicationFullData?.viewRenewalButton == true ? <div className='space-x-5'>
+                {applicationFullData?.isRenewal == true ? <div className='space-x-5'>
                     <button className={`font-semibold md:text-base text-xs bg-indigo-500 text-white border border-indigo-500  px-4 py-1 shadow-lg hover:scale-105 rounded-sm`} onClick={() => navigate(`/rig-renewal/${id}`)}>Renewal</button>
-                </div> : ''} */}
+                </div> : ''}
             </div>
             {applicationFullData?.payment_status == 1 && applicationFullData?.registrationStatus == 1 &&
                 <div className='font-semibold text-lg text-[#37517e]'>
