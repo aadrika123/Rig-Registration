@@ -259,7 +259,7 @@ export default function PilotWorkflowTabs(props) {
                 <span className={`${activeTab == 4 ? 'after:bg-blue-500 after:h-5 after:w-5 after:absolute after:rotate-45 after:right-[35%] after:bottom-[-50%]' : ''}`}></span>
                 <span>Verify Documents</span></div>}
 
-              {(props?.boxType == 'inbox' || props?.boxType == 'btcbox') && <div onClick={() => changeTabFun(2)} className={`pb-3 flex-initial cursor-pointer ${activeTab == 2 ? 'relative text-blue-500' : 'no-underline border-none'} overflow-clip`}>
+              {(props?.boxType == 'inbox' ) && <div onClick={() => changeTabFun(2)} className={`pb-3 flex-initial cursor-pointer ${activeTab == 2 ? 'relative text-blue-500' : 'no-underline border-none'} overflow-clip`}>
                 <span className={`${activeTab == 2 ? 'after:bg-blue-500 after:h-5 after:w-5 after:absolute after:rotate-45 after:right-[35%] after:bottom-[-50%]' : ''}`}></span>
                 <span>Action</span></div>}
 

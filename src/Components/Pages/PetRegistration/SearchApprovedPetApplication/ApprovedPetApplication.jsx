@@ -13,17 +13,17 @@ import { RiFilter2Line } from "react-icons/ri";
 // Component for  approved pet applications
 const ApprovedPetApplication = (props) => {
 
-// Hook to set the title of the page
+    // Hook to set the title of the page
     useSetTitle("Approved Application")
 
     // State variables for managing searching, data, and pagination
     const [searchingData, setSearchingData] = useState(false)
     const [data, setData] = useState(false)
 
-// API endpoints for fetching approved pet application details
+    // API endpoints for fetching approved pet application details
     const { api_ApprovedPetApplication } = PetRegAPIList()
 
-// Hook for  navigation 
+    // Hook for  navigation 
     const navigate = useNavigate()
 
     // States Used for Pagination of Search Pet Applications
@@ -121,7 +121,11 @@ const ApprovedPetApplication = (props) => {
         },
         {
             Header: "Type",
-            accessor: "application_type",
+            accessor: "ref_application_type",
+        },
+        {
+            Header: "APPLIED BY",
+            accessor: "user_type",
         },
         {
             Header: "Applied Date",
@@ -132,6 +136,20 @@ const ApprovedPetApplication = (props) => {
             Header: "Approved Date",
             accessor: "approve_date",
             Cell: ({ value }) => { return format(new Date(value), 'dd-MM-yyyy') }
+        },
+        {
+            Header: "Payment status",
+            accessor: "payment_status",
+            Cell: ({ value }) => {
+                if (value == "0") {
+                    return <div  className='text-red-600 font-semibold'>
+                        Unpaid
+                    </div>
+
+                }
+                return <div className='text-green-600 font-semibold'>Paid</div>
+
+            }
         },
         {
             Header: 'Action',
@@ -155,7 +173,7 @@ const ApprovedPetApplication = (props) => {
                     </p>
                     <form className='mt-8 my-6' onSubmit={formik.handleSubmit} onChange={handleChange}>
                         <div className="flex flex-row flex-wrap gap-x-4 items-center gap-y-2 pb-4 mb-2 border-b">
-                            
+
                             <div className='w-full md:w-[25%]'>
                                 <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">
                                     Filter By<span className="text-red-500">*</span>
@@ -200,7 +218,7 @@ const ApprovedPetApplication = (props) => {
                                     <span className="text-green-400 mr-2"><RiFilter2Line fontSize={20} /></span>
                                     <span>Search Record</span>
                                 </button>
-                                
+
                             </div>
                         </div>
                     </form>

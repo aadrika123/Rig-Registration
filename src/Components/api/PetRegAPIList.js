@@ -30,7 +30,7 @@ export default function PetRegAPIList() {
 
         api_PetRegistrationMaster: `${baseUrl}/api/rig/get-master-data`,
         api_PetRegistrationApplyForm: `${baseUrl}/api/rig/application/apply-rig-registration`,
-        api_PetApplyRenewalForm: `${baseUrl}/api/rig/registration/apply-renewal`,
+        api_RigApplyRenewalForm: `${baseUrl}/api/rig/registration/apply-renewal`,
         api_PetRegistrationDocUploadList: `${baseUrl}/api/rig/application/get-doc-to-upload`,
         api_PetRegistrationList: `${baseUrl}/api/rig/application/get-registration-list`,
 
@@ -61,6 +61,9 @@ export default function PetRegAPIList() {
 
         // api_petDashboardDetails: `${baseUrl}/api/rig/dashboard_details`,
         api_petDashboardDetails: `${baseUrl}/api/rig/application/dashboard-details`,
+        docReUpload: `${baseUrl}/api/rig/application/reupload-document`,
+        api_sendToJSK: `${baseUrl}/api/rig/back-to-citizen`,
+        api_collectionReport: `${baseUrl}/api/rig/application/collection-report`,
 
         
     }

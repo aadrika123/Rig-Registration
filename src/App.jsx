@@ -39,6 +39,7 @@ import RigRegistrationFormIndex from './Components/Pages/PetRegistration/Form/Ri
 import SuccessfulSubmitModal from './Components/Pages/PetRegistration/Form/SuccessfulSubmitModal';
 import RigLIcenseReceipt from './Components/Pages/PetRegistration/PetPaymentReceipt/RigLIcenseReceiptEntry';
 import RigLIcenseReceiptEntry from './Components/Pages/PetRegistration/PetPaymentReceipt/RigLIcenseReceiptEntry';
+import CollectionReport from './Components/Pages/PetRegistration/Report/CollectionReport';
 
 
 function App() {
@@ -103,6 +104,7 @@ function App() {
     { path: '/viewApprovedApplication/:id', element: <ViewApprovedApplication /> },
      { path: '/reject-rig-application', element: <RejectPetApplication /> },
     { path: '/approved-rig-application', element: <ApprovedPetApplication /> },
+    { path: '/collection-report', element: <CollectionReport /> },
   ]
 
   return (

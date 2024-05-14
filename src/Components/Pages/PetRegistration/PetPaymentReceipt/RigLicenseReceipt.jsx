@@ -207,7 +207,7 @@ class RigLIcenseReceipt extends React.Component {
                                             }{" "}
                                         </span>{" "}
                                        
-                                        has been allocated to{" "}
+                                        for <b>4 Inches </b> drilling  has been allocated to{" "}
                                         <span className='font-semibold capitalize'>
                                             {this.props?.licenceData?.applicant_name}{" "}
                                         </span>

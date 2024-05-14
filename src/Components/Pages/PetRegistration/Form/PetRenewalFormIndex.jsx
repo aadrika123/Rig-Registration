@@ -7,6 +7,8 @@ import AxiosInterceptors from '@/Components/Common/AxiosInterceptors'
 import { useNavigate, useParams } from 'react-router-dom'
 import moment from "moment";
 import { contextVar } from '@/Components/context/contextVar';
+import useSetTitle from '@/Components/Common/useSetTitle'
+import ApiHeader2 from '@/Components/api/ApiHeader2'
 
 // Styling object for consistent styles
 const style = {
@@ -28,27 +30,40 @@ const PetRenewalFormIndex = (props) => {
   const [formSubmitting, setFormSubmitting] = useState(false)
   const [errorMessage, setErrorMessage] = useState(false)
   const [userDetails, setUserDetails] = useState()
+  const [loader, setLoader] = useState(false);
+  const [fitnessImage, setFitnessImage] = useState();
+  const [taxCopyImage, setTaxCopyImage] = useState();
+  const [licenseImage, setLicenseImage] = useState();
   const dialogRef = useRef()
   const navigate = useNavigate();
-  const { header, api_PetApproveViewApplication, api_PetApplyRenewalForm, header1 } = PetRegAPIList();
+  const { header, api_PetApproveViewApplication, api_RigApplyRenewalForm, header1 } = PetRegAPIList();
 
   // ==== Formik Start
   // Form validation schema
   const validationSchema = yup.object({
-    doctorName: yup.string().matches(/^[a-zA-Z0-9\s,.:-]+$/, 'Special characters are not allowed').required('Kindly enter a value.'),
-    doctorRegNo: yup.string().matches(/^[a-zA-Z0-9\s,.:-]+$/, 'Special characters are not allowed').required('Kindly enter a value.'),
-    dateOfRabies: yup.string().required('Kindly enter a value.'),
-    dateOfLepVaccine: yup.string().required('Kindly enter a value.'),
+    fitness: yup.string().required("Kindly enter a value."),
+    taxCopy: yup.string().required("Kindly enter a value."),
+    license: yup.string().required("Kindly enter a value."),
   })
-
+  useSetTitle("Renewal form")
   // Initial form values
   const initialValues = {
-    doctorName: "",
-    doctorRegNo: "",
-    dateOfRabies: "",
-    dateOfLepVaccine: '',
-  }
+    // ulb: "",
+    // ulbId: "",
+    // applicantName: "",
+    // ownerCategory: "",
+    // ward: "",
+    // mobileNo: "",
+    // email: "",
+    // address: "",
+    // vehicleComapny: "",
+    fitness: "",
+    taxCopy: "",
+    license: "",
+    // registrationNumber: "",
 
+  }
+  let payloadFormData = new FormData();
   // Formik configuration
   const formik = useFormik({
     initialValues: initialValues,
@@ -63,48 +78,75 @@ const PetRenewalFormIndex = (props) => {
   })
 
   // Change event handler for form inputs
-  const handleChange = (event) => {
-    let name = event.target.name
-    let value = event.target.value
-    setErrorMessage(false)
-  };
+  // const handleChange = (event) => {
+  //   let name = event.target.name
+  //   let value = event.target.value
+  //   setErrorMessage(false)
+  // };
   // ==== Formik End
+  const handleChange = (event) => {
+    let name = event.target.name;
+    let value = event.target.value;
+    setErrorMessage(false);
 
+    {
+      name == "driverName" &&
+        formik.setFieldValue(
+          "driverName",
+          allowCharacterInput(value, formik.values.driverName, 20)
+        );
+    }
+
+    {
+      name == "fitness" && setFitnessImage(event.target.files[0]);
+    }
+    {
+      name == "taxCopy" && setTaxCopyImage(event.target.files[0]);
+    }
+    {
+      name == "license" && setLicenseImage(event.target.files[0]);
+    }
+  };
   // Function to submit the form data
   const submitForm = (data) => {
     setFormSubmitting(true)
     // Payload for API request
+    console.log("datadatadata", data)
     const payload = {
+
       // ... (your payload properties)
-      "address": data?.address,
-      "applyThrough": data?.applyThrough,
-      "propertyNo": data?.holdingNo,
-      "breed": data?.breed,
-      "ownerCategory": data?.categoryApplication,
-      "color": data?.color,
-      "dateOfLepVaccine": data?.dateOfLepVaccine,
-      "dateOfRabiesVac": data?.dateOfRabies,
-      "doctorName": data?.doctorName,
-      "doctorRegNo": data?.doctorRegNo,
-      "mobileNo": data?.mobileNo,
-      "panNo": data?.panNo,
-      "petBirthDate": data?.petBirthDate,
-      "petFrom": data?.petFrom,  // may be some issue
-      "petGender": data?.petGender, // check  this
-      // "petIdentity": data?.petIdentity,
-      "petName": data?.petName,
-      "petType": data?.petType,
-      "ulbId": data?.ulb,
-      "ward": data?.ward,
-      "registrationId":id,
-      "applicantName": data?.applicantName,
-      "mobileNo": data?.mobileNo,
-      "email": data?.email,
-      "panNo": data?.panNo
+      // address: data?.address,
+      // applyThrough: data?.applyThrough,
+      // ownerCategory: data?.categoryApplication,
+      // mobileNo: data?.mobileNo,
+      // ulbId: data?.ulb,
+      // ward: data?.ward,
+      registrationId: id,
+      // applicantName: data?.applicantName,
+      // mobileNo: data?.mobileNo,
+      // email: data?.email,
+      // registrationNumber: data?.vehicle_no
+    };
+    console.log(payload, "payload====>>");
+
+    for (let key in payload) {
+      payloadFormData.append(key, payload[key]);
     }
 
+    payloadFormData.append("documents[0][image]", fitnessImage);
+    payloadFormData.append("documents[0][docCode]", "FITNESS");
+    payloadFormData.append("documents[0][ownerDtlId]", "");
+
+    payloadFormData.append("documents[1][image]", taxCopyImage);
+    payloadFormData.append("documents[1][docCode]", "TAX");
+    payloadFormData.append("documents[1][ownerDtlId]", "");
+
+    payloadFormData.append("documents[2][image]", licenseImage);
+    payloadFormData.append("documents[2][docCode]", "LICENSE");
+    payloadFormData.append("documents[2][ownerDtlId]", "");
+
     // Making API request for form submission
-    AxiosInterceptors.post(api_PetApplyRenewalForm, payload, header)
+    AxiosInterceptors.post(api_RigApplyRenewalForm, payloadFormData, ApiHeader2())
       .then((res) => {
         setFormSubmitting(false)
         if (res.data.status) {
@@ -149,34 +191,25 @@ const PetRenewalFormIndex = (props) => {
   }, [])
 
   return (
-     // JSX for the component
+    // JSX for the component
     <>
       <form onSubmit={formik.handleSubmit} onChange={handleChange}>
         <div className='overflow-y-auto'>
-
+          <h1 className='px-4 font-semibold text-lg text-center'> Application no -<span className='text-blue-600'> {masterData?.application_no}</span></h1>
           <div className='col-span-12 ml-2 my-2'>
             <div className='text-lg text-left text-gray-600 font-semibold'># Property Details </div>
             {/* <p className='border-b border-gray-500'></p> */}
           </div>
-          <div className='grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-5  bg-white shadow-md rounded-md py-2'>
+          <div className='grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-3  bg-white shadow-md rounded-md py-2'>
             <div className='m-3'>
               <label className={style?.label} htmlFor="ulb">ULB </label>
               <input value={masterData?.ulb_name} disabled type="text" name='ulb' className={style?.textFiled} />
               <p className='text-red-500 text-xs'>{formik.touched.ulb && formik.errors.ulb ? formik.errors.ulb : null}</p>
             </div>
+
             <div className='m-3'>
-              <label className={style?.label} htmlFor="applyThrough">Apply Through </label>
-              <input disabled value={masterData?.apply_through_name} type="text" className={style?.textFiled} />
-              <p className='text-red-500 text-xs'>{formik.touched.applyThrough && formik.errors.applyThrough ? formik.errors.applyThrough : null}</p>
-            </div>
-            <div className='m-3'>
-              <label className={style?.label} htmlFor="holdingNo">Holding / SAF No.</label>
-              <input disabled value={masterData?.holding_no == "" ? masterData?.saf_no : masterData?.holding_no} type="text" name='holdingNo' className={style?.textFiled} />
-              <p className='text-red-500 text-xs'>{formik.touched.holdingNo && formik.errors.holdingNo ? formik.errors.holdingNo : null}</p>
-            </div>
-            <div className='m-3'>
-              <label className={style?.label} htmlFor="categoryApplication">Application Type</label>
-              <input disabled value={masterData?.application_type} type="text" name='holdingNo' className={style?.textFiled} />
+              <label className={style?.label} htmlFor="categoryApplication">Category of Application</label>
+              <input disabled value={masterData?.application_type == "New_Apply" ? "Renewal" : ""} type="text" name='holdingNo' className={style?.textFiled} />
               <p className='text-red-500 text-xs'>{formik.touched.categoryApplication && formik.errors.categoryApplication ? formik.errors.categoryApplication : null}</p>
             </div>
             <div className='m-3'>
@@ -187,10 +220,9 @@ const PetRenewalFormIndex = (props) => {
           </div>
           <div className='col-span-12 ml-2 my-2'>
             <div className='text-lg text-left text-gray-600 font-semibold'># Applicant Details</div>
-            {/* <p className='border-b border-gray-500'></p> */}
           </div>
           <div className='bg-white shadow-md rounded-md py-2'>
-            <div className='grid grid-cols-1 md:grid-cols-4 '>
+            <div className='grid grid-cols-1 md:grid-cols-3 '>
               <div className='m-3'>
                 <label className={style?.label} htmlFor="applicantName">Name of Applicant</label>
                 <input disabled value={masterData?.applicant_name} className={style?.textFiled} />
@@ -206,11 +238,7 @@ const PetRenewalFormIndex = (props) => {
                 <input disabled value={masterData?.email} type="email" name='email' className={style?.textFiled} />
                 <p className='text-red-500 text-xs'>{formik.touched.email && formik.errors.email ? formik.errors.email : null}</p>
               </div>
-              <div className='m-3'>
-                <label className={style?.label} htmlFor="panNo">PAN No.</label>
-                <input disabled value={masterData?.pan_no} type="text" name='panNo' className={style?.textFiled} />
-                <p className='text-red-500 text-xs'>{formik.touched.panNo && formik.errors.panNo ? formik.errors.panNo : null}</p>
-              </div>
+
             </div>
             <div className='m-3'>
               <label className={style?.label} htmlFor="address">Address</label>
@@ -219,69 +247,114 @@ const PetRenewalFormIndex = (props) => {
             </div>
           </div>
           <div className='col-span-12 ml-2 my-2'>
-            <div className='text-lg text-left text-gray-600 font-semibold'># Pet Details</div>
-            {/* <p className='border-b border-gray-500'></p> */}
+            <div className='text-lg text-left text-gray-600 font-semibold'>
+              # Vehicle Details
+            </div>
           </div>
-          <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 bg-white shadow-md rounded-md py-2'>
+          <div className='grid grid-cols-1 md:grid-cols-3 bg-white shadow-md rounded-md py-2'>
             <div className='m-3'>
-              <label className={style?.label} htmlFor="petType">Pet Type</label>
-              <input disabled value={masterData?.ref_pet_type} className={style?.textFiled} />
-              <p className='text-red-500 text-xs'>{formik.touched.petType && formik.errors.petType ? formik.errors.petType : null}</p>
+              <label className={style?.label} htmlFor='registrationNumber'>
+                Registration No.<span className={style?.required}>*</span>
+              </label>
+              <input
+                disabled
+                value={masterData?.vehicle_no}
+                // {...formik.getFieldProps("registrationNumber")}
+                maxLength='10'
+                type='text'
+                name='registrationNumber'
+                className={style?.textFiled}
+                onChange={(e) => {
+                  // Convert the input value to uppercase
+                  const upperCaseValue = e.target.value.toUpperCase();
+                  // Call formik's handleChange method with the transformed value
+                  formik.setFieldValue("registrationNumber", upperCaseValue);
+                }}
+              />
+              <p className='text-red-500 text-xs'>
+                {formik.touched.registrationNumber &&
+                  formik.errors.registrationNumber
+                  ? formik.errors.registrationNumber
+                  : null}
+              </p>
             </div>
             <div className='m-3'>
-              <label className={style?.label} htmlFor="pet_name">Name of Pet</label>
-              <input disabled value={masterData?.pet_name} className={style?.textFiled} />
-              <p className='text-red-500 text-xs'>{formik.touched.petName && formik.errors.petName ? formik.errors.petName : null}</p>
+              <label className={style?.label} htmlFor='vehicleComapny'>
+                VIN Number<span className={style?.required}>*</span>
+              </label>
+              <input
+                disabled
+                // {...formik.getFieldProps("vehicleComapny")}
+                value={masterData?.vehicle_name}
+                maxLength='17'
+
+                type='text'
+                name='vehicleComapny'
+                className={style?.textFiled}
+                onChange={(e) => {
+                  // Convert the input value to uppercase
+                  const upperCaseValue = e.target.value.toUpperCase();
+                  // Call formik's handleChange method with the transformed value
+                  formik.setFieldValue("vehicleComapny", upperCaseValue);
+                }}
+              />
+              <p className='text-red-500 text-xs'>
+                {formik.touched.vehicleComapny && formik.errors.vehicleComapny
+                  ? formik.errors.vehicleComapny
+                  : null}
+              </p>
+            </div>
+
+            <div className='m-3'>
+              <label className={style?.label} htmlFor='fitness'>
+                Pollution Certificate<span className={style?.required}>*</span>
+              </label>
+              <input
+                {...formik.getFieldProps("fitness")}
+                maxLength='50'
+                type='file'
+                name='fitness'
+                className={style?.textFiled}
+              />
+              <p className='text-red-500 text-xs'>
+                {formik.touched.fitness && formik.errors.fitness
+                  ? formik.errors.fitness
+                  : null}
+              </p>
             </div>
             <div className='m-3'>
-              <label className={style?.label} htmlFor="petGender">Gender</label>
-              <input disabled value={masterData?.ref_gender} className={style?.textFiled} />
-              <p className='text-red-500 text-xs'>{formik.touched.petGender && formik.errors.petGender ? formik.errors.petGender : null}</p>
+              <label className={style?.label} htmlFor='taxCopy'>
+                Tax Copy<span className={style?.required}>*</span>
+              </label>
+              <input
+                {...formik.getFieldProps("taxCopy")}
+                maxLength='50'
+                type='file'
+                name='taxCopy'
+                className={style?.textFiled}
+              />
+              <p className='text-red-500 text-xs'>
+                {formik.touched.taxCopy && formik.errors.taxCopy
+                  ? formik.errors.taxCopy
+                  : null}
+              </p>
             </div>
             <div className='m-3'>
-              <label className={style?.label} htmlFor="petBirthDate">Date of Birth</label>
-              <input disabled value={moment(masterData?.dob).format('DD-MM-Y')} className={style?.textFiled} />
-              <p className='text-red-500 text-xs'>{formik.touched.petBirthDate && formik.errors.petBirthDate ? formik.errors.petBirthDate : null}</p>
-            </div>
-            {/* <div className='m-3'>
-              <label className={style?.label} htmlFor="petIdentity">Identity MarK</label>
-              <input disabled value={masterData?.identification_mark} maxLength="50" type="text" name='petIdentity' className={style?.textFiled} />
-              <p className='text-red-500 text-xs'>{formik.touched.petIdentity && formik.errors.petIdentity ? formik.errors.petIdentity : null}</p>
-            </div> */}
-            <div className='m-3'>
-              <label className={style?.label} htmlFor="breed">Breed</label>
-              <input disabled value={masterData?.breed} type="text" name='color' className={style?.textFiled} />
-              <p className='text-red-500 text-xs'>{formik.touched.breed && formik.errors.breed ? formik.errors.breed : null}</p>
-            </div>
-            <div className='m-3'>
-              <label className={style?.label} htmlFor="color">Color</label>
-              <input disabled value={masterData?.color} type="text" name='color' className={style?.textFiled} />
-              <p className='text-red-500 text-xs'>{formik.touched.color && formik.errors.color ? formik.errors.color : null}</p>
-            </div>
-            <div className='m-3'>
-              <label className={style?.label} htmlFor="doctorName">Veterinary Doctor Name<span className={style?.required}>*</span></label>
-              <input {...formik.getFieldProps('doctorName')} type="text" maxLength="70" name='doctorName' className={style?.textFiled} />
-              <p className='text-red-500 text-xs'>{formik.touched.doctorName && formik.errors.doctorName ? formik.errors.doctorName : null}</p>
-            </div>
-            <div className='m-3'>
-              <label className={style?.label} htmlFor="doctorRegNo">Doctor’s MSVC/VCI number <span className={style?.required}>*</span></label>
-              <input {...formik.getFieldProps('doctorRegNo')} type="text" maxLength="70" name='doctorRegNo' className={style?.textFiled} />
-              <p className='text-red-500 text-xs'>{formik.touched.doctorRegNo && formik.errors.doctorRegNo ? formik.errors.doctorRegNo : null}</p>
-            </div>
-            <div className='m-3'>
-              <label className={style?.label} htmlFor="dateOfRabies">Date of Rabies<span className={style?.required}>*</span></label>
-              <input {...formik.getFieldProps('dateOfRabies')} type="date" name='dateOfRabies' className={style?.textFiled} max={new Date().toISOString().split('T')[0]} />
-              <p className='text-red-500 text-xs'>{formik.touched.dateOfRabies && formik.errors.dateOfRabies ? formik.errors.dateOfRabies : null}</p>
-            </div>
-            <div className='m-3'>
-              <label className={style?.label} htmlFor="dateOfLepVaccine">Leptospirosis Vaccination Date<span className={style?.required}>*</span></label>
-              <input {...formik.getFieldProps('dateOfLepVaccine')} type="date" name='dateOfLepVaccine' className={style?.textFiled} max={new Date().toISOString().split('T')[0]} />
-              <p className='text-red-500 text-xs'>{formik.touched.dateOfLepVaccine && formik.errors.dateOfLepVaccine ? formik.errors.dateOfLepVaccine : null}</p>
-            </div>
-            <div className='m-3'>
-              <label className={style?.label} htmlFor="petFrom">Pet From</label>
-              <input disabled value={masterData?.occurrence_types} name='PetFrom' className={style?.textFiled} />
-              <p className='text-red-500 text-xs'>{formik.touched.petFrom && formik.errors.petFrom ? formik.errors.petFrom : null}</p>
+              <label className={style?.label} htmlFor='license'>
+                Registration Of Certificate<span className={style?.required}>*</span>
+              </label>
+              <input
+                {...formik.getFieldProps("license")}
+                maxLength='50'
+                type='file'
+                name='license'
+                className={style?.textFiled}
+              />
+              <p className='text-red-500 text-xs'>
+                {formik.touched.license && formik.errors.license
+                  ? formik.errors.license
+                  : null}
+              </p>
             </div>
           </div>
         </div>

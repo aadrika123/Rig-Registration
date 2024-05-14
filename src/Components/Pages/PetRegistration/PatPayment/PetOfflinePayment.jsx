@@ -137,8 +137,8 @@ const PetOfflinePayment = () => {
                             <div className='bg-white shadow-xl p-4 border border-gray-200 my-3'>
                                 {loader ? <ShimmerEffectInline /> :
                                     <div className='mt-2 space-y-5'>
-                                    <div className="flex space-x-10 pl-4 ">
-                                        <div className='flex-1 text-xs'>
+                                        <div className="flex space-x-10 pl-4 ">
+                                            {/* <div className='flex-1 text-xs'>
                                             <div className='text-[#37517e]'>Name of Driver</div>
                                             <div className='font-semibold text-sm text-[#37517e]'>{applicationFullData?.driver_name}</div>
                                         </div>
@@ -152,29 +152,33 @@ const PetOfflinePayment = () => {
                                                 {applicationFullData?.dob}
 
                                             </div>
-                                        </div>
-                                        <div className='flex-1 text-xs'>
-                                            <div className='text-[#37517e]'>VIN Number</div>
-                                            <div className='font-bold text-sm text-[#37517e]'>
-                                                <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.vehicle_name}</div>
+                                        </div> */}
+                                            <div className='flex-1 text-xs'>
+                                                <div className='text-[#37517e]'>VIN Number</div>
+                                                <div className='font-bold text-sm text-[#37517e]'>
+                                                    <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.vehicle_name}</div>
+                                                </div>
+                                            </div>
+                                            <div className='flex-1 text-xs'>
+                                                <div className='text-[#37517e]'>Registration No.</div>
+                                                <div className='font-bold text-sm text-[#37517e]'>{nullToNA(applicationFullData?.vehicle_no)}</div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className="flex space-x-10 pl-4 ">
-                                        <div className='flex-1 text-xs'>
-                                            <div className='text-[#37517e]'>Registration No.</div>
-                                            <div className='font-bold text-sm text-[#37517e]'>{nullToNA(applicationFullData?.vehicle_no)}</div>
-                                        </div>
-                                        <div className='flex-1 text-xs'>
+                                        <div className="flex space-x-10 pl-4 ">
+                                            {/* <div className='flex-1 text-xs'>
+                                                <div className='text-[#37517e]'>Registration No.</div>
+                                                <div className='font-bold text-sm text-[#37517e]'>{nullToNA(applicationFullData?.vehicle_no)}</div>
+                                            </div> */}
+                                            {/* <div className='flex-1 text-xs'>
                                             <div className='text-[#37517e]'>Vehicle From</div>
                                             <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.vehicle_from}</div>
+                                        </div> */}
+
+                                            <div className='flex-1 text-xs'>
+                                            </div>
                                         </div>
 
-                                        <div className='flex-1 text-xs'>
-                                        </div>
                                     </div>
-
-                                </div>
                                 }
                             </div>
 

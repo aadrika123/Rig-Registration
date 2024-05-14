@@ -132,6 +132,11 @@ const SearchPetApplicationForm = (props) => {
             Cell: ({ value }) => { return format(new Date(value), 'dd-MM-yyyy') }
         },
         {
+            Header: "Applied By",
+            accessor: "user_type",
+            // Cell: ({ value }) => { return format(new Date(value), 'dd-MM-yyyy') }
+        },
+        {
             Header: "Payment Status",
             accessor: "payment_status",
             // Define a custom cell renderer for the Payment Status column
@@ -158,10 +163,10 @@ const SearchPetApplicationForm = (props) => {
                     return <span className="text-green-600">Approved</span>;
                 } else if (value == "Pending") {
 
-                    return <span className="text-red-600">Pending</span>;
+                    return <span className="text-orange-600">Pending</span>;
                 } else {
 
-                    return <span>Unknown</span>;
+                    return <span className="text-red-600">Rejected</span>;
                 }
             },
         },

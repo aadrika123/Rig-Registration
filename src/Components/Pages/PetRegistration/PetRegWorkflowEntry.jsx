@@ -19,8 +19,10 @@ function PetRegWorkflowEntry() {
     const ServerUrl = BackendUrl
 
     const petInbox = `${ServerUrl}/api/rig/inbox` //Pet Inbox
+    const rigBtJsk = `${ServerUrl}/api/rig/inbox` //Pet Inbox
     const petOutbox = `${ServerUrl}/api/rig/outbox` //Pet Inbox
     const petSpecial = `${ServerUrl}/api/rig/special-inbox` //Pet Inbox
+    const rigBtc = `${ServerUrl}/api/rig/back-to-jsk-list` //Pet Inbox
     const petPostNextLevel = `${ServerUrl}/api/rig/post-next-level` //Pet Post Next Level
     const petEscalateNextLevel = `${ServerUrl}/api/rig/escalate` //Pet Escalate Next Level
     const petDocVerifyReject = `${ServerUrl}/api/rig/doc-verify-reject` //Pet Document Verify
@@ -28,6 +30,7 @@ function PetRegWorkflowEntry() {
     const petDocUpload = `${ServerUrl}/api/rig/application/upload-docs`
     const petDocShowOnDocUpload = `${ServerUrl}/api/rig/application/get-doc-to-upload`
     const petFinalVerifyReject = `${ServerUrl}/api/rig/final-verify-reject`
+    const backToCitizen = `${ServerUrl}/api/rig/back-to-citizen`
 
     const petWorkflowApplicationDetails = `${ServerUrl}/api/rig/application/get-wf-detials`
 
@@ -44,7 +47,9 @@ function PetRegWorkflowEntry() {
             // 3 - API TO FETCH SPECIAL LIST
             api_specialList: { method: 'post', url: petSpecial },
             // 4 - API TO FETCH BACK TO CITIZEN LIST
-            apt_btcList: { method: 'post', url: "" },
+            apt_btcList: { method: 'post', url: rigBtc },
+            //back to jsk 
+            apt_btjskList: { method: 'post', url: rigBtJsk },
             // 5 - API TO FETCH FIELD VERIFICATION LIST
             // api_fieldVerificationList: , // ------not done
             api_fieldVerificationList: { method: 'post', url: api_fieldVerificationList },
@@ -59,7 +64,7 @@ function PetRegWorkflowEntry() {
             // 10 - API TO ESACALATE OR DEESCALATE
             api_escalate: { method: 'post', url: petEscalateNextLevel },
             // 11 - API TO SEND BACK TO CITIZEN
-            api_btc: { method: 'post', url: "" },
+            api_btc: { method: 'post', url: backToCitizen },
             // 12 - API TO APPROVE OR REJECT
             api_approveReject: { method: 'post', url: petFinalVerifyReject },
             // 13 - API TO post DEPARTMENTAL COMMUNICATION DATA
@@ -94,6 +99,10 @@ function PetRegWorkflowEntry() {
             {
                 Header: "Application No.",
                 accessor: "application_no",
+            },
+            {
+                Header: "Applied By",
+                accessor: "user_type",
             },
             {
                 Header: "Applicant Name",
