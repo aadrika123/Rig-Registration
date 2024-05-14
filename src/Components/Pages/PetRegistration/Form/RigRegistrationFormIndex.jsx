@@ -12,6 +12,7 @@ import { toast } from "react-hot-toast";
 import ApiHeader2 from "@/Components/api/ApiHeader2";
 import useSetTitle from "@/Components/Common/useSetTitle";
 import { useNavigate } from "react-router-dom";
+import {resizeFile} from "@/Components/Common/ImageResizer/UseImgResizer";
 // import SuccessfulSubmitModal from "./SuccessfulSubmitModal";
 // import WaterApiList from "../../../Components/ApiList/WaterApiList";
 // import AxiosInterceptors from "../../../Components/GlobalData/AxiosInterceptors";
@@ -43,6 +44,8 @@ const RigRegistrationFormIndex = (props) => {
   const [taxCopyImage, setTaxCopyImage] = useState();
   const [licenseImage, setLicenseImage] = useState();
   const [responseScreen, setresponseScreen] = useState();
+
+  const [fileSizeError, setFileSizeError] = useState('');
 
   // const { api_ulbList, header, api_wardList } = WaterApiList();
   useSetTitle("Search Application")
@@ -143,17 +146,61 @@ const RigRegistrationFormIndex = (props) => {
         );
     }
 
-    {
-      name == "fitness" && setFitnessImage(event.target.files[0]);
-    }
-    {
-      name == "taxCopy" && setTaxCopyImage(event.target.files[0]);
-    }
-    {
-      name == "license" && setLicenseImage(event.target.files[0]);
-    }
+    // {
+    //   name == "fitness" && setFitnessImage(event.target.files[0]);
+    // }
+    // {
+    //   name == "taxCopy" && setTaxCopyImage(event.target.files[0]);
+    // }
+    // {
+    //   name == "license" && setLicenseImage(event.target.files[0]);
+    // }
   };
   // ==== Formik End
+  const handleFileChange =async (e) => {
+   
+    const file = e.target.files[0];
+    if (file) {
+      const compressImg = await resizeFile(file);
+      const CFile = new File([compressImg], e?.target?.files[0]?.name, {
+        type: e?.target?.files[0]?.type
+      });
+      // setPreviewImage2(URL.createObjectURL(CFile));
+      formik.setFieldValue('fitness', CFile);
+    } else {
+      formik.setFieldValue('fitness', null);
+    }
+  };
+
+  const handleFileChange2 =async (e) => {
+   
+    const file = e.target.files[0];
+    if (file) {
+      const compressImg = await resizeFile(file);
+      const CFile = new File([compressImg], e?.target?.files[0]?.name, {
+        type: e?.target?.files[0]?.type
+      });
+      // setPreviewImage2(URL.createObjectURL(CFile));
+      formik.setFieldValue('taxCopy', CFile);
+    } else {
+      formik.setFieldValue('taxCopy', null);
+    }
+  };
+
+  const handleFileChange3 =async (e) => {
+   
+    const file = e.target.files[0];
+    if (file) {
+      const compressImg = await resizeFile(file);
+      const CFile = new File([compressImg], e?.target?.files[0]?.name, {
+        type: e?.target?.files[0]?.type
+      });
+      // setPreviewImage2(URL.createObjectURL(CFile));
+      formik.setFieldValue('license', CFile);
+    } else {
+      formik.setFieldValue('license', null);
+    }
+  };
 
   const submitForm = (data) => {
     setLoader(true);
@@ -182,15 +229,15 @@ const RigRegistrationFormIndex = (props) => {
       payloadFormData.append(key, payload[key]);
     }
 
-    payloadFormData.append("documents[0][image]", fitnessImage);
+    payloadFormData.append("documents[0][image]", formik?.values?.fitness);
     payloadFormData.append("documents[0][docCode]", "FITNESS");
     payloadFormData.append("documents[0][ownerDtlId]", "");
 
-    payloadFormData.append("documents[1][image]", taxCopyImage);
+    payloadFormData.append("documents[1][image]", formik?.values?.taxCopy);
     payloadFormData.append("documents[1][docCode]", "TAX");
     payloadFormData.append("documents[1][ownerDtlId]", "");
 
-    payloadFormData.append("documents[2][image]", licenseImage);
+    payloadFormData.append("documents[2][image]", formik?.values?.license);
     payloadFormData.append("documents[2][docCode]", "LICENSE");
     payloadFormData.append("documents[2][ownerDtlId]", "");
 
@@ -617,19 +664,18 @@ const RigRegistrationFormIndex = (props) => {
             </div> */}
             <div className='m-3'>
               <label className={style?.label} htmlFor='fitness'>
-              Pollution Certificate<span className={style?.required}>*</span>
+                Pollution Certificate<span className={style?.required}>*</span>
               </label>
               <input
-                {...formik.getFieldProps("fitness")}
+                onChange={handleFileChange}
+                // {...formik.getFieldProps("fitness")}
                 maxLength='50'
                 type='file'
                 name='fitness'
                 className={style?.textFiled}
               />
               <p className='text-red-500 text-xs'>
-                {formik.touched.fitness && formik.errors.fitness
-                  ? formik.errors.fitness
-                  : null}
+              {fileSizeError}
               </p>
             </div>
             <div className='m-3'>
@@ -637,16 +683,16 @@ const RigRegistrationFormIndex = (props) => {
                 Tax Copy<span className={style?.required}>*</span>
               </label>
               <input
-                {...formik.getFieldProps("taxCopy")}
+                onChange={handleFileChange2}
+                // {...formik.getFieldProps("taxCopy")}
+
                 maxLength='50'
                 type='file'
                 name='taxCopy'
                 className={style?.textFiled}
               />
               <p className='text-red-500 text-xs'>
-                {formik.touched.taxCopy && formik.errors.taxCopy
-                  ? formik.errors.taxCopy
-                  : null}
+                {fileSizeError}
               </p>
             </div>
             <div className='m-3'>
@@ -654,19 +700,20 @@ const RigRegistrationFormIndex = (props) => {
                 Registration Of Certificate<span className={style?.required}>*</span>
               </label>
               <input
-                {...formik.getFieldProps("license")}
+                onChange={handleFileChange3}
+                // {...formik.getFieldProps("license")}
                 maxLength='50'
                 type='file'
                 name='license'
                 className={style?.textFiled}
               />
               <p className='text-red-500 text-xs'>
-                {formik.touched.license && formik.errors.license
-                  ? formik.errors.license
-                  : null}
+              {fileSizeError}
               </p>
             </div>
+           
           </div>
+          <p className="text-orange-500 px-2">Each document should not exceed a size of 2 MB.</p>
         </div>
 
         <p
