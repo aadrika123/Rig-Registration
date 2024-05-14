@@ -104,7 +104,7 @@ const SearchPetApplicationForm = (props) => {
             accessor: "application_no",
         },
         {
-            Header: "Application Name",
+            Header: "Applicant Name",
             accessor: "applicant_name",
         },
         {
