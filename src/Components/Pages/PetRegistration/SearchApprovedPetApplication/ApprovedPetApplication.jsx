@@ -112,7 +112,7 @@ const ApprovedPetApplication = (props) => {
             accessor: "application_no",
         },
         {
-            Header: "Application Name",
+            Header: "Applicant Name",
             accessor: "applicant_name",
         },
         {
@@ -139,9 +139,9 @@ const ApprovedPetApplication = (props) => {
         },
         {
             Header: "Payment status",
-            accessor: "payment_status",
+            accessor: "paymentstatus",
             Cell: ({ value }) => {
-                if (value == "0") {
+                if (value == "Unpaid") {
                     return <div  className='text-red-600 font-semibold'>
                         Unpaid
                     </div>

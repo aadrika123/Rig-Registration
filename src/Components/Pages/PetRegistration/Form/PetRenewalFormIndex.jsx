@@ -9,6 +9,7 @@ import moment from "moment";
 import { contextVar } from '@/Components/context/contextVar';
 import useSetTitle from '@/Components/Common/useSetTitle'
 import ApiHeader2 from '@/Components/api/ApiHeader2'
+import {resizeFile} from "@/Components/Common/ImageResizer/UseImgResizer";
 
 // Styling object for consistent styles
 const style = {
@@ -37,7 +38,7 @@ const PetRenewalFormIndex = (props) => {
   const dialogRef = useRef()
   const navigate = useNavigate();
   const { header, api_PetApproveViewApplication, api_RigApplyRenewalForm, header1 } = PetRegAPIList();
-
+  const [fileSizeError, setFileSizeError] = useState('');
   // ==== Formik Start
   // Form validation schema
   const validationSchema = yup.object({
@@ -133,15 +134,15 @@ const PetRenewalFormIndex = (props) => {
       payloadFormData.append(key, payload[key]);
     }
 
-    payloadFormData.append("documents[0][image]", fitnessImage);
+    payloadFormData.append("documents[0][image]", formik?.values?.fitness);
     payloadFormData.append("documents[0][docCode]", "FITNESS");
     payloadFormData.append("documents[0][ownerDtlId]", "");
 
-    payloadFormData.append("documents[1][image]", taxCopyImage);
+    payloadFormData.append("documents[1][image]", formik?.values?.taxCopy);
     payloadFormData.append("documents[1][docCode]", "TAX");
     payloadFormData.append("documents[1][ownerDtlId]", "");
 
-    payloadFormData.append("documents[2][image]", licenseImage);
+    payloadFormData.append("documents[2][image]", formik?.values?.license);
     payloadFormData.append("documents[2][docCode]", "LICENSE");
     payloadFormData.append("documents[2][ownerDtlId]", "");
 
@@ -167,6 +168,55 @@ const PetRenewalFormIndex = (props) => {
         console.log("Error while applying for pet registration..", err?.response?.data?.error)
       })
   }
+
+
+  const handleFileChange =async (e) => {
+   
+    const file = e.target.files[0];
+    if (file) {
+      const compressImg = await resizeFile(file);
+      const CFile = new File([compressImg], e?.target?.files[0]?.name, {
+        type: e?.target?.files[0]?.type
+      });
+      // setPreviewImage2(URL.createObjectURL(CFile));
+      formik.setFieldValue('fitness', CFile);
+    } else {
+      formik.setFieldValue('fitness', null);
+    }
+  };
+
+  const handleFileChange2 =async (e) => {
+   
+    const file = e.target.files[0];
+    if (file) {
+      const compressImg = await resizeFile(file);
+      const CFile = new File([compressImg], e?.target?.files[0]?.name, {
+        type: e?.target?.files[0]?.type
+      });
+      // setPreviewImage2(URL.createObjectURL(CFile));
+      formik.setFieldValue('taxCopy', CFile);
+    } else {
+      formik.setFieldValue('taxCopy', null);
+    }
+  };
+
+  const handleFileChange3 =async (e) => {
+   
+    const file = e.target.files[0];
+    if (file) {
+      const compressImg = await resizeFile(file);
+      const CFile = new File([compressImg], e?.target?.files[0]?.name, {
+        type: e?.target?.files[0]?.type
+      });
+      // setPreviewImage2(URL.createObjectURL(CFile));
+      formik.setFieldValue('license', CFile);
+    } else {
+      formik.setFieldValue('license', null);
+    }
+  };
+
+
+
 
   // Function to open a dialog
   const openDialogTag = () => {
@@ -310,16 +360,15 @@ const PetRenewalFormIndex = (props) => {
                 Pollution Certificate<span className={style?.required}>*</span>
               </label>
               <input
-                {...formik.getFieldProps("fitness")}
+                onChange={handleFileChange}
+                // {...formik.getFieldProps("fitness")}
                 maxLength='50'
                 type='file'
                 name='fitness'
                 className={style?.textFiled}
               />
               <p className='text-red-500 text-xs'>
-                {formik.touched.fitness && formik.errors.fitness
-                  ? formik.errors.fitness
-                  : null}
+              {fileSizeError}
               </p>
             </div>
             <div className='m-3'>
@@ -327,16 +376,16 @@ const PetRenewalFormIndex = (props) => {
                 Tax Copy<span className={style?.required}>*</span>
               </label>
               <input
-                {...formik.getFieldProps("taxCopy")}
+                onChange={handleFileChange2}
+                // {...formik.getFieldProps("taxCopy")}
+
                 maxLength='50'
                 type='file'
                 name='taxCopy'
                 className={style?.textFiled}
               />
               <p className='text-red-500 text-xs'>
-                {formik.touched.taxCopy && formik.errors.taxCopy
-                  ? formik.errors.taxCopy
-                  : null}
+                {fileSizeError}
               </p>
             </div>
             <div className='m-3'>
@@ -344,16 +393,15 @@ const PetRenewalFormIndex = (props) => {
                 Registration Of Certificate<span className={style?.required}>*</span>
               </label>
               <input
-                {...formik.getFieldProps("license")}
+                onChange={handleFileChange3}
+                // {...formik.getFieldProps("license")}
                 maxLength='50'
                 type='file'
                 name='license'
                 className={style?.textFiled}
               />
               <p className='text-red-500 text-xs'>
-                {formik.touched.license && formik.errors.license
-                  ? formik.errors.license
-                  : null}
+              {fileSizeError}
               </p>
             </div>
           </div>

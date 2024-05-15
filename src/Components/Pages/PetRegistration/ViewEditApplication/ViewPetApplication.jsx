@@ -305,7 +305,7 @@ const ViewPetApplication = () => {
 
                         </div> : ""
                 }
-                {applicationFullData?.payment_status == 1 && applicationFullData?.registrationStatus == 2 &&
+                {(applicationFullData?.isRenewal) &&
                     <div className='space-x-5 text-right px-4'>
                         <button className={`font-semibold md:text-base text-xs bg-indigo-500 text-white border border-indigo-500  px-4 py-1 shadow-lg hover:scale-105 rounded-sm`} onClick={() => navigate(`/rig-renewal/${id}`)}> Apply Renewal</button>
                     </div>
@@ -606,7 +606,7 @@ const ViewPetApplication = () => {
                     }
                 </div>
             </div >
-            <dialog ref={editPetApplicationRef2}> 
+            <dialog ref={editPetApplicationRef2}>
                 <div className='float-right p-2'>
                     <p className='bg-red-600 rounded-full px-3 py-1 cursor-pointer text-white font-semibold' onClick={closeDialogModal2}>
                         x

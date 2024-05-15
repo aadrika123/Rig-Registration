@@ -51,7 +51,7 @@ const RigRegistrationFormIndex = (props) => {
   useSetTitle("Search Application")
   const {
     api_RigRegistrationApplyForm,
-    api_PetRegistrationMaster,
+    api_PetRegistrationMaster, 
     api_ListOfSafHolding,
     api_getUserDetailsByHoldingSaf,
     header1, api_ulbList, header, api_wardList

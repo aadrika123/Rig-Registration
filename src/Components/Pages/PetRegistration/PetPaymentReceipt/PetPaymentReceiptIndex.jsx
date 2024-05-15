@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import PetRegAPIList from "@/Components/api/PetRegAPIList";
 import ulb_data from "@/Components/Common/DynamicData";
 import useSetTitle from "@/Components/Common/useSetTitle";
+import { nullToNA } from "@/Components/Common/PowerupFunctions";
 
 // Functional component for displaying Pet Payment Receipt
 const PetPaymentReceiptIndex = () => {
@@ -96,15 +97,15 @@ console.log("data",fetchedData);
                 <div className="grid grid-col-1 md:grid-col-12 lg:grid-col-12 p-1 ">
                   <div className="">
                     <h1 className="font-semibold text-2xl text-center ">
-                      {ulb_data()?.ulb_name}
+                      {fetchedData?.ulb}
                     </h1>
                   </div>
                   <div className="space-y-2 mt-1">
                     <h1 className="font-semibold text-1xl text-center text-gray-800 ">
-                      Kutchery Road, Ranchi, Pin - 834001
+                      {nullToNA(fetchedData?.ulb_address)}
                     </h1>
                     <h1 className="font-semibold text-xs text-center text-gray-800 ">
-                      e-mail-support@ranchimunicipal.com
+                    {nullToNA(fetchedData?.ulb_email)}
                     </h1>
                   </div>
                 </div>
