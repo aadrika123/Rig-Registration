@@ -283,23 +283,88 @@ const ViewApprovedApplication = () => {
 
                                 </div>
                             }
-                            {/* Payment Details */}
-                            <div className='bg-white shadow-xl p-4 border border-gray-200'>
+                           {/* Payment Details */}
+                           <div className='bg-white shadow-xl p-4 border border-gray-200'>
                                 <h1 className='px-1 font-semibold font-serif text-xs mt-2 text-[#37517e]'><img src='https://cdn-icons-png.flaticon.com/512/8948/8948774.png' alt="Upload" className='w-5 inline text-[#37517e]' /> Payment Details</h1>
-                                {loader ? <ShimmerEffectInline /> : (applicationFullData?.payment_status == 0 && applicationFullData?.registrationStatus == 1) &&
-                                    <div className="text-center text-indigo-600">
-                                        <div>
-                                            <div className="text-center">
-                                                <p className='text-red-500'>Payment Is Pending</p>
-                                                {/* <p>Please Make Payment From JSK</p> */}
+                                {loader ? <ShimmerEffectInline /> :
+                                    (applicationFullData?.payment_status == 0 && applicationFullData?.registrationStatus == 1 && applicationFullData?.canTakePayment ) ?
+                                        <div className="text-center text-indigo-600">
+                                            <div>
+                                                <div className="text-center">
+                                                    <p>Please Make Payment</p>
+                                                </div>
+                                                <div className="flex justify-center">
+                                                    <button onClick={() => navigate(`/rig-payment-offline/${id}`)}
+                                                        className="px-2 py-1 bg-indigo-600 text-sm text-white">Pay Now</button>
+                                                </div>
                                             </div>
-                                            {/* <div className="flex justify-center">
-                                                <button onClick={() => navigate(`/rig-payment-offline/${id}`)}
-                                                    className="px-2 py-1 bg-indigo-600 text-sm text-white">Pay Now</button>
-                                            </div> */}
                                         </div>
-                                    </div>
-                                   
+                                        :
+                                        <div className='mt-2'>
+                                            <div className="flex space-x-10 pl-4 ">
+                                                <div className='text-xs'>
+                                                    <div className='text-[#37517e]'>Sl.</div>
+                                                </div>
+                                                <div className='flex-1 text-xs'>
+                                                    <div className='text-[#37517e]'>Trans No</div>
+                                                </div>
+                                                <div className='flex-1 text-xs'>
+                                                    <div className='text-[#37517e]'>Amount</div>
+                                                </div>
+                                                <div className='flex-1 text-xs'>
+                                                    <div className='text-[#37517e]'>Payment Mode</div>
+                                                </div>
+                                                <div className=' text-xs'>
+                                                    <div className='text-[#37517e]'>Status</div>
+                                                </div>
+                                                <div className='flex-1 text-xs'>
+                                                    <div className='text-[#37517e]'>Payment Date</div>
+                                                </div>
+                                                <div className='flex-1 text-xs'>
+                                                    <div className='text-[#37517e]'>Action</div>
+                                                </div>
+                                            </div>
+                                            {applicationFullData?.transactionDetails ? (
+                                                <div className="flex space-x-10 pl-4 my-2 border-y-gray-200">
+                                                    <div className='text-xs'>
+                                                        <div className='font-semibold text-sm text-[#37517e]'>1.</div>
+                                                    </div>
+                                                    <div className='flex-1 text-xs'>
+                                                        <div className='font-semibold text-sm whitespace-nowrap text-[#37517e]'>{applicationFullData?.transactionDetails?.tran_no || "N/A"}</div>
+                                                    </div>
+                                                    <div className='flex-1 text-xs'>
+                                                        <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.transactionDetails?.amount || "N/A"}</div>
+                                                    </div>
+                                                    <div className='flex-1 text-xs'>
+                                                        <div className='font-semibold text-sm text-[#37517e]'>{applicationFullData?.transactionDetails?.payment_mode || "N/A"}</div>
+                                                    </div>
+                                                    <div className='text-xs'>
+                                                        <div className='font-semibold text-sm text-[#37517e]'>
+                                                            Paid
+                                                        </div>
+                                                    </div>
+                                                    <div className='flex-1 text-xs'>
+                                                        <div className='font-semibold text-sm text-[#37517e]'>{moment(applicationFullData?.transactionDetails?.created_at).format('DD-MM-yy') || "N/A"}</div>
+                                                    </div>
+                                                    <div className='flex-1 text-xs'>
+                                                        <div className='font-semibold text-sm text-[#37517e]'>
+                                                            <button className="border px-3 py-1 rounded shadow border-blue-500 hover:bg-blue-500 hover:text-white text-blue-500 whitespace-nowrap" onClick={() => navigate(`/rig-payment-receipt/${applicationFullData?.transactionDetails?.tran_no}`)}>Print Receipt</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                ):(
+                                                    <div className='text-center mt-4 text-red-500 font-semibold text-xl'>
+                                                        <h1>
+                                                        Payment is pending
+                                                        </h1>
+                                                        {/* <h1>
+                                                        Please make payment from JSK
+                                                        </h1> */}
+                                                        
+                                                    </div>
+                                                )
+                                            }
+                                        </div>
                                 }
                             </div>
 
