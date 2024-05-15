@@ -40,6 +40,7 @@ import SuccessfulSubmitModal from './Components/Pages/PetRegistration/Form/Succe
 import RigLIcenseReceipt from './Components/Pages/PetRegistration/PetPaymentReceipt/RigLIcenseReceiptEntry';
 import RigLIcenseReceiptEntry from './Components/Pages/PetRegistration/PetPaymentReceipt/RigLIcenseReceiptEntry';
 import CollectionReport from './Components/Pages/PetRegistration/Report/CollectionReport';
+import SuccessfulSubmitModal2 from './Components/Pages/PetRegistration/Form/SuccessfulSubmitModal2';
 
 
 function App() {
@@ -92,6 +93,7 @@ function App() {
     { path: '/rig-renewal/:id', element: <PetRenewalFormIndex /> },
     { path: '/viewRigApplication/:id', element: <ViewPetApplication /> },
     { path: '/successfull-submit', element: <SuccessfulSubmitModal /> },
+    { path: '/successfull-edit', element: <SuccessfulSubmitModal2 /> },
 
 
     { path: '/rig-license-details/:id', element: <RigLIcenseReceiptEntry /> },
