@@ -3,7 +3,7 @@ import submit from "../../../assets/submit.png"
 import useSetTitle from '@/Components/Common/useSetTitle'
 import { useLocation, useNavigate } from 'react-router-dom';
 
-function SuccessfulSubmitModal(props) {
+function SuccessfulSubmitModal2 (props) {
     // useSetTitle = ("Successful")
     const navigate = useNavigate();
     const handleClick = () => {
@@ -33,11 +33,11 @@ function SuccessfulSubmitModal(props) {
             <div class=' flex-1'>
                 <div class='mb-2'>
                     <h3 class='text-2xl  text-center mb-3 text-green-600 font-openSans font-semibold'>
-                        Application Submitted Successfully 
-                        {/* {responseScreenData?.message} */}
+                        {/* Application Submitted Successfully  */}
+                        {responseScreenData?.message}
                     </h3>
                     <h3 class='text-xl  text-center mb-3 text-gray-800 font-openSans font-semibold '>
-                        Application no. - {responseScreenData?.data?.applicationNo}
+                        {/* Application no. - {responseScreenData?.data?.applicationNo} */}
                     </h3>
                 </div>
             </div>
@@ -63,4 +63,4 @@ function SuccessfulSubmitModal(props) {
     )
 }
 
-export default SuccessfulSubmitModal
+export default SuccessfulSubmitModal2

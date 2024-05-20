@@ -64,7 +64,7 @@ const EditPetDetailsForm = (props) => {
     const navigate = useNavigate();
     // ==== Formik Start
     const validationSchema = yup.object({
-        ulb: yup.string().required("Kindly enter a value."),
+        // ulb: yup.string().required("Kindly enter a value."),
         address: yup.string().required("Kindly enter a value."),
 
         applicantName: yup
@@ -83,6 +83,7 @@ const EditPetDetailsForm = (props) => {
 
     const initialValues = {
         ulbId: applicationFullData?.ulb_id,
+        // ulb: "",
         applicantName: applicationFullData?.applicant_name,
         ownerCategory: applicationFullData?.owner_type,
         ward: applicationFullData?.ward_id,
@@ -91,6 +92,7 @@ const EditPetDetailsForm = (props) => {
         address: applicationFullData?.address,
         vehicleComapny: applicationFullData?.vehicle_name,
         registrationNumber: applicationFullData?.vehicle_no,
+       id :applicationFullData?.id,
         fitness: "",
         taxCopy: "",
         license: "",
@@ -151,6 +153,7 @@ const EditPetDetailsForm = (props) => {
             address: data?.address,
             vehicleComapny: data?.vehicleComapny,
             registrationNumber: data?.registrationNumber,
+            id: data?.id,
 
         };
 
@@ -181,7 +184,7 @@ const EditPetDetailsForm = (props) => {
                     // window.location.reload(); 
                     // setresponseScreen(response?.data);
                     // navigate('/successfull-submit', (response?.data));
-                    navigate('/successfull-submit', {
+                    navigate('/successfull-edit', { 
                         state: res?.data
                     });
                 } else {
@@ -289,7 +292,7 @@ const EditPetDetailsForm = (props) => {
                             </label>
                             <select
                                 // value={applicationFullData?.ulb_id}
-                                {...formik.getFieldProps("ulbId")}
+                                {...formik.getFieldProps("ulb")}
                                 name='ulb'
                                 className={style?.textFiled}
                             >
