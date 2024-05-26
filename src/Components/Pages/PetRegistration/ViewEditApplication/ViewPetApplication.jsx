@@ -331,10 +331,10 @@ const ViewPetApplication = () => {
                                                 <div className='text-[#37517e]'>ULB Name</div>
                                                 <div className='font-semibold text-sm text-[#37517e]'>{applicationFullData?.ulb_name ? applicationFullData?.ulb_name : "N/A"}</div>
                                             </div>
-                                            <div className='flex-1 text-xs'>
+                                            {/* <div className='flex-1 text-xs'>
                                                 <div className='text-[#37517e]'>Ward No</div>
                                                 <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.ward_name ? applicationFullData?.ward_name : "N/A"}</div>
-                                            </div>
+                                            </div> */}
                                             {/* <div className='flex-1 text-xs'>
                                                 <div className='text-[#37517e]'>Apply Through</div>
                                                 <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.apply_through_name ? applicationFullData?.apply_through_name : "N/A"}</div>
@@ -399,7 +399,7 @@ const ViewPetApplication = () => {
                                                 </div>
                                             </div> */}
                                             <div className='flex-1 text-xs'>
-                                                <div className='text-[#37517e]'>VIN Number</div>
+                                                <div className='text-[#37517e]'> VIN Number / CH No.</div>
                                                 <div className='font-bold text-sm text-[#37517e]'>
                                                     <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.vehicle_name}</div>
                                                 </div>

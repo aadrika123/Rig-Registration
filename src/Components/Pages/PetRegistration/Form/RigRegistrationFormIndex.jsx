@@ -59,15 +59,15 @@ const RigRegistrationFormIndex = (props) => {
   const navigate = useNavigate();
   // ==== Formik Start
   const validationSchema = yup.object({
-    ulb: yup.string().required("Kindly enter a value."),
+    // ulb: yup.string().required("Kindly enter a value."),
     address: yup.string().required("Kindly enter a value."),
 
     applicantName: yup
       .string()
       .matches(/^[a-zA-Z0-9\s,.:-]+$/, "Only text is allowed")
       .required("Kindly enter a value."),
-    ownerCategory: yup.string().required("Kindly enter a value."),
-    ward: yup.string().required("Kindly enter a value."),
+    // ownerCategory: yup.string().required("Kindly enter a value."),
+    // ward: yup.string().required("Kindly enter a value."),
 
     // mobileNo: yup.string()
     // .matches(/^[0-9]{10}$/, 'Mobile number must be exactly 10 digits.')
@@ -95,11 +95,11 @@ const RigRegistrationFormIndex = (props) => {
   });
 
   const initialValues = {
-    ulb: "",
-    ulbId: "",
+    // ulb: "",
+    // ulbId: "",
     applicantName: "",
-    ownerCategory: "",
-    ward: "",
+    // ownerCategory: "",
+    // ward: "",
     mobileNo: "",
     email: "",
     address: "",
@@ -207,8 +207,8 @@ const RigRegistrationFormIndex = (props) => {
     const payload = {
       ulbId: data?.ulb,
       applicantName: data?.applicantName,
-      ownerCategory: data?.ownerCategory,
-      ward: data?.ward,
+      ownerCategory: 1,
+      // ward: data?.ward,
       mobileNo: data?.mobileNo,
       email: data?.email,
       address: data?.address,
@@ -304,23 +304,23 @@ const RigRegistrationFormIndex = (props) => {
   }, []);
 
   //Get Ward list by ulb selection
-  useEffect(() => {
-    setLoader(true);
-    AxiosInterceptors.post(api_wardList, { ulbId: formik.values.ulb }, header)
-      .then((res) => {
-        setLoader(false);
-        if (res.data.status) {
-          setWardList(res.data.data);
-          console.log("Ward List", res.data);
-        } else {
-          console.log("Error fetching Ward list");
-        }
-      })
-      .catch((err) => {
-        setLoader(false);
-        console.log("Error while getting Ward list");
-      });
-  }, [formik.values.ulb]);
+  // useEffect(() => {
+  //   setLoader(true);
+  //   AxiosInterceptors.post(api_wardList, { ulbId: formik.values.ulb }, header)
+  //     .then((res) => {
+  //       setLoader(false);
+  //       if (res.data.status) {
+  //         setWardList(res.data.data);
+  //         console.log("Ward List", res.data);
+  //       } else {
+  //         console.log("Error fetching Ward list");
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       setLoader(false);
+  //       console.log("Error while getting Ward list");
+  //     });
+  // }, [formik.values.ulb]);
 
 
   // if (responseScreen?.status == true) {
@@ -348,7 +348,7 @@ const RigRegistrationFormIndex = (props) => {
         <div className='overflow-y-auto '>
           <div className='col-span-12 ml-2 my-2'>
             <div className='text-lg text-left text-gray-600 font-semibold'>
-              # Property Details
+              # Property Detail
             </div>
             {/* <p className='border-b border-gray-500'></p> */}
           </div>
@@ -370,14 +370,14 @@ const RigRegistrationFormIndex = (props) => {
                   </option>
                 ))}
               </select>
-              <p className='text-red-500 text-xs'>
+              {/* <p className='text-red-500 text-xs'>
                 {formik.touched.ulb && formik.errors.ulb
                   ? formik.errors.ulb
                   : null}
-              </p>
+              </p> */}
             </div>
 
-            <div className='m-2'>
+            {/* <div className='m-2'>
               <label className={style?.label} htmlFor='ownerCategory'>
                 Category of Application
                 <span className={style?.required}>*</span>
@@ -422,7 +422,7 @@ const RigRegistrationFormIndex = (props) => {
                   ? formik.errors.ward
                   : null}
               </p>
-            </div>
+            </div> */}
           </div>
 
           <div className='col-span-12 ml-2 my-2'>
@@ -623,7 +623,7 @@ const RigRegistrationFormIndex = (props) => {
             </div>
             <div className='m-3'>
               <label className={style?.label} htmlFor='vehicleComapny'>
-                VIN Number<span className={style?.required}>*</span>
+                VIN Number / CH No.<span className={style?.required}>*</span>
               </label>
               <input
                 {...formik.getFieldProps("vehicleComapny")}

@@ -71,8 +71,8 @@ const EditPetDetailsForm = (props) => {
             .string()
             .matches(/^[a-zA-Z0-9\s,.:-]+$/, "Only text is allowed")
             .required("Kindly enter a value."),
-        ownerCategory: yup.string().required("Kindly enter a value."),
-        ward: yup.string().required("Kindly enter a value."),
+        // ownerCategory: yup.string().required("Kindly enter a value."),
+        // ward: yup.string().required("Kindly enter a value."),
         email: yup.string().email().required("Kindly enter a value."),
         vehicleComapny: yup.string().required("Kindly enter a value."),
         fitness: yup.string().required("Kindly enter a value."),
@@ -85,14 +85,14 @@ const EditPetDetailsForm = (props) => {
         ulbId: applicationFullData?.ulb_id,
         // ulb: "",
         applicantName: applicationFullData?.applicant_name,
-        ownerCategory: applicationFullData?.owner_type,
+        ownerCategory: 1,
         ward: applicationFullData?.ward_id,
         mobileNo: applicationFullData?.mobile_no,
         email: applicationFullData?.email,
         address: applicationFullData?.address,
         vehicleComapny: applicationFullData?.vehicle_name,
         registrationNumber: applicationFullData?.vehicle_no,
-       id :applicationFullData?.id,
+       id :applicationFullData?.application_id,
         fitness: "",
         taxCopy: "",
         license: "",
@@ -146,8 +146,8 @@ const EditPetDetailsForm = (props) => {
         const payload = {
             ulbId: data?.ulbId,
             applicantName: data?.applicantName,
-            ownerCategory: data?.ownerCategory,
-            ward: data?.ward,
+            ownerCategory: 1,
+            // ward: data?.ward,
             mobileNo: data?.mobileNo,
             email: data?.email,
             address: data?.address,
@@ -310,7 +310,7 @@ const EditPetDetailsForm = (props) => {
                             </p>
                         </div>
 
-                        <div className='m-2'>
+                        {/* <div className='m-2'>
                             <label className={style?.label} htmlFor='ownerCategory'>
                                 Category of Application
                                 <span className={style?.required}>*</span>
@@ -330,9 +330,9 @@ const EditPetDetailsForm = (props) => {
                                     ? formik.errors.ownerCategory
                                     : null}
                             </p>
-                        </div>
+                        </div> */}
 
-                        <div className='m-2'>
+                        {/* <div className='m-2'>
                             <label className={style?.label} htmlFor='ward'>
                                 Ward Number<span className={style?.required}>*</span>
                             </label>
@@ -355,7 +355,7 @@ const EditPetDetailsForm = (props) => {
                                     ? formik.errors.ward
                                     : null}
                             </p>
-                        </div>
+                        </div> */}
                     </div>
 
                     <div className='col-span-12 ml-2 my-2'>
@@ -482,7 +482,7 @@ const EditPetDetailsForm = (props) => {
                         </div>
                         <div className='m-3'>
                             <label className={style?.label} htmlFor='vehicleComapny'>
-                                VIN Number<span className={style?.required}>*</span>
+                            VIN Number / CH No.<span className={style?.required}>*</span>
                             </label>
                             <input
                                 {...formik.getFieldProps("vehicleComapny")}

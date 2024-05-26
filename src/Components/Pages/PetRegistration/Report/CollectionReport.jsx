@@ -69,12 +69,12 @@ const CollectionReport = () => {
             Cell: ({ row }) => <div>{row?.index + 1}</div>,
             className: 'w-[5%]'
         },
-        {
-            Header: "Ward No.",
-            accessor: "ward_name",
-            Cell: (props) => { return nullToNA(props?.value) },
-            className: 'w-[5%]'
-        },
+        // {
+        //     Header: "Ward No.",
+        //     accessor: "ward_name",
+        //     Cell: (props) => { return nullToNA(props?.value) },
+        //     className: 'w-[5%]'
+        // },
         {
             Header: 'Application Type',
             accessor: 'application_type',

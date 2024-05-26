@@ -115,7 +115,7 @@ const RejectPetApplication = (props) => {
         },
         {
             Header: "Type",
-            accessor: "application_type",
+            accessor: "ref_application_type",
         },
         {
             Header: "APPLIED BY",

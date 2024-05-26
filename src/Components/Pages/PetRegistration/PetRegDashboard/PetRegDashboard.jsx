@@ -177,7 +177,7 @@ const pendingDatas = landingDashboardData?.pendingApplicationCount?.total_pendin
                                                     <td className="px-2 py-2 text-sm text-left">{index + 1}</td>
                                                     <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.application_no)}</td>
                                                     <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.applicant_name)}</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.application_type)}</td>
+                                                    <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.ref_application_type)}</td>
                                                     <td className="px-2 py-2 text-sm text-left">{indianDate(data?.application_apply_date)}</td>
 
                                                     <td className="px-2 py-2 text-sm text-left">

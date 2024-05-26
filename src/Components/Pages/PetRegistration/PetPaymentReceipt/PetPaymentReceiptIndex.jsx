@@ -4,10 +4,14 @@ import axios from "axios";
 import { AiFillPrinter } from "react-icons/ai";
 import { useReactToPrint } from "react-to-print";
 import { useParams } from "react-router-dom";
-import PetRegAPIList from "@/Components/api/PetRegAPIList";
+import PetRegAPIList, { QrUrl } from "@/Components/api/PetRegAPIList";
 import ulb_data from "@/Components/Common/DynamicData";
 import useSetTitle from "@/Components/Common/useSetTitle";
 import { nullToNA } from "@/Components/Common/PowerupFunctions";
+import { QRCodeSVG } from "qrcode.react";
+import QrCode from "./QrCode";
+import BackendUrl from "@/Components/api/BackendUrl";
+// import { QrCode } from "lucide-react";
 
 // Functional component for displaying Pet Payment Receipt
 const PetPaymentReceiptIndex = () => {
@@ -55,12 +59,12 @@ const PetPaymentReceiptIndex = () => {
       });
   };
 
-   // Fetch data when the component mounts
+  // Fetch data when the component mounts
   useEffect(() => {
     fetchData()
   }, []);
 
-console.log("data",fetchedData);
+  console.log("data", fetchedData);
   return (
     <>
       <div className="" >
@@ -105,7 +109,7 @@ console.log("data",fetchedData);
                       {nullToNA(fetchedData?.ulb_address)}
                     </h1>
                     <h1 className="font-semibold text-xs text-center text-gray-800 ">
-                    {nullToNA(fetchedData?.ulb_email)}
+                      {nullToNA(fetchedData?.ulb_email)}
                     </h1>
                   </div>
                 </div>
@@ -132,14 +136,15 @@ console.log("data",fetchedData);
                           <h1 className="flex text-gray-900  font-semibold">
                             Registration No. :
                           </h1>
+
                           <h1 className="flex   pl-2">{fetchedData?.applicationNo}</h1>
                         </div>
-                        {/* <div className="flex p-1 text-1xl">
+                        <div className="flex p-1 text-1xl">
                           <h1 className="flex text-gray-900  font-semibold">
-                            Token No. :
+                            Transaction No. :
                           </h1>
-                          <h1 className="flex   pl-2">{fetchedData?.tokenNo || "N/A"}</h1>
-                        </div> */}
+                          <h1 className="flex   pl-2">{fetchedData?.transactionNo || "N/A"}</h1>
+                        </div>
                       </td>
                       <td className=" ">
                         <div className="flex justify-end p-1 text-1xl">
@@ -147,7 +152,9 @@ console.log("data",fetchedData);
                             Date :
                           </h1>
                           <h1 className="flex  pl-2 ">{fetchedData?.todayDate}</h1>
+
                         </div>
+
                       </td>
                     </tr>
                   </table>
@@ -171,10 +178,10 @@ console.log("data",fetchedData);
                       towards <span className="font-semibold">{fetchedData?.toward}</span>{" "}
                     </span>{" "}
                     <span>
-                    <h1 className="mt-1"> Payment Mode :   <span className="font-semibold">  {fetchedData?.paymentMode} </span> dated <span className="font-semibold">{fetchedData?.paymentDate}.</span></h1>
-                    {/* <h1 className="mt-1"> Type of Animal :   <span className="font-semibold">  {fetchedData?.typeOfAnimal || 'NA'} </span></h1>
+                      <h1 className="mt-1"> Payment Mode :   <span className="font-semibold">  {fetchedData?.paymentMode} </span> dated <span className="font-semibold">{fetchedData?.paymentDate}.</span></h1>
+                      {/* <h1 className="mt-1"> Type of Animal :   <span className="font-semibold">  {fetchedData?.typeOfAnimal || 'NA'} </span></h1>
                    <h1 className="mt-1"> Type of Breed :   <span className="font-semibold">  {fetchedData?.typeOfBreed || 'NA' } </span></h1> */}
-                    
+
                     </span>
                     {/* <span>
                         Vide cash
@@ -188,6 +195,7 @@ console.log("data",fetchedData);
 
                   <div className="mt-[20%]">
 
+
                     <div className="grid grid-cols-4 p-8">
                       <div className="grid col-span-2">
                         <h1 className="ml-[10%] ">
@@ -196,12 +204,19 @@ console.log("data",fetchedData);
                         <h1 className="flex justify-start">
                           Signature of Authorized Officer
                         </h1>
+
                         {/* <h1 className="ml-[10%] ">
                           <span> <a href="https://ibb.co/0MPsGmf"><img src="https://i.ibb.co/fpmDxqC/Jon-Kirsch-s-Signature.png" alt="Jon-Kirsch-s-Signature" width="100" height="100" className=' ml-10' border="0" /></a></span>
                         </h1>
                         <h1 className="flex justify-start">
                           Enterd in Collection Register
                         </h1> */}
+                        <div className='float-right  '>
+                          <QrCode
+                            size='80'
+                            url={`${QrUrl}/rig/rig-payment-receipt/${fetchedData?.transactionNo}`}
+                          />
+                        </div>  
                       </div>
                       {/* <div className="grid col-span-2">
                         <h1 className="ml-[40%] ">
@@ -213,7 +228,9 @@ console.log("data",fetchedData);
 
                       </div> */}
 
+
                     </div>
+
                     <h1 className="ml-2">N.B Cheque/Draft/Bankers Cheque are subject to realisation</h1>
 
                   </div>
