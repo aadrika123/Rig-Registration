@@ -244,7 +244,7 @@ const ViewRejectApplication = () => {
                                                                 <p className="text-red-400 font-semibold">Rejected</p>
                                                                 : ""}
                                                             {items?.verify_status == 1 ?
-                                                                <p className="text-red-400 font-semibold">Verified</p>
+                                                                <p className="text-green-500 font-semibold">Verified</p>
                                                                 : ""}
                                                         </td>
                                                         <td className="px-2 py-2 text-sm text-left text-[#37517e]">
