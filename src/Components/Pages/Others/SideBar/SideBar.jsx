@@ -61,9 +61,10 @@ const SideBar = (props) => {
               {/* 👉 ========logo========== 👈 */}
               <div class="text-center mb-4">
                 <div class={`text-xl text-${tcolor}-800 flex flex-col items-start justify-center relative`}>
-                  <span className='flex justify-center w-full'> <span className={`text-[50px] flex justify-center py-2 text-${tcolor}-800`}><FcBusinessman /></span></span>
-                  <span className='flex justify-center font-semibold w-full'>{userDetails?.userName}</span>
-                  <span className='flex justify-center w-full uppercase text-sm font-semibold'>{userDetails?.roles?.map((elem) => elem)}</span>
+                  <span className='flex justify-center w-full'> <span className={`text-[50px] flex justify-center py-2 text-${tcolor}-800`}><FcBusinessman /></span>
+                  </span>
+                  <span className='flex justify-center font-semibold w-full'>{userDetails?.roles?.map((elem) => elem)}</span>
+                  <span className='flex justify-center w-full uppercase text-sm font-semibold'> {userDetails?.userName}</span>
                 </div>
                 <hr className={`my-4 bg-${bg}-700 h-[0.1rem]`} />
               </div>
