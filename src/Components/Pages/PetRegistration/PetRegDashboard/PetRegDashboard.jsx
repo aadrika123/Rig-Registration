@@ -25,7 +25,7 @@ import { indianAmount, indianDate, nullToNA } from '@/Components/Common/PowerupF
 import { useNavigate } from 'react-router-dom'
 
 function PetRegDashboard() {
-const Navigate = useNavigate()
+    const Navigate = useNavigate()
     // 👉 Setting Title 👈
     useSetTitle("Home")
 
@@ -55,9 +55,9 @@ const Navigate = useNavigate()
             })
             .finally(() => setisLoading(false))
     }
-// const DashboardData = landingDashboardData?.pendingApplicationCount?.map((item) => (item?.total_pending_application) )
-const approveddDatas = landingDashboardData?.approvedApplicationCount?.total_approved_application
-const pendingDatas = landingDashboardData?.pendingApplicationCount?.total_pending_application
+    // const DashboardData = landingDashboardData?.pendingApplicationCount?.map((item) => (item?.total_pending_application) )
+    const approveddDatas = landingDashboardData?.approvedApplicationCount?.total_approved_application
+    const pendingDatas = landingDashboardData?.pendingApplicationCount?.total_pending_application
 
 
     // 👉 Function 2 👈
@@ -83,6 +83,9 @@ const pendingDatas = landingDashboardData?.pendingApplicationCount?.total_pendin
 
     return (
         <>
+            <div className='bg-white shadow-xl py-2 px-2 md:px-auto md:py-2  mx-10  text-center text-3xl font-bold'>
+                {landingDashboardData?.UlbName} 
+            </div>
 
             {/* 👉 Heading Card 👈 */}
             <Heading
@@ -90,11 +93,14 @@ const pendingDatas = landingDashboardData?.pendingApplicationCount?.total_pendin
                 matchForSafWf={['REGISTRAR', 'BACK OFFICE']}
                 allRole={allRole}
                 heading={"Rig Home Page"}
+                // ulbName={"Akshay"}
                 subHeading={"Verified Account"}
+
                 changePasswordLink={'/change-password'}
                 // mainWorkflowLink={'/rig-workflow'}
                 applyLink={'/rig-registration-form'}
-                // applyLink={'/rig-registration-form'}
+            // applyLink={'/rig-registration-form'}
+            
             />
 
             {/* 👉 Middle Cards 👈 */}
@@ -145,58 +151,58 @@ const pendingDatas = landingDashboardData?.pendingApplicationCount?.total_pendin
             <div className='mx-10 mt-10 md:w-auto w-[80vw] overflow-auto'>
                 <div className="font-bold text-md mb-2 flex-1 text-gray-600"># Recent Applications</div>
                 <div className="py-0 shadow-xl mt-3">
-                        <div className="overflow-x-auto">
-                            <div className="inline-block min-w-full overflow-hidden">
-                                <table className="min-w-full leading-normal">
-                                    <thead className='bg-slate-200'>
-                                        <tr className='font-semibold'>
-                                            <th scope="col" className="px-5 py-2 border-b border-gray-200 text-gray-800  text-left text-sm">
-                                                #
-                                            </th>
-                                            <th scope="col" className="px-5 py-2 border-b border-gray-200 text-gray-800  text-left text-sm">
+                    <div className="overflow-x-auto">
+                        <div className="inline-block min-w-full overflow-hidden">
+                            <table className="min-w-full leading-normal">
+                                <thead className='bg-slate-200'>
+                                    <tr className='font-semibold'>
+                                        <th scope="col" className="px-5 py-2 border-b border-gray-200 text-gray-800  text-left text-sm">
+                                            #
+                                        </th>
+                                        <th scope="col" className="px-5 py-2 border-b border-gray-200 text-gray-800  text-left text-sm">
                                             Application No
-                                            </th>
-                                            <th scope="col" className="px-5 py-2 border-b border-gray-200 text-gray-800  text-left text-sm">
+                                        </th>
+                                        <th scope="col" className="px-5 py-2 border-b border-gray-200 text-gray-800  text-left text-sm">
                                             Applicant Name
-                                            </th>
-                                            <th scope="col" className="px-5 py-2 border-b border-gray-200 text-gray-800  text-left text-sm">
+                                        </th>
+                                        <th scope="col" className="px-5 py-2 border-b border-gray-200 text-gray-800  text-left text-sm">
                                             Application Type
-                                            </th>
-                                            <th scope="col" className="px-5 py-2 border-b border-gray-200 text-gray-800  text-left text-sm">
+                                        </th>
+                                        <th scope="col" className="px-5 py-2 border-b border-gray-200 text-gray-800  text-left text-sm">
                                             Apply Date
-                                            </th>
-                                            <th scope="col" className="px-5 py-2 border-b border-gray-200 text-gray-800  text-left text-sm">
-                                           Action
-                                            </th>
+                                        </th>
+                                        <th scope="col" className="px-5 py-2 border-b border-gray-200 text-gray-800  text-left text-sm">
+                                            Action
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    {landingDashboardData?.recentApplications?.map((data, index) => (
+                                        <tr className="bg-white shadow-lg border-b border-gray-200">
+                                            <td className="px-2 py-2 text-sm text-left">{index + 1}</td>
+                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.application_no)}</td>
+                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.applicant_name)}</td>
+                                            <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.ref_application_type)}</td>
+                                            <td className="px-2 py-2 text-sm text-left">{indianDate(data?.application_apply_date)}</td>
+
+                                            <td className="px-2 py-2 text-sm text-left">
+                                                <button onClick={() => Navigate(`/viewRigApplication/${data?.id}`)} type="button" className="cypress_owner_add_update px-4 py-2 border border-indigo-500 text-indigo-500 font-medium text-xs leading-tight capitalize rounded shadow-xl hover:bg-indigo-700 hover:text-white hover:shadow-lg  active:shadow-lg transition duration-150 ease-in-out cursor-pointer">View</button>
+                                                {/* <button  type="button" className="cypress_owner_add_update px-4 py-2 border border-indigo-500 text-indigo-500 font-medium text-xs leading-tight capitalize rounded shadow-xl hover:bg-indigo-700 hover:text-white hover:shadow-lg  active:shadow-lg transition duration-150 ease-in-out cursor-pointer">View</button> */}
+                                            </td>
                                         </tr>
-                                    </thead>
-                                    <tbody>
+                                    ))
+                                    }
+                                    {
+                                        landingDashboardData?.recentApplications?.length == 0 &&
+                                        <tr><td colSpan={5} className="text-center text-red-500 font-semibold py-4">Record Not Found ...</td></tr>
+                                    }
 
-                                        { landingDashboardData?.recentApplications?.map((data, index) => (
-                                                <tr className="bg-white shadow-lg border-b border-gray-200">
-                                                    <td className="px-2 py-2 text-sm text-left">{index + 1}</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.application_no)}</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.applicant_name)}</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{nullToNA(data?.ref_application_type)}</td>
-                                                    <td className="px-2 py-2 text-sm text-left">{indianDate(data?.application_apply_date)}</td>
-
-                                                    <td className="px-2 py-2 text-sm text-left">
-                                                        <button onClick={() => Navigate(`/viewRigApplication/${data?.id}`)} type="button" className="cypress_owner_add_update px-4 py-2 border border-indigo-500 text-indigo-500 font-medium text-xs leading-tight capitalize rounded shadow-xl hover:bg-indigo-700 hover:text-white hover:shadow-lg  active:shadow-lg transition duration-150 ease-in-out cursor-pointer">View</button>
-                                                        {/* <button  type="button" className="cypress_owner_add_update px-4 py-2 border border-indigo-500 text-indigo-500 font-medium text-xs leading-tight capitalize rounded shadow-xl hover:bg-indigo-700 hover:text-white hover:shadow-lg  active:shadow-lg transition duration-150 ease-in-out cursor-pointer">View</button> */}
-                                                    </td>
-                                                </tr>
-                                            ))
-                                        }
-                                        {
-                                            landingDashboardData?.recentApplications?.length == 0 &&
-                                            <tr><td colSpan={5} className="text-center text-red-500 font-semibold py-4">Record Not Found ...</td></tr>
-                                        }
-
-                                    </tbody>
-                                </table>
-                            </div>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
+                </div>
                 {/* <Table
                     loading={isLoading2}
                     heading={['APPLICATION NO.', 'APPLICATION NAME', 'PHONE NO', 'TYPE', 'APPLIED DATE']}
