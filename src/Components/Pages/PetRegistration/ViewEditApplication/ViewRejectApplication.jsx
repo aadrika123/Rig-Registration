@@ -239,14 +239,14 @@ const ViewRejectApplication = () => {
                                                         <td className="px-2 py-2 text-sm text-left text-[#37517e]">{items?.verify_status == 0 ?
                                                             <p className="text-orange-400 font-semibold">Pending</p>
                                                             : ""
-                                                            }
+                                                        }
                                                             {items?.verify_status == 2 ?
-                                                            <p className="text-red-400 font-semibold">Rejected</p>
-                                                            : ""}
+                                                                <p className="text-red-400 font-semibold">Rejected</p>
+                                                                : ""}
                                                             {items?.verify_status == 1 ?
-                                                            <p className="text-red-400 font-semibold">Verified</p>
-                                                            : ""}
-                                                            </td>
+                                                                <p className="text-red-400 font-semibold">Verified</p>
+                                                                : ""}
+                                                        </td>
                                                         <td className="px-2 py-2 text-sm text-left text-[#37517e]">
 
                                                             {items?.doc_path?.split('.').pop() == "pdf" ? <img className="h-10 w-10 border rounded shadow-md" src={pdfImage} /> :
@@ -262,9 +262,10 @@ const ViewRejectApplication = () => {
                                                                     View
                                                                 </button>
                                                             ) : (
-                                                                <button disabled className="bg-indigo-200 text-white px-2 py-1 rounded">
-                                                                    View
-                                                                </button>
+                                                                // <button disabled className="bg-indigo-200 text-white px-2 py-1 rounded">
+                                                                //     View
+                                                                // </button>
+                                                                "Rejected"
                                                             )}
                                                         </td>
                                                     </tr>
@@ -349,6 +350,30 @@ const ViewRejectApplication = () => {
                             </div>
                         </div>
                     }
+                    {/* Modal */}
+                    {selectedDoc && (
+                        <div className="fixed inset-0 flex items-center justify-center bg-gray-200 bg-opacity-50 z-auto">
+                            <div className="bg-white p-6 rounded-lg shadow-lg" style={{ width: '60vw', height: '90vh' }}>
+                                <div className="flex justify-between items-center mb-4">
+                                    <h2 className="text-lg font-semibold">{selectedDoc.name}</h2>
+                                    <button onClick={handleCloseModal} className="text-gray-500">
+                                        &times;
+                                    </button>
+                                </div>
+                                {/* Render the content based on document type */}
+                                {selectedDoc.path.endsWith(".pdf") ? (
+                                    <iframe
+                                        src={selectedDoc.path}
+                                        className="w-full h-96"
+                                        title={selectedDoc.name}
+                                        style={{ height: 'calc(100% - 20px)' }}
+                                    ></iframe>
+                                ) : (
+                                    <img src={selectedDoc.path} alt={selectedDoc.name} className="w-full h-full" />
+                                )}
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div >
         </>
