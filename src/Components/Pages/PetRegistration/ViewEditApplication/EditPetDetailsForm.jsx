@@ -82,7 +82,7 @@ const EditPetDetailsForm = (props) => {
     });
 
     const initialValues = {
-        ulbId: applicationFullData?.ulb_id,
+        // ulbId: applicationFullData?.ulb_id,
         // ulb: "",
         applicantName: applicationFullData?.applicant_name,
         ownerCategory: 1,
@@ -144,7 +144,7 @@ const EditPetDetailsForm = (props) => {
         console.log(data, "payload====>>");
         setLoader(true);
         const payload = {
-            ulbId: data?.ulbId,
+            // ulbId: data?.ulbId,
             applicantName: data?.applicantName,
             ownerCategory: 1,
             // ward: data?.ward,
@@ -280,18 +280,17 @@ const EditPetDetailsForm = (props) => {
                     </h1>
                 </div>
                 <div className='overflow-y-auto '>
-                    <div className='col-span-12 ml-2 my-2'>
+                    {/* <div className='col-span-12 ml-2 my-2'>
                         <div className='text-lg text-left text-gray-600 font-semibold'>
                             # Property Details
                         </div>
-                    </div>
+                    </div> */}
                     <div className='grid grid-cols-1 md:grid-cols-3 bg-white shadow-md rounded-md py-2'>
-                        <div className='m-2'>
+                        {/* <div className='m-2'>
                             <label className={style?.label} htmlFor='ulb'>
                                 Select ULB <span className={style?.required}>*</span>
                             </label>
                             <select
-                                // value={applicationFullData?.ulb_id}
                                 {...formik.getFieldProps("ulb")}
                                 name='ulb'
                                 className={style?.textFiled}
@@ -308,7 +307,7 @@ const EditPetDetailsForm = (props) => {
                                     ? formik.errors.ulb
                                     : null}
                             </p>
-                        </div>
+                        </div> */}
 
                         {/* <div className='m-2'>
                             <label className={style?.label} htmlFor='ownerCategory'>
