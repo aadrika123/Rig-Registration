@@ -228,10 +228,10 @@ const PetPaymentReceiptIndex = () => {
                   </div>
                   <div className=" p-8 float-right">
                       <div className="grid col-span-2">
-                        <h1 className="ml-[10%] ">
+                        {/* <h1 className="ml-[10%] ">
                           <span> <a href="https://ibb.co/0MPsGmf"><img src="https://i.ibb.co/fpmDxqC/Jon-Kirsch-s-Signature.png" alt="Jon-Kirsch-s-Signature" width="100" height="100" className=' ml-10' border="0" /></a></span>
-                        </h1>
-                        <h1 className="flex justify-start">
+                        </h1> */}
+                        <h1 className="flex justify-start mt-10">
                           Signature of Authorized Officer
                         </h1>
                       </div>
@@ -254,6 +254,7 @@ const PetPaymentReceiptIndex = () => {
                     
 
                     <h1 className="ml-2">N.B Cheque/Draft/Bankers Cheque are subject to realisation</h1>
+                    <h1 className="ml-2">This is a computer-generated receipt and it does not require a signature.</h1>
 
                   </div>
 
