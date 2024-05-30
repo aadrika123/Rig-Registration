@@ -21,7 +21,7 @@ class RigLIcenseReceipt extends React.Component {
 
     render() {
 
-        console.log("paymentData...1", this.props?.paymentData)
+        console.log("paymentData...1", this.props?.licenceData)
 
         return (
 

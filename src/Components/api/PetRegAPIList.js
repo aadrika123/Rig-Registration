@@ -39,7 +39,7 @@ export default function PetRegAPIList() {
         api_PetRegDeleteApplication: `${baseUrl}/api/rig/application/delete`,
         api_PetRegViewApplication: `${baseUrl}/api/rig/application/get-details`,
 
-        api_PetApproveViewApplication: `${baseUrl}/api/rig/get-approve-registration-list`,
+        api_PetApproveViewApplication: `${baseUrl}/api/rig/get-approve-registration-list-V1`,
         api_PetPreviewViewApplication: `${baseUrl}/api/rig/get-renewal-registration-details`,
         api_PetRegUploadDocument: `${baseUrl}/api/rig/application/upload-docs`,
         api_ListOfSafHolding: `${baseUrl}/api/rig/citizen-holding-saf`,

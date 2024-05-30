@@ -96,7 +96,7 @@ function App() {
     { path: '/successfull-edit', element: <SuccessfulSubmitModal2 /> },
 
 
-    
+
     { path: '/rig-payment-offline/:id', element: <PetOfflinePayment /> },
 
 
