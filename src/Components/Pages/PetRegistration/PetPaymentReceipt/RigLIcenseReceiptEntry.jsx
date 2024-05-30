@@ -53,7 +53,7 @@ function RigLIcenseReceiptEntry() {
 
     return (
         <>
-            <div className='px:0 md:px-[22rem] lg:[22rem]'>
+            <div className='px:0 md:px-[10rem] text-left '>
                 <ReactToPrint
                     trigger={() => <button className="mt-4 ml-8  px-6 py-1 text-center bg-sky-400 text-white font-medium text-sm ">print</button>}
                     content={() => componentRef.current}

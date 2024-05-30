@@ -96,7 +96,7 @@ function App() {
     { path: '/successfull-edit', element: <SuccessfulSubmitModal2 /> },
 
 
-    { path: '/rig-license-details/:id', element: <RigLIcenseReceiptEntry /> },
+    
     { path: '/rig-payment-offline/:id', element: <PetOfflinePayment /> },
 
 
@@ -111,6 +111,7 @@ function App() {
 
 
   // { path: '/rig-payment-receipt/:transNo', element: <PetPaymentReceiptIndex /> },
+  // { path: '/rig-license-details/:id', element: <RigLIcenseReceiptEntry /> },
   return (
     <>
 
@@ -122,6 +123,10 @@ function App() {
           <Route
             path='/rig-payment-receipt/:transNo'
             element={<PetPaymentReceiptIndex />}
+          />
+          <Route
+            path='/rig-license-details/:id'
+            element={<RigLIcenseReceiptEntry />}
           />
           <Route index element={<Login />} />
 

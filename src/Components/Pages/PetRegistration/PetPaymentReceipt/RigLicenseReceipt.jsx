@@ -13,6 +13,8 @@ import { nullToNA } from '@/Components/Common/PowerupFunctions';
 import jharkhand from "../../../assets/logo1.png";
 import { date } from 'yup';
 import moment from 'moment';
+import QrCode from "./QrCode";
+import { QrUrl } from '@/Components/api/PetRegAPIList';
 
 class RigLIcenseReceipt extends React.Component {
 
@@ -51,7 +53,7 @@ class RigLIcenseReceipt extends React.Component {
                                     {this.props?.licenceData?.ulb_name} {" "}
                                 </h1>
                                 <h1 className='font-bold text-center capitalize text-lg'>
-                                Rig Machine License {" "}
+                                    Rig Machine License {" "}
                                 </h1>
                                 {this.props?.licenceData?.application?.ulb_logo != "" ? (
                                     <img
@@ -120,13 +122,13 @@ class RigLIcenseReceipt extends React.Component {
                                                 <span className='font-normal leading-6'>
                                                     {this.props?.licenceData?.registration_id}{" "}
                                                 </span>
-                                               
-                                            </p>
-                                            
 
-                                           
+                                            </p>
+
+
+
                                             <p className=' font-semibold'>
-                                            Date of approval :{" "}
+                                                Date of approval :{" "}
                                                 <span className='font-normal leading-6'>
                                                     {/* {this.props?.licenceData?.approve_date}{" "} */}
                                                     {moment(this.props?.licenceData?.approve_date, 'YYYY-MM-DD').format('DD-MM-YYYY')}
@@ -140,7 +142,7 @@ class RigLIcenseReceipt extends React.Component {
                                                 </span>{" "}
                                             </p>
 
-                                           
+
                                             <p className=' font-semibold'>
                                                 Licence Owner Name :{" "}
                                                 <span className='font-normal  leading-6'>
@@ -150,7 +152,7 @@ class RigLIcenseReceipt extends React.Component {
                                             </p>
                                         </div>
                                         <div className=' mx-auto mt-1'>
-                                          
+
                                         </div>
                                     </div>
                                     <div className='grid grid-cols-3 w-full capitalize'>
@@ -198,7 +200,7 @@ class RigLIcenseReceipt extends React.Component {
 
                                 {/* Owner Details */}
                                 <div className='grid grid-cols-1 w-full mt-4 text-[12px]'>
-                                    <div>   
+                                    <div>
                                         This is to declare that
                                         <span className='font-semibold capitalize'>
                                             {" "}
@@ -211,7 +213,7 @@ class RigLIcenseReceipt extends React.Component {
                                                 this.props?.licenceData?.registration_id
                                             }{" "}
                                         </span>{" "}
-                                       
+
                                         for <b>4 Inches </b> drilling  has been allocated to{" "}
                                         <span className='font-semibold capitalize'>
                                             {this.props?.licenceData?.applicant_name}{" "}
@@ -228,7 +230,7 @@ class RigLIcenseReceipt extends React.Component {
                                     <p className='py-0.5'>
                                         1. Business will run according to license issued.{" "}
                                     </p>
-                                   
+
                                     <p className='py-0.5'>
                                         2. Prior information to local body regarding winding
                                         up/closer of business is necessary.{" "}
@@ -241,10 +243,19 @@ class RigLIcenseReceipt extends React.Component {
                                         4. In the case of delay, penalty will be levied according to
                                         section 459 of Jharkhand Municipal Act 2011.
                                     </p>
-                                    
-                                </div>
-                                <div className='mt-44'> 
 
+                                </div>
+                                <div className='mt-'>
+                                    <div className="grid grid-cols-4 p-8">
+                                        <div className="grid col-span-2">
+                                            <div className='float-right  '>
+                                                <QrCode
+                                                    size='80'
+                                                    url={`${QrUrl}/rig/rig-license-details/${this.props?.licenceData?.application_id}`}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div className=' mt-4 mb-4 px-2  text-justify text-red-700'>
                                     <p>
