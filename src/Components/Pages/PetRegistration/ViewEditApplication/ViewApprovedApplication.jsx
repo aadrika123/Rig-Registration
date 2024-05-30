@@ -8,6 +8,7 @@ import PetRegAPIList from '@/Components/api/PetRegAPIList.js';
 import ShimmerEffectInline from '@/Components/Common/Loaders/ShimmerEffectInline';
 import AxiosInterceptors from '@/Components/Common/AxiosInterceptors';
 import useSetTitle from '@/Components/Common/useSetTitle';
+import { nullToNA } from '@/Components/Common/PowerupFunctions';
 
 // Component for viewing details of an approved pet application
 const ViewApprovedApplication = () => {
@@ -234,6 +235,7 @@ const ViewApprovedApplication = () => {
                                                 <th className="px-2 py-3 border-b border-gray-200 text-xs uppercase text-left">#</th>
                                                 <th className="px-2 py-3 border-b border-gray-200 text-xs uppercase text-left">Document Name</th>
                                                 <th className="px-2 py-3 border-b border-gray-200 text-xs uppercase text-left">Status</th>
+                                                <th className="px-2 py-3 border-b border-gray-200 text-xs uppercase text-left">Remarks</th>
                                                 <th className="px-2 py-3 border-b border-gray-200 text-xs uppercase text-left">Preview</th>
                                                 <th className="px-2 py-3 border-b border-gray-200 text-xs uppercase text-left">View </th>
                                             </tr>
@@ -244,7 +246,9 @@ const ViewApprovedApplication = () => {
                                                     <tr className="bg-white shadow-lg border-b border-gray-200">
                                                         <td className="px-2 py-2 text-sm text-left text-[#37517e]">{i + 1}</td>
                                                         <td className="px-2 py-2 text-sm text-left text-[#37517e]">{items?.doc_code ? items?.doc_code : "N/A"}</td>
+                                                        
                                                         <td className="px-2 py-2 text-sm text-left text-[#37517e]">{items?.verify_status == 1 ? <p className="text-green-400 font-semibold">Verified</p> : <p className="text-red-400 font-semibold">Pending</p>}</td>
+                                                        <td className="px-2 py-2 text-sm text-left text-[#37517e]">{nullToNA(items?.remarks )}</td>
                                                         <td className="px-2 py-2 text-sm text-left text-[#37517e]">
 
                                                             {items?.doc_path?.split('.').pop() == "pdf" ? <img className="h-10 w-10 border rounded shadow-md" src={pdfImage} /> :
