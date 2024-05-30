@@ -48,7 +48,10 @@ class RigLIcenseReceipt extends React.Component {
                                 {/* <img src={logo} alt="" className='h-16 w-16 mx-auto' /> */}
 
                                 <h1 className='font-bold text-center capitalize text-lg mt-8'>
-                                    {this.props?.licenceData?.ulb_name} Rig Machine License{" "}
+                                    {this.props?.licenceData?.ulb_name} {" "}
+                                </h1>
+                                <h1 className='font-bold text-center capitalize text-lg'>
+                                Rig Machine License {" "}
                                 </h1>
                                 {this.props?.licenceData?.application?.ulb_logo != "" ? (
                                     <img
@@ -112,16 +115,18 @@ class RigLIcenseReceipt extends React.Component {
                                     {/* license details */}
                                     <div className='grid grid-cols-3 h-auto capitalize'>
                                         <div className='col-span-2 '>
-                                            <p className=' font-semibold'>
-                                                Municipal Rig License No :{" "}
+                                            <p className=' font-semibold whitespace-nowrap'>
+                                                Municipal Rig Machine Registration :{" "}
                                                 <span className='font-normal leading-6'>
                                                     {this.props?.licenceData?.registration_id}{" "}
                                                 </span>
+                                               
                                             </p>
+                                            
 
                                            
                                             <p className=' font-semibold'>
-                                                Approval date of Municipal Rig License :{" "}
+                                            Date of approval :{" "}
                                                 <span className='font-normal leading-6'>
                                                     {/* {this.props?.licenceData?.approve_date}{" "} */}
                                                     {moment(this.props?.licenceData?.approve_date, 'YYYY-MM-DD').format('DD-MM-YYYY')}
@@ -193,8 +198,8 @@ class RigLIcenseReceipt extends React.Component {
 
                                 {/* Owner Details */}
                                 <div className='grid grid-cols-1 w-full mt-4 text-[12px]'>
-                                    <div>
-                                        This is to declare that{" "}
+                                    <div>   
+                                        This is to declare that
                                         <span className='font-semibold capitalize'>
                                             {" "}
                                             "RIG MACHINE"

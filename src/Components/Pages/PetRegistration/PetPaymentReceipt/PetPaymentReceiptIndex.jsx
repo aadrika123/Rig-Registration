@@ -11,6 +11,7 @@ import { nullToNA } from "@/Components/Common/PowerupFunctions";
 import { QRCodeSVG } from "qrcode.react";
 import QrCode from "./QrCode";
 import BackendUrl from "@/Components/api/BackendUrl";
+import swatchBharat from "@/Components/assets/swatchBharat.png"
 // import { QrCode } from "lucide-react";
 
 // Functional component for displaying Pet Payment Receipt
@@ -80,14 +81,12 @@ const PetPaymentReceiptIndex = () => {
             </button>
           </div>
         </div>
-        <div id="printableArea" className="w-full h-full flex justify-center items-center mx-auto mt-6 " ref={componentRef}>
+        <div id="printableArea" className="w-full h-full flex justify-center items-center p-4  mt-6 " ref={componentRef}>
           <div className="">
             <div className="font-tahoma">
-              <div className="border-2 border-dashed border-gray-600  bg-white p-4 w-[250mm] h-auto  md:mx-auto lg:mx-auto  container ">
+              <div className="border-2 border-dashed border-gray-600  bg-white p-4 w-full h-auto     ">
                 <div className="grid grid-col-1 md:grid-col-12 lg:grid-col-12 relative">
-                  <div className="">
-                    <img src={ulb_data()?.ulb_logo} className="h-20 mx-auto" />
-                  </div>
+
                   <div className="">
                     <img
                       src={ulb_data()?.state_logo}
@@ -98,7 +97,38 @@ const PetPaymentReceiptIndex = () => {
                 </div>
 
                 {/* rmc */}
-                <div className="grid grid-col-1 md:grid-col-12 lg:grid-col-12 p-1 ">
+
+
+                <div className='grid grid-cols-3 h-auto bordr'>
+                  <div className='w-20 h-20 rounded-full '>
+                    <img src={ulb_data()?.ulb_logo} alt='logo'></img>
+                  </div>
+                  <div className='font-bold mx-auto  -ml-16 mt-3 whitespace-nowrap  '>
+                    <span className='uppercase text-center text-xl'>
+                      {fetchedData?.ulb}
+                    </span>
+                    <h1 className='font-normal text-center  text-xs -ml-8'>
+                      {nullToNA(fetchedData?.ulb_address)}
+                    </h1>
+                    <h1 className='font-normal text-center  text-xs -ml-8'>
+                      {nullToNA(fetchedData?.ulb_email)}
+                    </h1>
+                    <h1 className='font-semibold text-center uppercase text-lg mt-4 border border-gray-500 -ml-6'>
+                      {" "}
+                      Rig Machine Registration
+                    </h1>
+                    <h1 className='font-semibold text-center uppercase text-md border-b border-l border-r border-gray-500 -ml-6'>
+                      PAYMENT RECEIPT
+                    </h1>
+                  </div>
+
+                  <div className='w-36 h-36 rounded-full ml-28 -mt-5'>
+                    <img src={swatchBharat} alt='logo'></img>
+                  </div>
+                </div>
+
+
+                {/* <div className="grid grid-col-1 md:grid-col-12 lg:grid-col-12 p-1 ">
                   <div className="">
                     <h1 className="font-semibold text-2xl text-center ">
                       {fetchedData?.ulb}
@@ -112,19 +142,15 @@ const PetPaymentReceiptIndex = () => {
                       {nullToNA(fetchedData?.ulb_email)}
                     </h1>
                   </div>
-                </div>
+                </div> */}
 
                 {/* holding tax */}
-                <div className="grid grid-col-1 md:grid-col-12 lg:grid-col-12 p-1 ">
+                {/* <div className="grid grid-col-1 md:grid-col-12 lg:grid-col-12 p-1 ">
                   <div className="mx-auto">
-
-                    {/* <h1 className="font-semibold text-1xl text-center text-gray-800 border border-gray-700 w-[12rem] uppercase ">
-                      Market Section/
-                    </h1> */}
-
                   </div>
-                  <h1 className="font-semibold text-center underline text-2xl mt-2">Rig Registration Receipt</h1>
-                </div>
+                  <h1 className="font-semibold text-center border mx-auto px-8 border-black  text-2xl mt-2">Rig Machine Registration</h1>
+                  <h1 className="font-semibold text-center border mx-auto px-8 border-black text-2xl mt-2">Payment Receipt</h1>
+                </div> */}
 
 
                 {/* detail section 1 */}
@@ -151,7 +177,7 @@ const PetPaymentReceiptIndex = () => {
                           <h1 className="flex text-gray-900 font-semibold  ">
                             Date :
                           </h1>
-                          <h1 className="flex  pl-2 ">{fetchedData?.todayDate}</h1>
+                          <h1 className="flex  pl-2 ">{fetchedData?.paymentDate}</h1>
 
                         </div>
 
@@ -167,7 +193,7 @@ const PetPaymentReceiptIndex = () => {
                     Shri/Smt - &nbsp; <span>{fetchedData?.applicantName}</span>
                   </h1>
                   <h1 className="ml-8  flex mt-2">
-                    <span className="font-semibold whitespace-nowrap">Address - &nbsp; </span>  <span>{fetchedData?.address}</span>
+                    <span className="font-semibold whitespace-nowrap">Address of vehicle owner - &nbsp; </span>  <span>{fetchedData?.address}</span>
                   </h1>
 
                   <h1 className="ml-8 mt-4 ">
@@ -183,20 +209,24 @@ const PetPaymentReceiptIndex = () => {
                    <h1 className="mt-1"> Type of Breed :   <span className="font-semibold">  {fetchedData?.typeOfBreed || 'NA' } </span></h1> */}
 
                     </span>
-                    {/* <span>
-                        Vide cash
-                        dated  <span className="font-semibold">{fetchedData?.paymentDate}</span> 
-                       
-                      </span> */}
+
 
 
 
                   </h1>
+                  <div className="mt-4 px-8">
+                    <span>
+                      {/* Vehicle Details : <br /> */}
+                      <h1 className="">
+                        Registration No -  <span className="font-semibold">{fetchedData?.vehicleNo}</span>
+                      </h1>
+                      <h1 className=" mt-1">
+                        VIN / CH No -  <span className="font-semibold">{fetchedData?.vehicleName}</span>
+                      </h1>
 
-                  <div className="mt-[20%]">
-
-
-                    <div className="grid grid-cols-4 p-8">
+                    </span>
+                  </div>
+                  <div className=" p-8 float-right">
                       <div className="grid col-span-2">
                         <h1 className="ml-[10%] ">
                           <span> <a href="https://ibb.co/0MPsGmf"><img src="https://i.ibb.co/fpmDxqC/Jon-Kirsch-s-Signature.png" alt="Jon-Kirsch-s-Signature" width="100" height="100" className=' ml-10' border="0" /></a></span>
@@ -204,45 +234,37 @@ const PetPaymentReceiptIndex = () => {
                         <h1 className="flex justify-start">
                           Signature of Authorized Officer
                         </h1>
+                      </div>
+                    </div>
 
-                        {/* <h1 className="ml-[10%] ">
-                          <span> <a href="https://ibb.co/0MPsGmf"><img src="https://i.ibb.co/fpmDxqC/Jon-Kirsch-s-Signature.png" alt="Jon-Kirsch-s-Signature" width="100" height="100" className=' ml-10' border="0" /></a></span>
-                        </h1>
-                        <h1 className="flex justify-start">
-                          Enterd in Collection Register
-                        </h1> */}
+                  <div className="mt-[10%]">
+
+
+                    <div className="grid grid-cols-4 p-8">
+                      <div className="grid col-span-2">
                         <div className='float-right  '>
                           <QrCode
                             size='80'
                             url={`${QrUrl}/rig/rig-payment-receipt/${fetchedData?.transactionNo}`}
                           />
-                        </div>  
+                        </div>
                       </div>
-                      {/* <div className="grid col-span-2">
-                        <h1 className="ml-[40%] ">
-                          <span> <a href="https://ibb.co/0MPsGmf"><img src="https://i.ibb.co/fpmDxqC/Jon-Kirsch-s-Signature.png" alt="Jon-Kirsch-s-Signature" width="100" height="100" className=' ml-10' border="0" /></a></span>
-                        </h1>
-                        <h1 className="flex justify-start ml-[40%]">
-                          Signature of Clerk
-                        </h1>
-
-                      </div> */}
-
-
                     </div>
+
+                    
 
                     <h1 className="ml-2">N.B Cheque/Draft/Bankers Cheque are subject to realisation</h1>
 
                   </div>
 
-                  <div className="grid grid-col-1 md:grid-col-12 lg:grid-col-12 p-3 ">
+                  {/* <div className="grid grid-col-1 md:grid-col-12 lg:grid-col-12 p-3 ">
                     <div className="">
                       <img
                         src="https://zeevector.com/wp-content/uploads/LOGO/Swachh-Bharat-Logo-PNG.png"
                         className="w-24 mx-auto"
                       />
                     </div>
-                  </div>
+                  </div> */}
                 </div>
 
                 {/* holding tax details */}
