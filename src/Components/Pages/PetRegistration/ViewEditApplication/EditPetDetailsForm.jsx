@@ -49,6 +49,7 @@ const EditPetDetailsForm = (props) => {
     console.log("applicationFullData", props?.applicationFullData)
 
     const applicationFullData = props?.applicationFullData;
+    const getdocDetails = props?.docDetails;
     console.log("applicationFullData", applicationFullData)
 
     // const { api_ulbList, header, api_wardList } = WaterApiList();
@@ -75,9 +76,9 @@ const EditPetDetailsForm = (props) => {
         // ward: yup.string().required("Kindly enter a value."),
         email: yup.string().email().required("Kindly enter a value."),
         vehicleComapny: yup.string().required("Kindly enter a value."),
-        fitness: yup.string().required("Kindly enter a value."),
-        taxCopy: yup.string().required("Kindly enter a value."),
-        license: yup.string().required("Kindly enter a value."),
+        // fitness: yup.string().required("Kindly enter a value."),
+        // taxCopy: yup.string().required("Kindly enter a value."),
+        // license: yup.string().required("Kindly enter a value."),
         registrationNumber: yup.string().required("Kindly enter a value."),
     });
 
@@ -92,14 +93,14 @@ const EditPetDetailsForm = (props) => {
         address: applicationFullData?.address,
         vehicleComapny: applicationFullData?.vehicle_name,
         registrationNumber: applicationFullData?.vehicle_no,
-       id :applicationFullData?.application_id,
+        id: applicationFullData?.application_id,
         fitness: "",
         taxCopy: "",
         license: "",
-        // registrationNumber: "",
+        registrationNumber: "",
 
     };
-    console.log("object", initialValues)
+    // console.log("docDetailsdocDetailsdocDetails", props?.docDetails[0]?.doc_code)
 
     let payloadFormData = new FormData();
 
@@ -184,7 +185,7 @@ const EditPetDetailsForm = (props) => {
                     // window.location.reload(); 
                     // setresponseScreen(response?.data);
                     // navigate('/successfull-submit', (response?.data));
-                    navigate('/successfull-edit', { 
+                    navigate('/successfull-edit', {
                         state: res?.data
                     });
                 } else {
@@ -481,7 +482,7 @@ const EditPetDetailsForm = (props) => {
                         </div>
                         <div className='m-3'>
                             <label className={style?.label} htmlFor='vehicleComapny'>
-                            VIN Number / CH No.<span className={style?.required}>*</span>
+                                VIN Number / CH No.<span className={style?.required}>*</span>
                             </label>
                             <input
                                 {...formik.getFieldProps("vehicleComapny")}
@@ -503,7 +504,7 @@ const EditPetDetailsForm = (props) => {
                         </div>
                         <div className='m-3'>
                             <label className={style?.label} htmlFor='fitness'>
-                            Pollution Certificate<span className={style?.required}>*</span>
+                                Pollution Certificate<span className={style?.required}>*</span>
                             </label>
                             <input
                                 {...formik.getFieldProps("fitness")}
@@ -537,7 +538,7 @@ const EditPetDetailsForm = (props) => {
                         </div>
                         <div className='m-3'>
                             <label className={style?.label} htmlFor='license'>
-                            Registration Of Certificate<span className={style?.required}>*</span>
+                                Registration Of Certificate<span className={style?.required}>*</span>
                             </label>
                             <input
                                 {...formik.getFieldProps("license")}

@@ -104,7 +104,7 @@ const PetPaymentReceiptIndex = () => {
                     <img src={ulb_data()?.ulb_logo} alt='logo'></img>
                   </div>
                   <div className='font-bold mx-auto  -ml-16 mt-3 whitespace-nowrap  '>
-                    <span className='uppercase text-center text-xl'>
+                    <span className='uppercase text-center text-xl '>
                       {fetchedData?.ulb}
                     </span>
                     <h1 className='font-normal text-center  text-xs -ml-8'>
@@ -249,12 +249,30 @@ const PetPaymentReceiptIndex = () => {
                           />
                           <div className="">
                             <h1 className="">N.B Cheque/Draft/Bankers Cheque are subject to realisation</h1>
-                            <h1 className="">This is a computer-generated receipt and it does not require a signature.</h1>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
 
+                            <p>
+                              For More Details Please Visit:{" "}
+                              <span className="lowercase">
+                                {fetchedData?.ulbDetails?.ulb_parent_website}
+                              </span>
+                            </p>
+                            <p>
+                              OR Call us at{" "}
+                              <span className="lowercase">
+                                {fetchedData?.ulbDetails?.toll_free_no}
+                                {/* OR{" "}
+                                                            {fetchedData?.ulbDetails?.ulb_toll_free_no} */}
+                              </span>
+                            </p>
+
+                          </div>
+
+                        </div>
+
+                      </div>
+
+                    </div>
+                    <h1 className="text-center text-xs">** This is a computer-generated receipt and it does not require a signature. **</h1>
 
 
 

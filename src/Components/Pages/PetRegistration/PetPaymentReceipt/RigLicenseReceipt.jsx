@@ -302,8 +302,8 @@ class RigLIcenseReceipt extends React.Component {
                                                             {this.props?.licenceData?.ulbDetails?.ulb_toll_free_no} */}
                                                         </span>
                                                     </p>
-                                                    <p>
-                                                        Note: This is a computer generated License. This License does not require a physical signature.
+                                                    <p className='text-xs whitespace-nowrap'>
+                                                        Note: This is a computer generated License and it does not require a signature.
                                                     </p>
                                                 </div>
                                             </div>

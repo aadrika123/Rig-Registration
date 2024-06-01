@@ -297,7 +297,7 @@ const ViewPetApplication = () => {
                 }
                 {/* Rig edit  details */}
                 {
-                    applicationFullData?.payment_status == 0 && applicationFullData?.applicantsStatus != 2 && applicationFullData?.application_type == "New_Apply" ?
+                    applicationFullData?.payment_status == 0 && applicationFullData?.applicantsStatus == 1 && applicationFullData?.application_type == "New_Apply" ?
                         <div className='space-x-5 flex justify-end'>
                             <button className='bg-sky-600 hover:bg-sky-500 text-white px-5 py-1 rounded shadow flex justify-end ' onClick={openDialogModal2}>Edit Application</button>
 
@@ -612,7 +612,7 @@ const ViewPetApplication = () => {
                         x
                     </p>
                 </div>
-                <EditPetDetailsForm editPetApplicationRef2={editPetApplicationRef2} applicationFullData={editPetData} applicationFullData1={applicationFullData} />
+                <EditPetDetailsForm editPetApplicationRef2={editPetApplicationRef2} applicationFullData={editPetData} applicationFullData1={applicationFullData}  docDetails={docDetails}/>
             </dialog>
 
 
