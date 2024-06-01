@@ -144,20 +144,20 @@ function PilotWorkflowActions(props) {
 
     }
     AxiosInterceptors.post(api_sendToJSK, requestbody, header)
-    .then((res) => {
-      setisLoading(false)
+      .then((res) => {
+        setisLoading(false)
         if (res.data.status) {
-            // setDocDetails(res.data.data)
-            props.toast("Application Sent Back To JSK");
+          // setDocDetails(res.data.data)
+          props.toast("Application Sent Back To JSK");
         } else {
-            // setDocDetails(null)
-            console.log("Failed to fetch application data")
+          // setDocDetails(null)
+          console.log("Failed to fetch application data")
         }
-    })
-    .catch((err) => {
-      setisLoading(false)
+      })
+      .catch((err) => {
+        setisLoading(false)
         console.log("Error while getting application data")
-    })
+      })
   }
 
   //{////********sending application to level*******//////}
@@ -435,9 +435,13 @@ function PilotWorkflowActions(props) {
     // props.showTabFun(false);
     // props?.openModal('Application has been approved with PT no. 1122')
     // return
+    
+    console.log("safId", props?.id);
+    if (commentText == '') {
+      props?.activateBottomErrorCard(true, 'Please write some comment')
+      return
+    }
     setisLoading(true)
-
-
     // alert("clicked")
     console.log("safId", props?.id);
     console.log("Status for Approve Reject", e.target.value);
@@ -448,6 +452,7 @@ function PilotWorkflowActions(props) {
       workflowId: props?.applicationData?.data?.roleDetails?.workflow_id,
       roleId: props?.applicationData?.data?.roleDetails?.wf_role_id,
       status: e.target.value,
+      comment: commentText,
     };
 
     console.log("before approved requestbody...", requestBody);
@@ -469,7 +474,9 @@ function PilotWorkflowActions(props) {
               props.toast("Application is Rejected", "de-escalated");
           }
           props.showTabFun(false); //HIDING TABS
+
           props?.openModal(`Application has been approved ${nullToNA(response?.data?.data?.applicationNo) == "NA" ? `` : `with Registration No. ${response?.data?.data?.applicationNo} with Licence No.${response?.data?.data?.uniqueTokenId}`}`) // OPENING MODAL
+          setisLoading(false)
         } else {
 
           props?.activateBottomErrorCard(true, response?.data?.message)
@@ -480,19 +487,19 @@ function PilotWorkflowActions(props) {
 
 
       })
-    // .catch(function (error) {
-    //   console.log("errror ", error);
-    //   let msg
-    //     if (e.target.value == '1') {
-    //       msg = 'Something went wrong while approving application. Please try again later.'
-    //     } else {
-    //       msg = 'Something went wrong while rejecting application. Please try again later.'
-    //     }
-    //   props.toast("Oops! Something went wrong", 'error');
-    //   props?.activateBottomErrorCard(true, msg)
-    //   setisLoading(false)
+      // .catch(function (error) {
+      //   console.log("errror ", error);
+      //   let msg
+      //   if (e.target.value == '1') {
+      //     msg = 'Something went wrong while approving application. Please try again later.'
+      //   } else {
+      //     msg = 'Something went wrong while rejecting application. Please try again later.'
+      //   }
+      //   props.toast("Oops! Something went wrong", 'error');
+      //   props?.activateBottomErrorCard(true, msg)
+      //   setisLoading(false)
 
-    // });
+      // });
   };
   console.log("data at timeline .....", props?.id);
   console.log(
