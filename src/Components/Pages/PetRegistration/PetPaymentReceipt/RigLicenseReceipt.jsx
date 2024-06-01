@@ -50,7 +50,7 @@ class RigLIcenseReceipt extends React.Component {
                                 {/* <img src={logo} alt="" className='h-16 w-16 mx-auto' /> */}
 
                                 <h1 className='font-bold text-center capitalize text-lg mt-8'>
-                                    {this.props?.licenceData?.ulb_name} {" "}
+                                    {this.props?.licenceData?.ulbDetails?.ulb_name} {" "}
                                 </h1>
                                 <h1 className='font-bold text-center capitalize text-lg'>
                                     Rig Machine License {" "}
@@ -199,7 +199,7 @@ class RigLIcenseReceipt extends React.Component {
                                 </div>
 
                                 {/* Owner Details */}
-                                <div className='grid grid-cols-1 w-full mt-4 text-[12px]'>
+                                <div className='grid grid-cols-1 w-full mt-4 text-[13px]'>
                                     <div>
                                         This is to declare that
                                         <span className='font-semibold capitalize'>
@@ -226,7 +226,7 @@ class RigLIcenseReceipt extends React.Component {
                                 </div>
 
                                 {/* reciept footer */}
-                                <div className=' mt-4 px-1  text-justify text-sm'>
+                                <div className=' mt-4 px-1  text-justify text-[12px]'>
                                     <p className='py-0.5'>
                                         1. Business will run according to license issued.{" "}
                                     </p>
@@ -241,11 +241,11 @@ class RigLIcenseReceipt extends React.Component {
                                     </p>
                                     <p className='py-0.5'>
                                         4. In the case of delay, penalty will be levied according to
-                                        section 459 of Jharkhand Municipal Act 2011.
+                                        section 209 of Jharkhand Municipal Act 2011.
                                     </p>
 
                                 </div>
-                                <div className='mt-'>
+                                {/* <div className='mt-'>
                                     <div className="grid grid-cols-4 p-8">
                                         <div className="grid col-span-2">
                                             <div className='float-right  '>
@@ -276,7 +276,42 @@ class RigLIcenseReceipt extends React.Component {
                                         Note : This is a computer generated License. This License
                                         does not require a physical signature.
                                     </p>
+                                </div> */}
+                                <div className="mt-">
+                                    <div className="grid grid-cols- p-2">
+                                        <div className="col-span-2 gap-8">
+                                            <div className="float-left mr-4"> {/* Add margin-right here */}
+                                                <QrCode
+                                                    size="80"
+                                                    url={`${QrUrl}/rig/rig-license-details/${this.props?.licenceData?.application_id}`}
+                                                />
+                                            </div>
+                                            <div className="ml-4">
+                                                <div className="mt-4 mb-4 px-4 text-red-700">
+                                                    <p>
+                                                        For More Details Please Visit:{" "}
+                                                        <span className="lowercase">
+                                                            {this.props?.licenceData?.ulbDetails?.ulb_parent_website}
+                                                        </span>
+                                                    </p>
+                                                    <p>
+                                                        OR Call us at{" "}
+                                                        <span className="lowercase">
+                                                            {this.props?.licenceData?.ulbDetails?.toll_free_no} 
+                                                            {/* OR{" "}
+                                                            {this.props?.licenceData?.ulbDetails?.ulb_toll_free_no} */}
+                                                        </span>
+                                                    </p>
+                                                    <p>
+                                                        Note: This is a computer generated License. This License does not require a physical signature.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
+
+
                             </div>
                         </div>
                     </div>

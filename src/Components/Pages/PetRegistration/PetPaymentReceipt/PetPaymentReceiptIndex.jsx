@@ -91,7 +91,7 @@ const PetPaymentReceiptIndex = () => {
                     <img
                       src={ulb_data()?.state_logo}
                       alt=""
-                      className=" w-[22rem] h-[22rem]  absolute z-10 bg-transparent opacity-20 mt-[16rem] ml-[28%]  rounded-full border bg-center"
+                      className=" w-[22rem] h-[22rem]  absolute z-10 bg-transparent opacity-20 mt-[10rem] ml-[28%]  rounded-full border bg-center"
                     />
                   </div>
                 </div>
@@ -240,21 +240,24 @@ const PetPaymentReceiptIndex = () => {
                   <div className="mt-[2%]">
 
 
-                    <div className="grid grid-cols-4 p-8">
-                      <div className="grid col-span-2">
-                        <div className='float-right  '>
+                    <div className="flex-1 p-8">
+                      <div className="flex">
+                        <div className="flex items-center space-x-4">
                           <QrCode
                             size='80'
                             url={`${QrUrl}/rig/rig-payment-receipt/${fetchedData?.transactionNo}`}
                           />
+                          <div className="">
+                            <h1 className="">N.B Cheque/Draft/Bankers Cheque are subject to realisation</h1>
+                            <h1 className="">This is a computer-generated receipt and it does not require a signature.</h1>
+                          </div>
                         </div>
                       </div>
                     </div>
 
 
 
-                    <h1 className="ml-2">N.B Cheque/Draft/Bankers Cheque are subject to realisation</h1>
-                    <h1 className="ml-2">This is a computer-generated receipt and it does not require a signature.</h1>
+
 
                   </div>
 

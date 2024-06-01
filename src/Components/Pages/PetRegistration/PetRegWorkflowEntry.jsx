@@ -108,10 +108,10 @@ function PetRegWorkflowEntry() {
                 Header: "Applicant Name",
                 accessor: "owner_name",
             },
-            {
-                Header: "Ward No",
-                accessor: "ward_no",
-            },
+            // {
+            //     Header: "Ward No",
+            //     accessor: "ward_no",
+            // },
             {
                 Header: "Applied Date",
                 accessor: "application_apply_date",
