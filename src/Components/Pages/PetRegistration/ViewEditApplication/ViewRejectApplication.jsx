@@ -76,8 +76,11 @@ const ViewRejectApplication = () => {
     console.log("applicationFullData", applicationFullData)
     return (
         <>
-            <div className="flex justify-between">
+            <div className="flex justify-between px-2">
                 <p className="text-xl">Application No : <span className="font-semibold">{applicationFullData?.application_no}</span></p>
+            </div>
+            <div className="flex justify-between px-2 mt-2">
+                <p className="text-xl">Rejected Reason : <span className="font-semibold text-red-600">{applicationFullData?.reason}</span></p>
             </div>
             <div className="grid grid-cols-12 mb-20">
                 <div className="rounded-md col-span-12">
@@ -238,7 +241,7 @@ const ViewRejectApplication = () => {
                                                     <tr className="bg-white shadow-lg border-b border-gray-200">
                                                         <td className="px-2 py-2 text-sm text-left text-[#37517e]">{i + 1}</td>
                                                         <td className="px-2 py-2 text-sm text-left text-[#37517e]">{items?.doc_code ? items?.doc_code : "N/A"}</td>
-                                                        
+
                                                         <td className="px-2 py-2 text-sm text-left text-[#37517e]">{items?.verify_status == 0 ?
                                                             <p className="text-orange-400 font-semibold">Pending</p>
                                                             : ""
@@ -250,7 +253,7 @@ const ViewRejectApplication = () => {
                                                                 <p className="text-green-500 font-semibold">Verified</p>
                                                                 : ""}
                                                         </td>
-                                                        <td className="px-2 py-2 text-sm text-left text-[#37517e]">{nullToNA(items?.remarks )}</td>
+                                                        <td className="px-2 py-2 text-sm text-left text-[#37517e]">{nullToNA(items?.remarks)}</td>
                                                         <td className="px-2 py-2 text-sm text-left text-[#37517e]">
 
                                                             {items?.doc_path?.split('.').pop() == "pdf" ? <img className="h-10 w-10 border rounded shadow-md" src={pdfImage} /> :
