@@ -218,7 +218,7 @@ const PetPaymentReceiptIndex = () => {
                     <span>
                       {/* Vehicle Details : <br /> */}
                       <h1 className="">
-                        Registration No -  <span className="font-semibold">{fetchedData?.vehicleNo}</span>
+                        Vehicle Registration No -  <span className="font-semibold">{fetchedData?.vehicleNo}</span>
                       </h1>
                       <h1 className=" mt-1">
                         VIN / CH No -  <span className="font-semibold">{fetchedData?.vehicleName}</span>
