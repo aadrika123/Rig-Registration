@@ -41,6 +41,8 @@ import RigLIcenseReceipt from './Components/Pages/PetRegistration/PetPaymentRece
 import RigLIcenseReceiptEntry from './Components/Pages/PetRegistration/PetPaymentReceipt/RigLIcenseReceiptEntry';
 import CollectionReport from './Components/Pages/PetRegistration/Report/CollectionReport';
 import SuccessfulSubmitModal2 from './Components/Pages/PetRegistration/Form/SuccessfulSubmitModal2';
+import CashVerification from './Components/Pages/PetRegistration/Accounts/CashVerification';
+import BankReconciliation from './Components/Pages/PetRegistration/Accounts/BankReconciliation';
 
 
 function App() {
@@ -107,6 +109,8 @@ function App() {
     { path: '/reject-rig-application', element: <RejectPetApplication /> },
     { path: '/approved-rig-application', element: <ApprovedPetApplication /> },
     { path: '/collection-report', element: <CollectionReport /> },
+    { path: '/cash-verification', element: <CashVerification /> },
+    { path: '/bank-reconciliation', element: <BankReconciliation /> },
   ]
 
 

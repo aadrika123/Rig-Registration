@@ -224,10 +224,10 @@ const PetOfflinePayment = () => {
                                                                 <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold"><small className=" mt-1 text-sm font-semibold text-red-600 inline ">*</small>Payment Mode</label>
                                                                 <select {...formik.getFieldProps('paymentMode')} type="text" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
                                                                 >
-                                                                    {/* <option  value="" >Select</option> */}
+                                                                    <option  value="" >Select</option>
                                                                     <option selected value="CASH" >CASH</option>
-                                                                    {/* <option value="CHEQUE" >CHEQUE</option>
-                                                                    <option value="DD" >DD</option> */}
+                                                                    <option value="CHEQUE" >CHEQUE</option>
+                                                                    <option value="DD" >DD</option>
                                                                 </select>
                                                                 <span className="text-red-600 absolute text-xs">{formik.touched.paymentMode && formik.errors.paymentMode ? formik.errors.paymentMode : null}</span>
                                                             </div>
