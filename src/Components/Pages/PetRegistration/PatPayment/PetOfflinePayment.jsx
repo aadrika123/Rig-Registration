@@ -69,7 +69,7 @@ const PetOfflinePayment = () => {
     const formik = useFormik({
         enableReinitialize: true,
         initialValues: {
-            paymentMode: "CASH",
+            paymentMode: "",
             remarks: '',
             bankName: '',
             branchName: '',
@@ -99,7 +99,7 @@ const PetOfflinePayment = () => {
         setIsMakingPayment(true)
         // Creating payload for API request
         const payload = {
-            "paymentMode": "CASH",
+            "paymentMode": data?.paymentMode,
             "remarks": data?.remarks,
             "bankName": data?.branchName,
             "branchName": data?.remarks,

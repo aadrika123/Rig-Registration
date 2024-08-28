@@ -19,6 +19,7 @@ import BarLoader from '@/Components/Common/Loaders/BarLoader';
 import BottomErrorCard from '@/Components/Common/BottomErrorCard';
 import { indianAmount, nullToNA, nullToZero } from '@/Components/Common/PowerupFunctions';
 import PetRegAPIList from '@/Components/api/PetRegAPIList';
+import ApiHeader from '@/Components/api/ApiHeader';
 
 
 const customStyles = {
@@ -35,7 +36,7 @@ const customStyles = {
         transform: 'translate(-50%, -50%)',
         backgroundColor: 'transparent',
         border: 'none',
-        height: "maxHeight" //or maxHeight  / 600px 
+        height: "maxHeight"
     },
 };
 
@@ -44,8 +45,7 @@ function CashVerificationDetailedModal(props) {
     useSetTitle('Cash Verification')
 
     const navigate = useNavigate()
-    // const { api_verifiedTcCollection, api_cashVerificationDtls, api_verifyCashVerificationDtls } = WaterTankerApiList()
-    const { api_collectionReport, } = PetRegAPIList()
+    const { api_collectionReport, api_cashVerificationDtls, api_cashVerificationFinal } = PetRegAPIList()
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [fetchedData, setFetchedData] = useState()
     const [tradeSeleteAll, setTradeSeleteAll] = useState(false)
@@ -72,7 +72,7 @@ function CashVerificationDetailedModal(props) {
 
         const payload = {
             "date": props?.data?.date,
-            "userId": props?.data?.id
+            "userId": props?.data?.user_id
         };
 
         let url;
@@ -94,8 +94,6 @@ function CashVerificationDetailedModal(props) {
     }, [props?.data]);
 
     console.log('getting data in cash verification modal => ', props?.data)
-
-    //     console.log("fetchedData in modal", fetchedData)
 
     function openModal() {
         setIsOpen(true);
@@ -140,18 +138,19 @@ function CashVerificationDetailedModal(props) {
         const checked = e.target.checked
         const value = e.target.value
 
-        if (name == 'wtankAll') {
+        if (name == 'rigAll') {
             setPropAllCheck(checked)
 
             if (checked) {
-                const idArray = fetchedData?.wtank?.map((elem) => elem?.id);
+                const idArray = fetchedData?.tranDtl?.map((elem) => elem?.id);
                 setPropValue(idArray);
+
             } else {
                 setPropValue([])
             }
         }
 
-        if (name == 'wtank') {
+        if (name == 'rig') {
             if (checked) {
                 setPropValue(prev => [...prev, value])
             } else if (!checked && propAllCheck != true) {
@@ -160,44 +159,30 @@ function CashVerificationDetailedModal(props) {
             }
         }
 
-        if (name == 'stankAll') {
-            setWaterAllCheck(checked)
-
-            if (checked) {
-                const idArray = fetchedData?.stank?.map((elem) => elem?.id);
-                setWaterValue(idArray);
-            } else {
-                setWaterValue([])
-            }
-        }
-
-        if (name == 'stank') {
-            if (checked) {
-                setWaterValue(prev => [...prev, value])
-            } else if (!checked && waterAllCheck != true) {
-                let data = waterValue?.filter(item => item != value)
-                setWaterValue(data)
-            }
-        }
-
-
-
     }
 
-
+    console.log("object", fetchedData)
 
     const handleVerifyBtn = () => {
-        // console.log("Verify Button Clicked", allTest)
-        const payload = {
-            // stank: fetchedData.stank,
-            wtank: fetchedData.wtank,
-            // trade: fetchedData.trade,
-        }
+        // const payload = {
+            const formData = new FormData();
+            formData.append('date', fetchedData?.date);
+            formData.append('tcId', fetchedData?.tcId);
 
-        AxiosInterceptors.post(api_verifyCashVerificationDtls, payload, ApiHeader2())
+            // Append each id individually
+            // propValue.forEach(id => formData.append('id', id));
+
+            for (let i = 0; i < propValue.length; i++) {
+                formData.append(`id[${i}]`, propValue[i])
+                // formData.append(id[${i}], id[i]);
+              }
+
+        // }
+
+        AxiosInterceptors.post(api_cashVerificationFinal, formData, ApiHeader2())
             .then((res) => {
                 console.log("Data After Verification", res)
-                toast.success('Verified Successfully !!!')
+                // toast.success('Verified Successfully !!!')
                 closeModal()
                 props?.searchData()
             })
@@ -206,7 +191,7 @@ function CashVerificationDetailedModal(props) {
                 activateBottomErrorCard(true, 'Some error occured. Please try again later.')
             })
 
-        console.log("Verify Data", payload)
+        console.log("Verify Data", formData)
     }
 
     const tradeMainOnchage = (e) => {
@@ -228,7 +213,7 @@ function CashVerificationDetailedModal(props) {
         <>
             {isLoading2 && <BarLoader />}
             {erroState && <BottomErrorCard activateBottomErrorCard={activateBottomErrorCard} errorTitle={erroMessage} />}
-            <ToastContainer autoClose={2000} />
+            {/* <ToastContainer autoClose={2000} /> */}
             <Modal
                 isOpen={modalIsOpen}
                 onAfterOpen={afterOpenModal}
@@ -260,9 +245,9 @@ function CashVerificationDetailedModal(props) {
                                         <p> Number of Transaction</p>
                                     </div>
                                     <div className='col-span-1 font-semibold'>
-                                        <p className='uppercase'>: {nullToNA(fetchedData?.collectorName)}</p>
+                                        <p className='uppercase'>: {nullToNA(fetchedData?.tcName)}</p>
                                         <p>: {nullToNA(fetchedData?.date)}</p>
-                                        <p>: {indianAmount(fetchedData?.WtotalAmount)}</p>
+                                        <p>: {indianAmount(fetchedData?.totalAmount)}</p>
                                         <p>: {nullToZero(fetchedData?.numberOfTransaction)}</p>
                                     </div>
                                 </div>
@@ -272,7 +257,7 @@ function CashVerificationDetailedModal(props) {
 
                                 <div className='flex flex-wrap-reverse m-0 gap-2'>
                                     <div className='bg-gray-50 shadow-md  p-6 m-2 rounded'>
-                                        <p className="font-semibold text-3xl">{indianAmount(fetchedData?.WCash)}</p>
+                                        <p className="font-semibold text-3xl">{indianAmount(fetchedData?.Cash)}</p>
                                         <p className='text-lg font-semibold'>Cash</p>
                                     </div>
                                     <div className='bg-gray-50 shadow-md  p-6 m-2 rounded'>
@@ -293,11 +278,12 @@ function CashVerificationDetailedModal(props) {
 
 
 
+                        {console.log(fetchedData)}
+                        {console.log(props?.reportType)}
 
 
-
-                        {fetchedData?.wtank?.length > 0 && <div className=' overflow-auto'>
-                            <p className='uppercase font-bold'> {props?.reportType == '1' && <input type="checkbox" name="wtankAll" id="" onChange={handleSelect} />} Water Tank Payment</p>
+                        {fetchedData?.tranDtl?.length > 0 && <div className=' overflow-auto'>
+                            <p className='uppercase font-bold'> {props?.reportType == '1' && <input type="checkbox" name="rigAll" id="" onChange={handleSelect} />} Rig Payment</p>
                             <table className="table-auto w-full">
                                 <thead className="bg-gray-100 border-t border-l border-r text-left">
                                     <tr>
@@ -315,9 +301,9 @@ function CashVerificationDetailedModal(props) {
                                 </thead>
                                 <tbody>
                                     {
-                                        fetchedData?.wtank?.filter(item => getModeArray(fetchedData?.wtank).some((pm) => mode.includes(pm.toLowerCase())))?.map((item, i) => (
+                                        fetchedData?.tranDtl?.filter(item => getModeArray(fetchedData?.tranDtl).some((pm) => mode.includes(pm.toLowerCase())))?.map((item, i) => (
                                             <tr key={i}>
-                                                {props?.reportType == '1' && <td className="border border-gray-200 px-2 py-2 font-medium"><input type="checkbox" name="wtank" id="" checked={propAllCheck ? true : null} value={item?.id} onChange={handleSelect} /></td>}
+                                                {props?.reportType == '1' && <td className="border border-gray-200 px-2 py-2 font-medium"><input type="checkbox" name="rig" id="" checked={propAllCheck ? true : null} value={item?.id} onChange={handleSelect} /></td>}
                                                 <td className="border border-gray-200 px-2 py-2 font-medium">{i + 1}</td>
                                                 <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.tran_no)}</td>
                                                 <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.payment_mode)}</td>
@@ -335,10 +321,10 @@ function CashVerificationDetailedModal(props) {
                         </div>}
                         <p className='py-2'></p>
 
-                       
 
 
-                        {/*========= Water END =============*/}
+
+                        {/*========= rig END =============*/}
 
                         <div className='my-5'>
                             <div className="flex justify-center pt-3 space-x-3">

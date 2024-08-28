@@ -11,6 +11,8 @@ import PetRegAPIList from '@/Components/api/PetRegAPIList'
 import { useFormik } from 'formik'
 import ApiHeader from '@/Components/api/ApiHeader'
 import AxiosInterceptors from '@/Components/Common/AxiosInterceptors'
+import ListTableParent from '@/Components/Common/ListTable/ListTableParent'
+import ListTableConnect2 from '@/Components/Common/ListTableBP/ListTableConnect2'
 const CashVerification = (props) => {
     const [openVewMOdel, setOpenVewMOdel] = useState(0)
     const [employeeList, setEmployeeList] = useState()
@@ -23,17 +25,17 @@ const CashVerification = (props) => {
     const [erroMessage, seterroMessage] = useState(null);
     const [requestBody, setRequestBody] = useState({});
     const [changeData, setChangeData] = useState();
+    const [dataList, setdataList] = useState(null)
 
 
     const navigate = useNavigate()
 
     let testDate = new Date().toLocaleDateString('in-IN');
     let todayDate = moment(testDate).format('YYYY-DD-MM');
-
-    // const { api_listofEmployees, api_listUnverifiedCashVerification, api_listVerifiedCashVerification } = WaterTankerApiList()
-    // const { api_listofEmployees, api_cashVerification, api_GetSepticTankerSearchData } = WaterTankerApiList()
-    const { api_collectionReport, } = PetRegAPIList()
+    const { api_collectionReport, api_cashVerification } = PetRegAPIList()
     const { module } = useParams()
+
+
     const handleViewBtn = (id) => {
         console.log("View Clicked", id)
 
@@ -41,6 +43,30 @@ const CashVerification = (props) => {
         setOpenVewMOdel(prev => prev + 1)
     }
 
+    // ===========> Formik Start
+
+    const validationSchema = yup.object({
+        collectionDate: yup.string().required('Select Date'),
+    })
+    const formik = useFormik({
+        initialValues: {
+            empName: '',
+            collectionDate: moment(new Date()).format("yy-MM-DD"),
+            reportType: '1'
+        },
+
+        enableReinitialize: true,
+
+        onSubmit: (values) => {
+            console.log('report type ', values)
+            searchData(values)
+            setRequestBody({
+                date: formik.values.collectionDate,
+            })
+            setChangeData(prev => prev + 1)
+        },
+        validationSchema,
+    });
 
     const COLUMNS = [
 
@@ -52,13 +78,13 @@ const CashVerification = (props) => {
         },
         {
             Header: "Employee Name",
-            accessor: "user_name",
-            
+            accessor: "officer_name",
+
         },
         {
             Header: "Total Amount",
-            accessor: "wtank",
-            
+            accessor: "amount",
+
         },
         {
             Header: "Paid Date",
@@ -82,43 +108,22 @@ const CashVerification = (props) => {
         },
     ]
 
-    // ===========> Formik Start
 
-    const validationSchema = yup.object({
-        collectionDate: yup.string().required('Select Date'),
-    })
-    // const handleOnChange = (event) => { };
-    const formik = useFormik({
-        initialValues: {
-            empName: '',
-            collectionDate: moment(new Date()).format("yy-MM-DD"),
-            reportType: '1'
-        },
-
-        enableReinitialize: true,
-
-        onSubmit: (values) => {
-            // alert(JSON.stringify(values, null, 2));
-            console.log('report type ', values.reportType)
-            searchData(values)
-        },
-        validationSchema,
-    });
 
     // ===========> Formik End
 
     const searchData = () => {
 
         let payload = {
-            "date": formik.values.collectionDate,
-            "userId": "",
+            date: formik.values.collectionDate,
+            userId: "",
         }
 
-        AxiosInterceptors.post(api_collectionReport, payload, ApiHeader())
+        AxiosInterceptors.post(api_cashVerification, payload, ApiHeader())
             .then((res) => {
-                console.log("response list cash", res)
+                console.log("response list cash", res?.data?.data)
                 if (res?.data?.status) {
-                    setFetchedData(res?.data?.data?.wtank)
+                    setFetchedData(res?.data?.data)
                 } else {
                     activateBottomErrorCard(true, res?.data?.message)
                 }
@@ -129,6 +134,7 @@ const CashVerification = (props) => {
                 console.log("Error while list cash verification", err)
             })
     }
+
     console.log(fetchedData, "================>>")
 
     const activateBottomErrorCard = (state, msg) => {
@@ -143,7 +149,7 @@ const CashVerification = (props) => {
             {loader && <BarLoader />}
             {erroState && <BottomErrorCard activateBottomErrorCard={activateBottomErrorCard} errorTitle={erroMessage} />}
 
-            <CashVerificationDetailedModal openAddPopUP={openVewMOdel} data={sendDataInModal} refresh={() => searchData()} activateBottomErrorCard={activateBottomErrorCard} reportType={reportType} searchData={searchData} />
+            <CashVerificationDetailedModal openAddPopUP={openVewMOdel} data={sendDataInModal} refresh={() => searchData()} activateBottomErrorCard={activateBottomErrorCard} reportType={"1"} searchData={searchData} />
             <div className='m-2'>
 
                 <div className='shadow-md  rounded bg-indigo-100 px-4'>
@@ -171,7 +177,6 @@ const CashVerification = (props) => {
                                 <div className='col-span-10 md:col-span-2 flex items-end justify-end md:mt-0 mt-6'>
                                     <button type="submit" class="w-full py-2 px-4 inline-block text-center rounded leading-5 text-gray-100 bg-indigo-500 border border-indigo-500 hover:text-white hover:bg-indigo-600 hover:ring-0 hover:border-indigo-600 focus:bg-indigo-600 focus:border-indigo-600 focus:outline-none focus:ring-0">Search</button>
                                 </div>
-
                             </div>
 
                         </div>
@@ -181,14 +186,18 @@ const CashVerification = (props) => {
                 <p className=' mx-10 py-5'></p>
                 <div className='my-4'>
 
-                    {(fetchedData?.wtank?.length == 0 ? <p className='text-center font-semibold text-xl -mt-8 text-red-500'>No Data Found !</p> :
+                    {console.log(requestBody)}
+                    {console.log(dataList)}
+                    {(fetchedData?.length == 0 ? <p className='text-center font-semibold text-xl -mt-8 text-red-500'>No Data Found !</p> :
                         <>
                             {fetchedData ?
                                 <div className='bg-white p-4'>
-                                    <ListTableConnect
+                                    <ListTableConnect2
+                                        getData={true}
+                                        allData={(data) => setdataList(data)}
+                                        api={api_cashVerification}
                                         columns={COLUMNS}
                                         dataList={fetchedData}
-                                        api={api_collectionReport}
                                         requestBody={requestBody}
                                         changeData={changeData} />
                                 </div> :
@@ -196,7 +205,6 @@ const CashVerification = (props) => {
                             }
                         </>
                     )}
-
                 </div>
             </div>
 

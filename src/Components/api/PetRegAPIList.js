@@ -66,6 +66,9 @@ export default function PetRegAPIList() {
         docReUpload: `${baseUrl}/api/rig/application/reupload-document`,
         api_sendToJSK: `${baseUrl}/api/rig/back-to-citizen`,
         api_collectionReport: `${baseUrl}/api/rig/application/collection-report`,
+        api_cashVerification: `${baseUrl}/api/rig/cash-verification-list`,
+        api_cashVerificationDtls: `${baseUrl}/api/rig/cash-verification-dtl`,
+        api_cashVerificationFinal: `${baseUrl}/api/rig/verify-cash`,
 
 
     }

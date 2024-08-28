@@ -16,9 +16,9 @@ import AxiosInterceptors from '@/Components/Common/AxiosInterceptors';
 
 
 function ListTableParent() {
-    const { isLoading, data, isError, error } = useQuery("first-query", () => {
-        return AxiosInterceptors.get("http://localhost:3001/applicationList");
-    });
+    // const { isLoading, data, isError, error } = useQuery("first-query", () => {
+    //     return AxiosInterceptors.get("http://localhost:3001/applicationList");
+    // });
 
     const COLUMNS = [
 
@@ -67,11 +67,14 @@ function ListTableParent() {
         }
     ]
 
+
     return (
         <>
 
-            {isLoading && <h1>Looading ...</h1>}
-            {!isLoading && <ListTable columns={COLUMNS} dataList={data?.data} />}
+            {/* {isLoading && <h1>Looading ...</h1>} */}
+            {/* {!isLoading &&  */}
+            <ListTable columns={COLUMNS} dataList={data?.data} />
+            {/* } */}
         </>
     )
 }
