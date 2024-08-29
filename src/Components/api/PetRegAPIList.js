@@ -69,6 +69,9 @@ export default function PetRegAPIList() {
         api_cashVerification: `${baseUrl}/api/rig/cash-verification-list`,
         api_cashVerificationDtls: `${baseUrl}/api/rig/cash-verification-dtl`,
         api_cashVerificationFinal: `${baseUrl}/api/rig/verify-cash`,
+        api_SearchBankReconcile: `${baseUrl}/api/rig/search/transaction-cheque`,
+        apiUpdateReconcillationDetails: `${baseUrl}/api/rig/search/transaction-cheque-dtl`,
+        getReconcileById: `${baseUrl}/api/rig/transaction/cheque-clear-bounce`,
 
 
     }
