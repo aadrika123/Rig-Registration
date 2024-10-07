@@ -101,7 +101,7 @@ const PetPaymentReceiptIndex = () => {
 
                 <div className='grid grid-cols-3 h-auto bordr'>
                   <div className='w-20 h-20 rounded-full '>
-                    <img src={ulb_data()?.ulb_logo} alt='logo'></img>
+                    <img src={fetchedData?.ulbDetails?.ulb_logo} alt='logo'></img>
                   </div>
                   <div className='font-bold mx-auto  -ml-16 mt-3 whitespace-nowrap  '>
                     <span className='uppercase text-center text-xl '>
