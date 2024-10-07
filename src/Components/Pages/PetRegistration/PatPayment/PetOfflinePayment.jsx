@@ -101,8 +101,8 @@ const PetOfflinePayment = () => {
         const payload = {
             "paymentMode": data?.paymentMode,
             "remarks": data?.remarks,
-            "bankName": data?.branchName,
-            "branchName": data?.remarks,
+            "bankName": data?.bankName,
+            "branchName": data?.branchName,
             "chequeNo": data?.cheque_dd_no,
             "chequeDate": data?.cheque_dd_date,
             "id": id                     //Application Id
@@ -117,6 +117,7 @@ const PetOfflinePayment = () => {
                     fetchApplicationDetails()
                 } else {
                     console.log("Failed to make offline payment", res)
+                    notify(res?.data?.message, "error");
                 }
             })
             .catch((err) => {
