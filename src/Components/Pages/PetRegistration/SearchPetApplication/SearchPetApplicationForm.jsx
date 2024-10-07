@@ -42,7 +42,7 @@ const SearchPetApplicationForm = (props) => {
     })
     // Initial form values
     const initialValues = {
-        searchBy: '',
+        searchBy: 'applicationNo',
         searchText: '',
     }
     // Formik hook for form management
@@ -52,8 +52,8 @@ const SearchPetApplicationForm = (props) => {
         onSubmit: (values, resetForm) => {
             console.log("Value.....", values)
             setRequestBody({
-                "filterBy": values.searchBy,
-                "parameter": values.searchText,
+                "filterBy": values.searchBy || 'applicationNo',
+                "parameter": values.searchText || '1',
             })
             setChangeData(prev => prev + 1)
         },
@@ -67,12 +67,12 @@ const SearchPetApplicationForm = (props) => {
 
     };
 
-    // useEffect(() => {
-    //     setRequestBody({
-    //         "filterBy": values.searchBy,
-    //         "parameter": values.searchText,
-    //     })
-    // }, [])
+    useEffect(() => {
+        setRequestBody({
+            "filterBy": values.searchBy || 'applicationNo',
+            "parameter": values.searchText || '1',
+        })
+    }, [])
 
 
     // These variables are used for pagination

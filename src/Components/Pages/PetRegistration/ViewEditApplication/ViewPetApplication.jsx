@@ -287,7 +287,9 @@ const ViewPetApplication = () => {
             {openDeleteModal && <PetRegDeleteModal setOpenDeleteModal={setOpenDeleteModal} dataTobeDeleted={dataTobeDeleted} />}
             {/* <PetRegTopButtons active="application" consumerNo={applicationFullData?.application_no} /> */}
             <div className="col-span-2 space-y-2">
-                {applicationFullData?.payment_status == 0 ? <p className="text-xl font-serif">Your application is under : <span className="font-semibold text-orange-700">{applicationFullData?.roleName}</span></p> : <>{applicationFullData?.payment_status == 2 ? <p className="text-xl font-serif"> Your application payment is under : <span className="font-semibold">verification</span></p> : ''}</>}
+                {applicationFullData?.payment_status == 0 && applicationFullData?.applicantsStatus == 1 &&
+                    <p className="text-xl font-serif text-orange-500">Your application is Approved and Payment is Pending.</p>}
+                {applicationFullData?.payment_status == 0 && applicationFullData?.applicantsStatus != 1 ? <p className="text-xl font-serif">Your application is under : <span className="font-semibold text-orange-700">{applicationFullData?.roleName}</span></p> : <>{applicationFullData?.payment_status == 2 ? <p className="text-xl font-serif"> Your application payment is under : <span className="font-semibold">verification</span></p> : ''}</>}
                 <p className="text-xl font-serif">Application No : <span className="font-semibold text-blue-700">{applicationFullData?.application_no}</span></p>
                 {/* <button onClick={() => navigate(-1)} className={`font-semibold md:text-base text-xs bg-indigo-500 text-white border border-indigo-500  px-4 py-1 shadow-lg hover:scale-105 rounded-sm`} >Back</button> */}
                 {applicationFullData?.payment_status == 1 && applicationFullData?.registrationStatus == 2 && applicationFullData?.transactionDetails?.verify_status == 1 &&

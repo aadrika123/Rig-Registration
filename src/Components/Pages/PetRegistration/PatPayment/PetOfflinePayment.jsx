@@ -224,7 +224,7 @@ const PetOfflinePayment = () => {
                                                                 <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold"><small className=" mt-1 text-sm font-semibold text-red-600 inline ">*</small>Payment Mode</label>
                                                                 <select {...formik.getFieldProps('paymentMode')} type="text" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
                                                                 >
-                                                                    <option  value="" >Select</option>
+                                                                    <option value="" >Select</option>
                                                                     <option selected value="CASH" >CASH</option>
                                                                     <option value="CHEQUE" >CHEQUE</option>
                                                                     <option value="DD" >DD</option>
@@ -346,8 +346,8 @@ const PetOfflinePayment = () => {
                                                             </div>
                                                             <div className='text-xs'>
                                                                 <div className='font-semibold text-sm text-[#37517e]'>
-                                                                    {applicationFullData?.transactionDetails?.verify_status == 1 && "Paid"}
-                                                                    {applicationFullData?.transactionDetails?.verify_status == 2 && "Processing"}
+                                                                    {applicationFullData?.transactionDetails?.verify_status == 1 ?? applicationFullData?.transactionDetails?.verify_status == 0 ? "Paid" : ''}
+                                                                    {applicationFullData?.transactionDetails?.verify_status == 2 ? "Processing" : ''}
                                                                 </div>
                                                             </div>
 
@@ -412,8 +412,8 @@ const PetOfflinePayment = () => {
                                                         </div>
                                                         <div className='text-xs'>
                                                             <div className='font-semibold text-sm text-[#37517e]'>
-                                                                {applicationFullData?.transactionDetails?.verify_status == 1 && "Paid"}
-                                                                {applicationFullData?.transactionDetails?.verify_status == 0 && "Processing"}
+                                                            {applicationFullData?.transactionDetails?.verify_status == 1 || applicationFullData?.transactionDetails?.verify_status == 0 ? "Paid" : ''}
+                                                            {applicationFullData?.transactionDetails?.verify_status == 2 ? "Processing" : ''}
                                                             </div>
                                                         </div>
 

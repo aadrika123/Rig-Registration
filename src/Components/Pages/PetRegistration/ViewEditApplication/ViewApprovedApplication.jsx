@@ -81,7 +81,13 @@ const ViewApprovedApplication = () => {
     return (
         <>
             <div className="flex justify-between">
-                <p className="text-xl">Application No : <span className="font-semibold">{applicationFullData?.application_no}</span></p>
+                <p className="text-xl">Application No : <span className="font-semibold">{applicationFullData?.application_no}</span>
+                </p>
+                {applicationFullData?.registration_id &&
+                    <p className="text-xl">Registration No : <span className="font-semibold">{applicationFullData?.registration_id}</span>
+                    </p>
+                }
+
                 {applicationFullData?.isRenewal == true ? <div className='space-x-5'>
                     <button className={`font-semibold md:text-base text-xs bg-indigo-500 text-white border border-indigo-500  px-4 py-1 shadow-lg hover:scale-105 rounded-sm`} onClick={() => navigate(`/rig-renewal/${id}`)}>Renewal</button>
                 </div> : ''}
@@ -246,9 +252,9 @@ const ViewApprovedApplication = () => {
                                                     <tr className="bg-white shadow-lg border-b border-gray-200">
                                                         <td className="px-2 py-2 text-sm text-left text-[#37517e]">{i + 1}</td>
                                                         <td className="px-2 py-2 text-sm text-left text-[#37517e]">{items?.doc_code ? items?.doc_code : "N/A"}</td>
-                                                        
+
                                                         <td className="px-2 py-2 text-sm text-left text-[#37517e]">{items?.verify_status == 1 ? <p className="text-green-400 font-semibold">Verified</p> : <p className="text-red-400 font-semibold">Pending</p>}</td>
-                                                        <td className="px-2 py-2 text-sm text-left text-[#37517e]">{nullToNA(items?.remarks )}</td>
+                                                        <td className="px-2 py-2 text-sm text-left text-[#37517e]">{nullToNA(items?.remarks)}</td>
                                                         <td className="px-2 py-2 text-sm text-left text-[#37517e]">
 
                                                             {items?.doc_path?.split('.').pop() == "pdf" ? <img className="h-10 w-10 border rounded shadow-md" src={pdfImage} /> :
@@ -287,16 +293,18 @@ const ViewApprovedApplication = () => {
 
                                 </div>
                             }
-                           {/* Payment Details */}
-                           <div className='bg-white shadow-xl p-4 border border-gray-200'>
+                           
+                             {/* Payment Details */}
+                            <div className='bg-white shadow-xl p-4 border border-gray-200'>
                                 <h1 className='px-1 font-semibold font-serif text-xs mt-2 text-[#37517e]'><img src='https://cdn-icons-png.flaticon.com/512/8948/8948774.png' alt="Upload" className='w-5 inline text-[#37517e]' /> Payment Details</h1>
                                 {applicationFullData?.transactionDetails?.payment_mode == "CHEQUE" && applicationFullData?.transactionDetails?.verify_status == 2 &&
                                     <div className="text-center text-orange-500">
                                         <p>Payment verification from bank is pending</p>
                                     </div>
                                 }
+
                                 {loader ? <ShimmerEffectInline /> :
-                                    (applicationFullData?.payment_status == 0 && applicationFullData?.registrationStatus == 1 && applicationFullData?.canTakePayment ) ?
+                                    (applicationFullData?.payment_status == 0 && applicationFullData?.registrationStatus == 1) ?
                                         <div className="text-center text-indigo-600">
                                             <div>
                                                 <div className="text-center">
@@ -333,7 +341,7 @@ const ViewApprovedApplication = () => {
                                                     <div className='text-[#37517e]'>Action</div>
                                                 </div>
                                             </div>
-                                            {applicationFullData?.transactionDetails ? (
+                                            {applicationFullData?.transactionDetails &&
                                                 <div className="flex space-x-10 pl-4 my-2 border-y-gray-200">
                                                     <div className='text-xs'>
                                                         <div className='font-semibold text-sm text-[#37517e]'>1.</div>
@@ -360,18 +368,10 @@ const ViewApprovedApplication = () => {
                                                             <button className="border px-3 py-1 rounded shadow border-blue-500 hover:bg-blue-500 hover:text-white text-blue-500 whitespace-nowrap" onClick={() => navigate(`/rig-payment-receipt/${applicationFullData?.transactionDetails?.tran_no}`)}>Print Receipt</button>
                                                         </div>
                                                     </div>
+
+
+
                                                 </div>
-                                                ):(
-                                                    <div className='text-center mt-4 text-red-500 font-semibold text-xl'>
-                                                        <h1>
-                                                        Payment is pending
-                                                        </h1>
-                                                        {/* <h1>
-                                                        Please make payment from JSK
-                                                        </h1> */}
-                                                        
-                                                    </div>
-                                                )
                                             }
                                         </div>
                                 }

@@ -118,7 +118,7 @@ const PetPaymentReceiptIndex = () => {
                       Rig Machine Registration
                     </h1>
                     <h1 className='font-semibold text-center uppercase text-md border-b border-l border-r border-gray-500 -ml-6'>
-                      PAYMENT RECEIPT
+                      {fetchedData?.VerifyStatus == '2' ? "Provisional" : "PAYMENT"} RECEIPT
                     </h1>
                   </div>
 
