@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Modal from 'react-modal';
 import { CgClose } from 'react-icons/cg';
 import axios from 'axios';
@@ -45,7 +45,7 @@ function CashVerificationDetailedModal(props) {
     useSetTitle('Cash Verification')
 
     const navigate = useNavigate()
-    const { api_collectionReport, api_cashVerificationDtls, api_cashVerificationFinal } = PetRegAPIList()
+    const { api_collectionReport, api_cashVerificationDtls, api_cashVerificationFinal, editChequeDtls } = PetRegAPIList()
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [fetchedData, setFetchedData] = useState()
     const [tradeSeleteAll, setTradeSeleteAll] = useState(false)
@@ -58,11 +58,16 @@ function CashVerificationDetailedModal(props) {
     const [propValue, setPropValue] = useState([])
     const [waterAllCheck, setWaterAllCheck] = useState(false)
     const [waterValue, setWaterValue] = useState([])
-
+    const [modalType, setmodalType] = useState('')
+    const [updationData, setUpdationData] = useState(null)
+    const [action, setAction] = useState(false)
+    const cNo = useRef()
+    const bName = useRef()
     const userId = props?.data?.id;
     const date = props?.data?.date;
 
     console.log('cash verification data => ', props?.data)
+    console.log('cash updationData data => ', updationData)
 
     //Fetch data
     useEffect(() => {
@@ -165,17 +170,17 @@ function CashVerificationDetailedModal(props) {
 
     const handleVerifyBtn = () => {
         // const payload = {
-            const formData = new FormData();
-            formData.append('date', fetchedData?.date);
-            formData.append('tcId', fetchedData?.tcId);
+        const formData = new FormData();
+        formData.append('date', fetchedData?.date);
+        formData.append('tcId', fetchedData?.tcId);
 
-            // Append each id individually
-            // propValue.forEach(id => formData.append('id', id));
+        // Append each id individually
+        // propValue.forEach(id => formData.append('id', id));
 
-            for (let i = 0; i < propValue.length; i++) {
-                formData.append(`id[${i}]`, propValue[i])
-                // formData.append(id[${i}], id[i]);
-              }
+        for (let i = 0; i < propValue.length; i++) {
+            formData.append(`id[${i}]`, propValue[i])
+            // formData.append(id[${i}], id[i]);
+        }
 
         // }
 
@@ -198,6 +203,11 @@ function CashVerificationDetailedModal(props) {
         console.log(e.target.checked)
         setTradeSeleteAll(e.target.checked)
     }
+    const handleEdit = (item) => {
+        setmodalType('edit')
+        setUpdationData(item)
+        setAction(true)
+    }
 
     const activateBottomErrorCard = (state, msg) => {
         seterroMessage(msg)
@@ -209,6 +219,55 @@ function CashVerificationDetailedModal(props) {
         return paymentModeList
     }
 
+    console.log("object", updationData?.cheque_no)
+    console.log("object", updationData?.bank_name)
+    console.log("object", updationData?.id)
+    const handlUpdateBtn = () => {
+
+        setisLoading2(true)
+
+        const payload = {
+            "chequeNo": updationData?.cheque_no,
+            "bankName": updationData?.bank_name,
+            "id": updationData?.id,
+            "moduleId": updationData?.module_id
+        }
+
+        AxiosInterceptors.post(editChequeDtls, payload, ApiHeader())
+            .then((res) => {
+                if (res?.data?.status) {
+                    console.log("Data After updation", res)
+                    toast.success('Updated Successfully !!!')
+                    getAllData()
+                } else {
+                    activateBottomErrorCard(true, res?.data?.message)
+                }
+            })
+            .catch((err) => {
+                console.log("Exception While Verifying Data", err)
+                activateBottomErrorCard(true, 'Some error occured. Please try again later.')
+            })
+            .finally(() => {
+                setisLoading2(false)
+                setAction(false)
+            })
+
+        console.log("Verify Data", payload)
+    }
+    const getAllData = () => {
+        const payload = {
+            "date": props?.data?.date,
+            "userId": props?.data?.user_id
+        };
+
+        AxiosInterceptors.post(api_cashVerificationDtls, payload, ApiHeader())
+            .then((res) => {
+                setFetchedData(res?.data?.data);
+            })
+            .catch((err) => {
+                activateBottomErrorCard(true, 'Some error occurred. Please try again later.');
+            });
+    };
     return (
         <>
             {isLoading2 && <BarLoader />}
@@ -220,9 +279,10 @@ function CashVerificationDetailedModal(props) {
                 onRequestClose={closeModal}
                 style={customStyles}
                 contentLabel="Example Modal"
+                className="absolute left-1/4 h-screen w-2/3 flex justify-center items-center"
             >
-                <div className=' '>
-                    <div className=" bg-white rounded-lg shadow-xl border-2 border-gray-50 p-2">
+                <div className=' w-[90vw] md:w-[80vw]'>
+                    {!action && <div className=" bg-white rounded-lg shadow-xl border-2 border-gray-50 p-2">
                         <div className=''>
 
                             <div className='float-right'>
@@ -291,7 +351,7 @@ function CashVerificationDetailedModal(props) {
                                         <th className="px-2 py-2 border-r">#</th>
                                         <th className="px-2 py-2 border-r">Transaction No</th>
                                         <th className="px-2 py-2 border-r">Payment Mode</th>
-                                        <th className="px-2 py-2 border-r">Application No</th>
+                                        {/* <th className="px-2 py-2 border-r">Application No</th> */}
                                         <th className="px-2 py-2 border-r">Check/DD No</th>
                                         <th className="px-2 py-2 border-r">Bank Name</th>
                                         <th className="px-2 py-2 border-r">Paid Amount</th>
@@ -307,8 +367,8 @@ function CashVerificationDetailedModal(props) {
                                                 <td className="border border-gray-200 px-2 py-2 font-medium">{i + 1}</td>
                                                 <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.tran_no)}</td>
                                                 <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.payment_mode)}</td>
-                                                <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.application_no)}</td>
-                                                <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.cheque_dd_no)}</td>
+                                                {/* <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.application_no)}</td> */}
+                                                <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.cheque_no)}</td>
                                                 <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.bank_name)}</td>
                                                 <td className="border border-gray-200 px-2 py-2 font-medium">{indianAmount(item?.amount)}</td>
                                                 <td className="border border-gray-200 px-2 py-2 font-medium">{nullToNA(item?.tran_date)}</td>
@@ -375,9 +435,60 @@ function CashVerificationDetailedModal(props) {
 
 
                     </div>
+                    }
+                    {action &&
+
+                        <div className='my-5'>
+                            <div className="flex justify-center pt-3 space-x-3">
+                                {props?.reportType == '1' &&
+                                    <div style={{ 'zIndex': 999 }} class="h-screen w-screen flex justify-center items-center backdrop-blur-sm">
+
+                                        {modalType == 'verify' && <div className='bg-white w-max h-max rounded-md shadow-lg relative'>
+                                            <button type="button" onClick={() => setAction(false)} class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center darks:hover:bg-gray-800 darks:hover:text-white" >
+                                                <svg class="w-5 h-5" fill="currentColor" ><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                            </button>
+                                            <div class="p-6 text-center">
+                                                <div className='w-full flex h-10'> <span className='mx-auto'><FiAlertCircle size={30} /></span></div>
+                                                <h3 class="mb-5 text-lg font-normal text-gray-500 darks:text-gray-400">Are you sure you ?</h3>
+                                                <button type="button" className="cypress_button_logout text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 darks:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2" onClick={() => (handleVerifyBtn(), closeModal())}>
+                                                    Yes, I'm sure
+                                                </button>
+
+                                            </div>
+                                        </div>}
+
+                                        {modalType == 'edit' &&
+                                            <div className='bg-white w-max h-max rounded-md shadow-lg relative'>
+                                                <button type="button" onClick={() => setAction(false)} class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center darks:hover:bg-gray-800 darks:hover:text-white" >
+                                                    <svg class="w-5 h-5" fill="currentColor" ><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                                </button>
+                                                <div class="p-6 text-center flex flex-col gap-y-2 flex-wrap">
+                                                    <h1 className='w-full text-lg text-indigo-400 font-semibold border-b pb-1 mb-2'>Update Data</h1>
+                                                    <div className='grid grid-cols-12 items-center'>
+                                                        <label className='col-span-6 text-start' htmlFor="checkNo">Cheque/DD No.: </label>
+                                                        <input ref={cNo} className='col-span-6 border focus:outline-none focus:shadow-lg shadow-md px-2 py-1' value={updationData?.cheque_no} onChange={(e) => setUpdationData({ ...updationData, cheque_no: e.target.value })} type="text" name="chequeNo" id="" />
+                                                    </div>
+                                                    <div className='grid grid-cols-12 items-center'>
+                                                        <label className='col-span-6 text-start' htmlFor="checkNo">Bank Name: </label>
+                                                        <input ref={bName} className='col-span-6 border focus:outline-none focus:shadow-lg shadow-md px-2 py-1' value={updationData?.bank_name} onChange={(e) => setUpdationData({ ...updationData, bank_name: e.target.value })} type="text" name="bankName" id="" />
+                                                    </div>
+                                                    <div className='w-full flex justify-center gap-2 mt-2'>
+                                                        <button className=" px-4 text-sm rounded bg-green-500 hover:bg-green-600 py-1 text-white " onClick={() => handlUpdateBtn()}> Update </button>
+                                                        <button onClick={() => setAction(false)} className=" px-4 text-sm rounded bg-indigo-400 hover:bg-indigo-500 py-1 text-white "> Close </button>
+                                                    </div>
+                                                </div>
+                                            </div>}
+
+                                    </div>
+
+                                }
+                            </div>
+
+                        </div>}
                 </div>
 
             </Modal>
+
         </>
     );
 }

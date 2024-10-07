@@ -72,6 +72,7 @@ export default function PetRegAPIList() {
         api_SearchBankReconcile: `${baseUrl}/api/rig/search/transaction-cheque`,
         apiUpdateReconcillationDetails: `${baseUrl}/api/rig/search/transaction-cheque-dtl`,
         getReconcileById: `${baseUrl}/api/rig/transaction/cheque-clear-bounce`,
+        editChequeDtls: `${baseUrl}/api/rig/transaction/cheque-edit-dtls`,
 
 
     }
