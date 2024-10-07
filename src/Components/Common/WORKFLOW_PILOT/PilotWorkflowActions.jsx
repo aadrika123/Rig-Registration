@@ -610,7 +610,7 @@ function PilotWorkflowActions(props) {
                   </div> */}
                 </div>}
 
-                <div className="flex space-x-2">
+                {/* <div className="flex space-x-2">
                   {props?.permissions?.can_backward && <div className="flex-initial ">
                     <button
                       type="button"
@@ -619,7 +619,7 @@ function PilotWorkflowActions(props) {
                       className="w-full bg-indigo-500 border-2  shadow-lg text-white text-sm font-semibold rounded-lg  focus:outline-none focus:shadow-outline  hover:shadow-xs p-3 py-2 hover:bg-indigo-600 hover:text-white my-4 text-center"
                       onClick={sendApplicationToLevel}
                     >
-                      Backward
+                      Backwardasdas
                     </button>
                   </div>}
                   {props?.permissions?.can_forward &&
@@ -636,7 +636,7 @@ function PilotWorkflowActions(props) {
                     </div>
                   }
 
-                </div>
+                </div> */}
                 {props?.permissions?.can_bt_da && (
                   <div className="flex-initial ">
                     <button

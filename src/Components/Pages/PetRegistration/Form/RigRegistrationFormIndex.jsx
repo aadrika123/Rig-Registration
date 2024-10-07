@@ -124,7 +124,7 @@ const RigRegistrationFormIndex = (props) => {
 
   };
   console.log("userDetails", userDetails)
-  
+
   let payloadFormData = new FormData();
 
   const formik = useFormik({
@@ -162,50 +162,122 @@ const RigRegistrationFormIndex = (props) => {
     // }
   };
   // ==== Formik End
-  const handleFileChange = async (e) => {
+  // const handleFileChange = async (e) => {
 
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     const compressImg = await resizeFile(file);
+  //     const CFile = new File([compressImg], e?.target?.files[0]?.name, {
+  //       type: e?.target?.files[0]?.type
+  //     });
+  //     // setPreviewImage2(URL.createObjectURL(CFile));
+  //     formik.setFieldValue('fitness', CFile);
+  //   } else {
+  //     formik.setFieldValue('fitness', null);
+  //   }
+  // };
+
+  const handleFileChange = async (e) => {
     const file = e.target.files[0];
+
     if (file) {
-      const compressImg = await resizeFile(file);
-      const CFile = new File([compressImg], e?.target?.files[0]?.name, {
-        type: e?.target?.files[0]?.type
-      });
-      // setPreviewImage2(URL.createObjectURL(CFile));
-      formik.setFieldValue('fitness', CFile);
+      const fileType = file.type;
+
+      // Check if the file is an image or a PDF
+      if (fileType.startsWith('image/')) {
+        try {
+          // Only resize images
+          const compressImg = await resizeFile(file);
+          const CFile = new File([compressImg], file.name, { type: file.type });
+          formik.setFieldValue('fitness', CFile);
+        } catch (error) {
+          console.error("Error resizing image:", error);
+          formik.setFieldValue('fitness', null);
+        }
+      } else if (fileType === 'application/pdf') {
+        // Directly handle PDF files
+        formik.setFieldValue('fitness', file);
+      } else {
+        console.error("Unsupported file type!");
+        formik.setFieldValue('fitness', null);
+      }
     } else {
       formik.setFieldValue('fitness', null);
     }
   };
 
-  const handleFileChange2 = async (e) => {
+  // const handleFileChange2 = async (e) => {
 
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     const compressImg = await resizeFile(file);
+  //     const CFile = new File([compressImg], e?.target?.files[0]?.name, {
+  //       type: e?.target?.files[0]?.type
+  //     });
+  //     // setPreviewImage2(URL.createObjectURL(CFile));
+  //     formik.setFieldValue('taxCopy', CFile);
+  //   } else {
+  //     formik.setFieldValue('taxCopy', null);
+  //   }
+  // };
+  const handleFileChange2 = async (e) => {
     const file = e.target.files[0];
+
     if (file) {
-      const compressImg = await resizeFile(file);
-      const CFile = new File([compressImg], e?.target?.files[0]?.name, {
-        type: e?.target?.files[0]?.type
-      });
-      // setPreviewImage2(URL.createObjectURL(CFile));
-      formik.setFieldValue('taxCopy', CFile);
+      const fileType = file.type;
+
+      // Check if the file is an image or a PDF
+      if (fileType.startsWith('image/')) {
+        try {
+          // Only resize images
+          const compressImg = await resizeFile(file);
+          const CFile = new File([compressImg], file.name, { type: file.type });
+          formik.setFieldValue('taxCopy', CFile);
+        } catch (error) {
+          console.error("Error resizing image:", error);
+          formik.setFieldValue('taxCopy', null);
+        }
+      } else if (fileType === 'application/pdf') {
+        // Directly handle PDF files
+        formik.setFieldValue('taxCopy', file);
+      } else {
+        console.error("Unsupported file type!");
+        formik.setFieldValue('taxCopy', null);
+      }
     } else {
       formik.setFieldValue('taxCopy', null);
     }
   };
 
   const handleFileChange3 = async (e) => {
-
     const file = e.target.files[0];
+
     if (file) {
-      const compressImg = await resizeFile(file);
-      const CFile = new File([compressImg], e?.target?.files[0]?.name, {
-        type: e?.target?.files[0]?.type
-      });
-      // setPreviewImage2(URL.createObjectURL(CFile));
-      formik.setFieldValue('license', CFile);
+      const fileType = file.type;
+
+      // Check if the file is an image or a PDF
+      if (fileType.startsWith('image/')) {
+        try {
+          // Only resize images
+          const compressImg = await resizeFile(file);
+          const CFile = new File([compressImg], file.name, { type: file.type });
+          formik.setFieldValue('license', CFile);
+        } catch (error) {
+          console.error("Error resizing image:", error);
+          formik.setFieldValue('license', null);
+        }
+      } else if (fileType === 'application/pdf') {
+        // Directly handle PDF files
+        formik.setFieldValue('license', file);
+      } else {
+        console.error("Unsupported file type!");
+        formik.setFieldValue('license', null);
+      }
     } else {
       formik.setFieldValue('license', null);
     }
   };
+
 
   const submitForm = (data) => {
     setLoader(true);
