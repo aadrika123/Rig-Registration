@@ -86,7 +86,7 @@ const ViewApprovedApplication = () => {
                     <button className={`font-semibold md:text-base text-xs bg-indigo-500 text-white border border-indigo-500  px-4 py-1 shadow-lg hover:scale-105 rounded-sm`} onClick={() => navigate(`/rig-renewal/${id}`)}>Renewal</button>
                 </div> : ''}
             </div>
-            {applicationFullData?.payment_status == 1 && applicationFullData?.registrationStatus == 1 &&
+            {applicationFullData?.payment_status == 1 && applicationFullData?.registrationStatus == 1 && applicationFullData?.transactionDetails?.verify_status == 1 &&
                 <div className='font-semibold text-lg text-[#37517e]'>
                     <button className="border px-3 py-1 rounded shadow border-orange-500 hover:bg-orange-500 hover:text-white text-orange-500 whitespace-nowrap" onClick={() => navigate(`/rig-license-details/${applicationFullData?.application_id}`)}>Print License</button>
                 </div>
@@ -290,6 +290,11 @@ const ViewApprovedApplication = () => {
                            {/* Payment Details */}
                            <div className='bg-white shadow-xl p-4 border border-gray-200'>
                                 <h1 className='px-1 font-semibold font-serif text-xs mt-2 text-[#37517e]'><img src='https://cdn-icons-png.flaticon.com/512/8948/8948774.png' alt="Upload" className='w-5 inline text-[#37517e]' /> Payment Details</h1>
+                                {applicationFullData?.transactionDetails?.payment_mode == "CHEQUE" && applicationFullData?.transactionDetails?.verify_status == 2 &&
+                                    <div className="text-center text-orange-500">
+                                        <p>Payment verification from bank is pending</p>
+                                    </div>
+                                }
                                 {loader ? <ShimmerEffectInline /> :
                                     (applicationFullData?.payment_status == 0 && applicationFullData?.registrationStatus == 1 && applicationFullData?.canTakePayment ) ?
                                         <div className="text-center text-indigo-600">
