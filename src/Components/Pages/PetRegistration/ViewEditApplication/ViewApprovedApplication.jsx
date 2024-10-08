@@ -19,7 +19,7 @@ const ViewApprovedApplication = () => {
     // Hook for programmatic navigation and getting the application ID from the URL parameters
     const navigate = useNavigate()
     const { id } = useParams()
-
+    const localStorageItem = JSON.parse(window.localStorage.getItem('userDetails'))
     // State variables for managing application data, loading state, and error state
     const [applicationFullData, setApplicationFullData] = useState()
     const [loader, setLoader] = useState(false)
@@ -27,7 +27,7 @@ const ViewApprovedApplication = () => {
 
     // API endpoints for fetching approved pet application details
     const { api_PetApproveViewApplication, header, api_RigUploadedDoc } = PetRegAPIList();
-
+    { console.log("object", localStorageItem?.roles[0]) }
 
     const [selectedDoc, setSelectedDoc] = useState(null);
     const [docDetails, setDocDetails] = useState()
@@ -310,7 +310,7 @@ const ViewApprovedApplication = () => {
                                 }
 
                                 {loader ? <ShimmerEffectInline /> :
-                                    (applicationFullData?.payment_status == 0 && applicationFullData?.registrationStatus == 1) ?
+                                    (applicationFullData?.payment_status == 0 && applicationFullData?.registrationStatus == 1 && localStorageItem?.roles[0]) != "EXECUTIVE OFFICER" ?
                                         <div className="text-center text-indigo-600">
                                             <div>
                                                 <div className="text-center">
