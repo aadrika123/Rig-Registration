@@ -22,6 +22,7 @@ const ViewRejectApplication = () => {
     // State variables for managing application data, loading state, and error state
     const [applicationFullData, setApplicationFullData] = useState()
     const [loader, setLoader] = useState(false)
+    const [loader2, setLoader2] = useState(false)
     const [somethingWentWrong, setSomethingWentWrong] = useState(false)
 
     // API endpoints for fetching rejected pet application details
@@ -39,10 +40,10 @@ const ViewRejectApplication = () => {
     };
     // Effect hook to fetch application data when the component mounts
     useEffect(() => {
-        setLoader(true)
+        setLoader2(true)
         AxiosInterceptors.post(api_PetRejectedViewApplication, { "registrationId": id }, header)
             .then((res) => {
-                setLoader(false)
+                setLoader2(false)
                 if (res.data.status) {
                     setApplicationFullData(res.data.data)
                 } else {
@@ -51,7 +52,7 @@ const ViewRejectApplication = () => {
                 }
             })
             .catch((err) => {
-                setLoader(false)
+                setLoader2(false)
                 console.log("Error while getting application data")
             })
     }, [])
@@ -91,7 +92,7 @@ const ViewRejectApplication = () => {
                             {/* Property  details */}
                             <div className='bg-white shadow-xl p-4 border border-gray-200 my-3'>
                                 <h1 className='px-1 font-semibold font-serif text-xs mt-2 text-[#37517e]'><img src='https://cdn-icons-png.flaticon.com/512/609/609803.png' alt="pin" className='w-5 inline text-[#37517e]' /> Property Address & Details</h1>
-                                {loader ? <ShimmerEffectInline /> :
+                                {loader || loader2 ? <ShimmerEffectInline /> :
 
                                     <div className='mt-2'>
                                         <div className="flex space-x-10 pl-4 ">
