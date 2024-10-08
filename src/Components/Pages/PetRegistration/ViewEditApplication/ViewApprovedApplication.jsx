@@ -310,7 +310,7 @@ const ViewApprovedApplication = () => {
                                 }
 
                                 {loader ? <ShimmerEffectInline /> :
-                                    (applicationFullData?.payment_status == 0 && applicationFullData?.registrationStatus == 1 && localStorageItem?.roles[0]) != "EXECUTIVE OFFICER" ?
+                                    (applicationFullData?.payment_status == 0 && applicationFullData?.registrationStatus == 1 && localStorageItem?.roles[0] != "EXECUTIVE OFFICER") ?
                                         <div className="text-center text-indigo-600">
                                             <div>
                                                 <div className="text-center">
