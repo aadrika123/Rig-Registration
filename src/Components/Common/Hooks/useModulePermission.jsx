@@ -12,7 +12,7 @@ const useModulePermission = () => {
     const fetchMenuList = (token2) => {
        
         let requestBody = {
-            moduleId: 2
+            moduleId: 15
         }
 
         axios.post(api_getFreeMenuList, requestBody, {
