@@ -89,6 +89,11 @@ function PilotWorkflowDocumentVerifyRow(props) {
     const submitData = () => {
         if (docStatus != "Verified" && docRemarks == '') {
             notify('Please enter comment.', 'error')
+            
+            return
+        }
+        if (docStatus == "Verified" && docRemarks == '') {
+            notify('Please enter comment.', 'error')
             return
         }
         setisloading(true)

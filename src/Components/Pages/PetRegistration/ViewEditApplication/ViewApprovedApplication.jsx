@@ -8,6 +8,7 @@ import PetRegAPIList from '@/Components/api/PetRegAPIList.js';
 import ShimmerEffectInline from '@/Components/Common/Loaders/ShimmerEffectInline';
 import AxiosInterceptors from '@/Components/Common/AxiosInterceptors';
 import useSetTitle from '@/Components/Common/useSetTitle';
+import { nullToNA } from '@/Components/Common/PowerupFunctions';
 
 // Component for viewing details of an approved pet application
 const ViewApprovedApplication = () => {
@@ -18,7 +19,7 @@ const ViewApprovedApplication = () => {
     // Hook for programmatic navigation and getting the application ID from the URL parameters
     const navigate = useNavigate()
     const { id } = useParams()
-
+    const localStorageItem = JSON.parse(window.localStorage.getItem('userDetails'))
     // State variables for managing application data, loading state, and error state
     const [applicationFullData, setApplicationFullData] = useState()
     const [loader, setLoader] = useState(false)
@@ -26,7 +27,7 @@ const ViewApprovedApplication = () => {
 
     // API endpoints for fetching approved pet application details
     const { api_PetApproveViewApplication, header, api_RigUploadedDoc } = PetRegAPIList();
-
+    { console.log("object", localStorageItem?.roles[0]) }
 
     const [selectedDoc, setSelectedDoc] = useState(null);
     const [docDetails, setDocDetails] = useState()
@@ -80,12 +81,24 @@ const ViewApprovedApplication = () => {
     return (
         <>
             <div className="flex justify-between">
-                <p className="text-xl">Application No : <span className="font-semibold">{applicationFullData?.application_no}</span></p>
+                <p className="text-xl">Application No : <span className="font-semibold">{applicationFullData?.application_no}</span>
+                </p>
+                {applicationFullData?.registration_id &&
+                    <p className="text-xl">Registration No : <span className="font-semibold">{applicationFullData?.registration_id}</span>
+                    </p>
+                }
+
                 {applicationFullData?.isRenewal == true ? <div className='space-x-5'>
                     <button className={`font-semibold md:text-base text-xs bg-indigo-500 text-white border border-indigo-500  px-4 py-1 shadow-lg hover:scale-105 rounded-sm`} onClick={() => navigate(`/rig-renewal/${id}`)}>Renewal</button>
                 </div> : ''}
             </div>
-            {applicationFullData?.payment_status == 1 && applicationFullData?.registrationStatus == 1 &&
+            {
+                applicationFullData?.transactionDetails?.payment_mode == "CASH" && applicationFullData?.payment_status == 1 && applicationFullData?.registrationStatus == 1 &&
+                <div className='font-semibold text-lg text-[#37517e]'>
+                    <button className="border px-3 py-1 rounded shadow border-orange-500 hover:bg-orange-500 hover:text-white text-orange-500 whitespace-nowrap" onClick={() => navigate(`/rig-license-details/${applicationFullData?.application_id}`)}>Print License</button>
+                </div>
+            }
+            {applicationFullData?.payment_status == 1 && applicationFullData?.registrationStatus == 1 && applicationFullData?.transactionDetails?.verify_status == 1 && applicationFullData?.transactionDetails?.payment_mode != "CASH" &&
                 <div className='font-semibold text-lg text-[#37517e]'>
                     <button className="border px-3 py-1 rounded shadow border-orange-500 hover:bg-orange-500 hover:text-white text-orange-500 whitespace-nowrap" onClick={() => navigate(`/rig-license-details/${applicationFullData?.application_id}`)}>Print License</button>
                 </div>
@@ -106,10 +119,10 @@ const ViewApprovedApplication = () => {
                                                 <div className='text-[#37517e]'>ULB Name</div>
                                                 <div className='font-semibold text-sm text-[#37517e]'>{applicationFullData?.ulb_name ? applicationFullData?.ulb_name : "N/A"}</div>
                                             </div>
-                                            <div className='flex-1 text-xs'>
+                                            {/* <div className='flex-1 text-xs'>
                                                 <div className='text-[#37517e]'>Ward No</div>
                                                 <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.ward_name ? applicationFullData?.ward_name : "N/A"}</div>
-                                            </div>
+                                            </div> */}
                                             <div className='flex-1 text-xs'>
                                                 <div className='text-[#37517e]'>Application Type</div>
                                                 <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.ref_application_type ? applicationFullData?.ref_application_type : "N/A"}</div>
@@ -167,7 +180,7 @@ const ViewApprovedApplication = () => {
                                                 </div>
                                             </div> */}
                                             <div className='flex-1 text-xs'>
-                                                <div className='text-[#37517e]'>VIN Number</div>
+                                                <div className='text-[#37517e]'> VIN Number / CH No.</div>
                                                 <div className='font-bold text-sm text-[#37517e]'>
                                                     <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.vehicle_name}</div>
                                                 </div>
@@ -234,6 +247,7 @@ const ViewApprovedApplication = () => {
                                                 <th className="px-2 py-3 border-b border-gray-200 text-xs uppercase text-left">#</th>
                                                 <th className="px-2 py-3 border-b border-gray-200 text-xs uppercase text-left">Document Name</th>
                                                 <th className="px-2 py-3 border-b border-gray-200 text-xs uppercase text-left">Status</th>
+                                                <th className="px-2 py-3 border-b border-gray-200 text-xs uppercase text-left">Remarks</th>
                                                 <th className="px-2 py-3 border-b border-gray-200 text-xs uppercase text-left">Preview</th>
                                                 <th className="px-2 py-3 border-b border-gray-200 text-xs uppercase text-left">View </th>
                                             </tr>
@@ -244,7 +258,9 @@ const ViewApprovedApplication = () => {
                                                     <tr className="bg-white shadow-lg border-b border-gray-200">
                                                         <td className="px-2 py-2 text-sm text-left text-[#37517e]">{i + 1}</td>
                                                         <td className="px-2 py-2 text-sm text-left text-[#37517e]">{items?.doc_code ? items?.doc_code : "N/A"}</td>
+
                                                         <td className="px-2 py-2 text-sm text-left text-[#37517e]">{items?.verify_status == 1 ? <p className="text-green-400 font-semibold">Verified</p> : <p className="text-red-400 font-semibold">Pending</p>}</td>
+                                                        <td className="px-2 py-2 text-sm text-left text-[#37517e]">{nullToNA(items?.remarks)}</td>
                                                         <td className="px-2 py-2 text-sm text-left text-[#37517e]">
 
                                                             {items?.doc_path?.split('.').pop() == "pdf" ? <img className="h-10 w-10 border rounded shadow-md" src={pdfImage} /> :
@@ -283,11 +299,18 @@ const ViewApprovedApplication = () => {
 
                                 </div>
                             }
-                           {/* Payment Details */}
-                           <div className='bg-white shadow-xl p-4 border border-gray-200'>
+
+                            {/* Payment Details */}
+                            <div className='bg-white shadow-xl p-4 border border-gray-200'>
                                 <h1 className='px-1 font-semibold font-serif text-xs mt-2 text-[#37517e]'><img src='https://cdn-icons-png.flaticon.com/512/8948/8948774.png' alt="Upload" className='w-5 inline text-[#37517e]' /> Payment Details</h1>
+                                {applicationFullData?.transactionDetails?.payment_mode == "CHEQUE" && applicationFullData?.transactionDetails?.verify_status == 2 &&
+                                    <div className="text-center text-orange-500">
+                                        <p>Payment verification from bank is pending</p>
+                                    </div>
+                                }
+
                                 {loader ? <ShimmerEffectInline /> :
-                                    (applicationFullData?.payment_status == 0 && applicationFullData?.registrationStatus == 1 && applicationFullData?.canTakePayment ) ?
+                                    (applicationFullData?.payment_status == 0 && applicationFullData?.registrationStatus == 1 && localStorageItem?.roles[0] != "EXECUTIVE OFFICER") ?
                                         <div className="text-center text-indigo-600">
                                             <div>
                                                 <div className="text-center">
@@ -324,7 +347,7 @@ const ViewApprovedApplication = () => {
                                                     <div className='text-[#37517e]'>Action</div>
                                                 </div>
                                             </div>
-                                            {applicationFullData?.transactionDetails ? (
+                                            {applicationFullData?.transactionDetails &&
                                                 <div className="flex space-x-10 pl-4 my-2 border-y-gray-200">
                                                     <div className='text-xs'>
                                                         <div className='font-semibold text-sm text-[#37517e]'>1.</div>
@@ -351,18 +374,10 @@ const ViewApprovedApplication = () => {
                                                             <button className="border px-3 py-1 rounded shadow border-blue-500 hover:bg-blue-500 hover:text-white text-blue-500 whitespace-nowrap" onClick={() => navigate(`/rig-payment-receipt/${applicationFullData?.transactionDetails?.tran_no}`)}>Print Receipt</button>
                                                         </div>
                                                     </div>
+
+
+
                                                 </div>
-                                                ):(
-                                                    <div className='text-center mt-4 text-red-500 font-semibold text-xl'>
-                                                        <h1>
-                                                        Payment is pending
-                                                        </h1>
-                                                        {/* <h1>
-                                                        Please make payment from JSK
-                                                        </h1> */}
-                                                        
-                                                    </div>
-                                                )
                                             }
                                         </div>
                                 }

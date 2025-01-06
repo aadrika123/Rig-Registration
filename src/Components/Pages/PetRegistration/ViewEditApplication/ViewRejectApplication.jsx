@@ -7,12 +7,13 @@ import PetRegAPIList from '@/Components/api/PetRegAPIList.js';
 import ShimmerEffectInline from '@/Components/Common/Loaders/ShimmerEffectInline';
 import AxiosInterceptors from '@/Components/Common/AxiosInterceptors';
 import useSetTitle from '@/Components/Common/useSetTitle';
+import { nullToNA } from '@/Components/Common/PowerupFunctions';
 
 // Component for viewing details of a rejected pet application
 const ViewRejectApplication = () => {
 
     // Hook to set the title of the page
-    useSetTitle("View Pet Application")
+    useSetTitle("View Rig Application")
 
     // Hook for programmatic navigation and getting the application ID from the URL parameters
     const navigate = useNavigate()
@@ -21,6 +22,7 @@ const ViewRejectApplication = () => {
     // State variables for managing application data, loading state, and error state
     const [applicationFullData, setApplicationFullData] = useState()
     const [loader, setLoader] = useState(false)
+    const [loader2, setLoader2] = useState(false)
     const [somethingWentWrong, setSomethingWentWrong] = useState(false)
 
     // API endpoints for fetching rejected pet application details
@@ -38,10 +40,10 @@ const ViewRejectApplication = () => {
     };
     // Effect hook to fetch application data when the component mounts
     useEffect(() => {
-        setLoader(true)
+        setLoader2(true)
         AxiosInterceptors.post(api_PetRejectedViewApplication, { "registrationId": id }, header)
             .then((res) => {
-                setLoader(false)
+                setLoader2(false)
                 if (res.data.status) {
                     setApplicationFullData(res.data.data)
                 } else {
@@ -50,7 +52,7 @@ const ViewRejectApplication = () => {
                 }
             })
             .catch((err) => {
-                setLoader(false)
+                setLoader2(false)
                 console.log("Error while getting application data")
             })
     }, [])
@@ -75,8 +77,11 @@ const ViewRejectApplication = () => {
     console.log("applicationFullData", applicationFullData)
     return (
         <>
-            <div className="flex justify-between">
+            <div className="flex justify-between px-2">
                 <p className="text-xl">Application No : <span className="font-semibold">{applicationFullData?.application_no}</span></p>
+            </div>
+            <div className="flex justify-between px-2 mt-2">
+                <p className="text-xl">Rejected Reason : <span className="font-semibold text-red-600">{applicationFullData?.reason}</span></p>
             </div>
             <div className="grid grid-cols-12 mb-20">
                 <div className="rounded-md col-span-12">
@@ -87,7 +92,7 @@ const ViewRejectApplication = () => {
                             {/* Property  details */}
                             <div className='bg-white shadow-xl p-4 border border-gray-200 my-3'>
                                 <h1 className='px-1 font-semibold font-serif text-xs mt-2 text-[#37517e]'><img src='https://cdn-icons-png.flaticon.com/512/609/609803.png' alt="pin" className='w-5 inline text-[#37517e]' /> Property Address & Details</h1>
-                                {loader ? <ShimmerEffectInline /> :
+                                {loader || loader2 ? <ShimmerEffectInline /> :
 
                                     <div className='mt-2'>
                                         <div className="flex space-x-10 pl-4 ">
@@ -95,10 +100,10 @@ const ViewRejectApplication = () => {
                                                 <div className='text-[#37517e]'>ULB Name</div>
                                                 <div className='font-semibold text-sm text-[#37517e]'>{applicationFullData?.ulb_name ? applicationFullData?.ulb_name : "N/A"}</div>
                                             </div>
-                                            <div className='flex-1 text-xs'>
+                                            {/* <div className='flex-1 text-xs'>
                                                 <div className='text-[#37517e]'>Ward No</div>
                                                 <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.ward_name ? applicationFullData?.ward_name : "N/A"}</div>
-                                            </div>
+                                            </div> */}
                                             <div className='flex-1 text-xs'>
                                                 <div className='text-[#37517e]'>Application Type</div>
                                                 <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.ref_application_type ? applicationFullData?.ref_application_type : "N/A"}</div>
@@ -158,9 +163,9 @@ const ViewRejectApplication = () => {
                                                 </div>
                                             </div> */}
                                             <div className='flex-1 text-xs'>
-                                                <div className='text-[#37517e]'>VIN Number</div>
+                                                <div className='text-[#37517e]'> VIN Number / CH No.</div>
                                                 <div className='font-bold text-sm text-[#37517e]'>
-                                                    <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.vehicle_name }</div>
+                                                    <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.vehicle_name}</div>
                                                 </div>
                                             </div>
                                             <div className='flex-1 text-xs'>
@@ -226,6 +231,7 @@ const ViewRejectApplication = () => {
                                                 <th className="px-2 py-3 border-b border-gray-200 text-xs uppercase text-left">#</th>
                                                 <th className="px-2 py-3 border-b border-gray-200 text-xs uppercase text-left">Document Name</th>
                                                 <th className="px-2 py-3 border-b border-gray-200 text-xs uppercase text-left">Status</th>
+                                                <th className="px-2 py-3 border-b border-gray-200 text-xs uppercase text-left">Remarks</th>
                                                 <th className="px-2 py-3 border-b border-gray-200 text-xs uppercase text-left">Preview</th>
                                                 <th className="px-2 py-3 border-b border-gray-200 text-xs uppercase text-left">View </th>
                                             </tr>
@@ -236,7 +242,19 @@ const ViewRejectApplication = () => {
                                                     <tr className="bg-white shadow-lg border-b border-gray-200">
                                                         <td className="px-2 py-2 text-sm text-left text-[#37517e]">{i + 1}</td>
                                                         <td className="px-2 py-2 text-sm text-left text-[#37517e]">{items?.doc_code ? items?.doc_code : "N/A"}</td>
-                                                        <td className="px-2 py-2 text-sm text-left text-[#37517e]">{items?.doc_path == "" ? <p className="text-red-400 font-semibold">Not Upload</p> : <p className="text-green-400 font-semibold">Uploaded</p>}</td>
+
+                                                        <td className="px-2 py-2 text-sm text-left text-[#37517e]">{items?.verify_status == 0 ?
+                                                            <p className="text-orange-400 font-semibold">Pending</p>
+                                                            : ""
+                                                        }
+                                                            {items?.verify_status == 2 ?
+                                                                <p className="text-red-400 font-semibold">Rejected</p>
+                                                                : ""}
+                                                            {items?.verify_status == 1 ?
+                                                                <p className="text-green-500 font-semibold">Verified</p>
+                                                                : ""}
+                                                        </td>
+                                                        <td className="px-2 py-2 text-sm text-left text-[#37517e]">{nullToNA(items?.remarks)}</td>
                                                         <td className="px-2 py-2 text-sm text-left text-[#37517e]">
 
                                                             {items?.doc_path?.split('.').pop() == "pdf" ? <img className="h-10 w-10 border rounded shadow-md" src={pdfImage} /> :
@@ -252,9 +270,10 @@ const ViewRejectApplication = () => {
                                                                     View
                                                                 </button>
                                                             ) : (
-                                                                <button disabled className="bg-indigo-200 text-white px-2 py-1 rounded">
-                                                                    View
-                                                                </button>
+                                                                // <button disabled className="bg-indigo-200 text-white px-2 py-1 rounded">
+                                                                //     View
+                                                                // </button>
+                                                                "Rejected"
                                                             )}
                                                         </td>
                                                     </tr>
@@ -339,6 +358,30 @@ const ViewRejectApplication = () => {
                             </div>
                         </div>
                     }
+                    {/* Modal */}
+                    {selectedDoc && (
+                        <div className="fixed inset-0 flex items-center justify-center bg-gray-200 bg-opacity-50 z-auto">
+                            <div className="bg-white p-6 rounded-lg shadow-lg" style={{ width: '60vw', height: '90vh' }}>
+                                <div className="flex justify-between items-center mb-4">
+                                    <h2 className="text-lg font-semibold">{selectedDoc.name}</h2>
+                                    <button onClick={handleCloseModal} className="text-gray-500">
+                                        &times;
+                                    </button>
+                                </div>
+                                {/* Render the content based on document type */}
+                                {selectedDoc.path.endsWith(".pdf") ? (
+                                    <iframe
+                                        src={selectedDoc.path}
+                                        className="w-full h-96"
+                                        title={selectedDoc.name}
+                                        style={{ height: 'calc(100% - 20px)' }}
+                                    ></iframe>
+                                ) : (
+                                    <img src={selectedDoc.path} alt={selectedDoc.name} className="w-full h-full" />
+                                )}
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div >
         </>

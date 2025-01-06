@@ -41,6 +41,8 @@ import RigLIcenseReceipt from './Components/Pages/PetRegistration/PetPaymentRece
 import RigLIcenseReceiptEntry from './Components/Pages/PetRegistration/PetPaymentReceipt/RigLIcenseReceiptEntry';
 import CollectionReport from './Components/Pages/PetRegistration/Report/CollectionReport';
 import SuccessfulSubmitModal2 from './Components/Pages/PetRegistration/Form/SuccessfulSubmitModal2';
+import CashVerification from './Components/Pages/PetRegistration/Accounts/CashVerification';
+import BankReconciliation from './Components/Pages/PetRegistration/Accounts/BankReconciliation';
 
 
 function App() {
@@ -81,14 +83,14 @@ function App() {
     { path: '/home', element: <PetRegDashboard /> },
     // { path: '/rig-registration-form', element: <RegRegisterForm /> },
     { path: '/rig-workflow', element: <PetRegWorkflowEntry /> },
-   
+
     { path: '/search-approved-pet-registration', element: <SearchApprovedPetApplication /> },
     { path: '/PetRegistrationPreviewList/:registration_id', element: <PetRegistrationPreviewList /> },
     { path: '/viewPreviewApplication/:id', element: <ViewApprovedPreviewApplication /> },
     { path: '/search-rejected-pet-registration', element: <SearchRejectPetApplication /> },
-   
-    
-   
+
+
+
     // { path: '/pet-registration', element: <PetRegistrationIndex /> },
     { path: '/rig-renewal/:id', element: <PetRenewalFormIndex /> },
     { path: '/viewRigApplication/:id', element: <ViewPetApplication /> },
@@ -96,19 +98,24 @@ function App() {
     { path: '/successfull-edit', element: <SuccessfulSubmitModal2 /> },
 
 
-    { path: '/rig-license-details/:id', element: <RigLIcenseReceiptEntry /> },
+
     { path: '/rig-payment-offline/:id', element: <PetOfflinePayment /> },
-    { path: '/rig-payment-receipt/:transNo', element: <PetPaymentReceiptIndex /> },
+
 
     { path: '/rig-registration-form', element: <RigRegistrationFormIndex /> },
     { path: '/search-rig-registration', element: <SearchPetApplicationForm /> },
     { path: '/viewRejectApplication/:id', element: <ViewRejectApplication /> },
     { path: '/viewApprovedApplication/:id', element: <ViewApprovedApplication /> },
-     { path: '/reject-rig-application', element: <RejectPetApplication /> },
+    { path: '/reject-rig-application', element: <RejectPetApplication /> },
     { path: '/approved-rig-application', element: <ApprovedPetApplication /> },
     { path: '/collection-report', element: <CollectionReport /> },
+    { path: '/cash-verification', element: <CashVerification /> },
+    { path: '/bank-reconciliation', element: <BankReconciliation /> },
   ]
 
+
+  // { path: '/rig-payment-receipt/:transNo', element: <PetPaymentReceiptIndex /> },
+  // { path: '/rig-license-details/:id', element: <RigLIcenseReceiptEntry /> },
   return (
     <>
 
@@ -117,7 +124,14 @@ function App() {
       <contextVar.Provider value={contextData}>
 
         <Routes>
-
+          <Route
+            path='/rig-payment-receipt/:transNo'
+            element={<PetPaymentReceiptIndex />}
+          />
+          <Route
+            path='/rig-license-details/:id'
+            element={<RigLIcenseReceiptEntry />}
+          />
           <Route index element={<Login />} />
 
           <Route element={<ProtectedRoutes />}>

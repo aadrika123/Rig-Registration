@@ -262,11 +262,11 @@ const PetRenewalFormIndex = (props) => {
               <input disabled value={masterData?.application_type == "New_Apply" ? "Renewal" : ""} type="text" name='holdingNo' className={style?.textFiled} />
               <p className='text-red-500 text-xs'>{formik.touched.categoryApplication && formik.errors.categoryApplication ? formik.errors.categoryApplication : null}</p>
             </div>
-            <div className='m-3'>
+            {/* <div className='m-3'>
               <label className={style?.label} htmlFor="ward">Ward Number</label>
               <input type="text" disabled value={masterData?.ward_name} name='ward' className={style?.textFiled} />
               <p className='text-red-500 text-xs'>{formik.touched.ward && formik.errors.ward ? formik.errors.ward : null}</p>
-            </div>
+            </div> */}
           </div>
           <div className='col-span-12 ml-2 my-2'>
             <div className='text-lg text-left text-gray-600 font-semibold'># Applicant Details</div>
@@ -330,7 +330,7 @@ const PetRenewalFormIndex = (props) => {
             </div>
             <div className='m-3'>
               <label className={style?.label} htmlFor='vehicleComapny'>
-                VIN Number<span className={style?.required}>*</span>
+              VIN Number / CH No.<span className={style?.required}>*</span>
               </label>
               <input
                 disabled

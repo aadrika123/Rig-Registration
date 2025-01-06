@@ -12,7 +12,7 @@ import { toast } from "react-hot-toast";
 import ApiHeader2 from "@/Components/api/ApiHeader2";
 import useSetTitle from "@/Components/Common/useSetTitle";
 import { useNavigate } from "react-router-dom";
-import {resizeFile} from "@/Components/Common/ImageResizer/UseImgResizer";
+import { resizeFile } from "@/Components/Common/ImageResizer/UseImgResizer";
 // import SuccessfulSubmitModal from "./SuccessfulSubmitModal";
 // import WaterApiList from "../../../Components/ApiList/WaterApiList";
 // import AxiosInterceptors from "../../../Components/GlobalData/AxiosInterceptors";
@@ -20,6 +20,8 @@ import {resizeFile} from "@/Components/Common/ImageResizer/UseImgResizer";
 // import { contextVar } from "../../../Components/ContextVar";
 // import BrandLoader from "src/Components/Common/BrandLoader";
 // import { allowCharacterInput } from "src/Components/Common/PowerUps/PowerupFunctions";
+// import { useContext } from 'react'
+import { contextVar } from "@/Components/context/contextVar";
 
 const style = {
   required: "text-red-700 font-semibold",
@@ -38,7 +40,7 @@ const RigRegistrationFormIndex = (props) => {
   const [errorMessage, setErrorMessage] = useState(false);
   // const { notify } = useContext(contextVar);
   const [listOfHoldingSaf, setListOfHoldingSaf] = useState();
-  const [userDetails, setUserDetails] = useState();
+  // const [userDetails, setUserDetails] = useState();
   const [loader, setLoader] = useState(false);
   const [fitnessImage, setFitnessImage] = useState();
   const [taxCopyImage, setTaxCopyImage] = useState();
@@ -46,28 +48,30 @@ const RigRegistrationFormIndex = (props) => {
   const [responseScreen, setresponseScreen] = useState();
 
   const [fileSizeError, setFileSizeError] = useState('');
-
+  const { userDetails } = useContext(contextVar)
   // const { api_ulbList, header, api_wardList } = WaterApiList();
   useSetTitle("Search Application")
   const {
     api_RigRegistrationApplyForm,
-    api_PetRegistrationMaster, 
+    api_PetRegistrationMaster,
     api_ListOfSafHolding,
     api_getUserDetailsByHoldingSaf,
     header1, api_ulbList, header, api_wardList
   } = PetRegAPIList();
   const navigate = useNavigate();
+
+
   // ==== Formik Start
   const validationSchema = yup.object({
-    ulb: yup.string().required("Kindly enter a value."),
+    // ulb: yup.string().required("Kindly enter a value."),
     address: yup.string().required("Kindly enter a value."),
 
     applicantName: yup
       .string()
       .matches(/^[a-zA-Z0-9\s,.:-]+$/, "Only text is allowed")
       .required("Kindly enter a value."),
-    ownerCategory: yup.string().required("Kindly enter a value."),
-    ward: yup.string().required("Kindly enter a value."),
+    // ownerCategory: yup.string().required("Kindly enter a value."),
+    // ward: yup.string().required("Kindly enter a value."),
 
     // mobileNo: yup.string()
     // .matches(/^[0-9]{10}$/, 'Mobile number must be exactly 10 digits.')
@@ -95,11 +99,11 @@ const RigRegistrationFormIndex = (props) => {
   });
 
   const initialValues = {
-    ulb: "",
-    ulbId: "",
+    // ulb: "",
+    // ulbId: "",
     applicantName: "",
-    ownerCategory: "",
-    ward: "",
+    // ownerCategory: "",
+    // ward: "",
     mobileNo: "",
     email: "",
     address: "",
@@ -119,6 +123,7 @@ const RigRegistrationFormIndex = (props) => {
 
 
   };
+  console.log("userDetails", userDetails)
 
   let payloadFormData = new FormData();
 
@@ -157,58 +162,130 @@ const RigRegistrationFormIndex = (props) => {
     // }
   };
   // ==== Formik End
-  const handleFileChange =async (e) => {
-   
+  // const handleFileChange = async (e) => {
+
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     const compressImg = await resizeFile(file);
+  //     const CFile = new File([compressImg], e?.target?.files[0]?.name, {
+  //       type: e?.target?.files[0]?.type
+  //     });
+  //     // setPreviewImage2(URL.createObjectURL(CFile));
+  //     formik.setFieldValue('fitness', CFile);
+  //   } else {
+  //     formik.setFieldValue('fitness', null);
+  //   }
+  // };
+
+  const handleFileChange = async (e) => {
     const file = e.target.files[0];
+
     if (file) {
-      const compressImg = await resizeFile(file);
-      const CFile = new File([compressImg], e?.target?.files[0]?.name, {
-        type: e?.target?.files[0]?.type
-      });
-      // setPreviewImage2(URL.createObjectURL(CFile));
-      formik.setFieldValue('fitness', CFile);
+      const fileType = file.type;
+
+      // Check if the file is an image or a PDF
+      if (fileType.startsWith('image/')) {
+        try {
+          // Only resize images
+          const compressImg = await resizeFile(file);
+          const CFile = new File([compressImg], file.name, { type: file.type });
+          formik.setFieldValue('fitness', CFile);
+        } catch (error) {
+          console.error("Error resizing image:", error);
+          formik.setFieldValue('fitness', null);
+        }
+      } else if (fileType === 'application/pdf') {
+        // Directly handle PDF files
+        formik.setFieldValue('fitness', file);
+      } else {
+        console.error("Unsupported file type!");
+        formik.setFieldValue('fitness', null);
+      }
     } else {
       formik.setFieldValue('fitness', null);
     }
   };
 
-  const handleFileChange2 =async (e) => {
-   
+  // const handleFileChange2 = async (e) => {
+
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     const compressImg = await resizeFile(file);
+  //     const CFile = new File([compressImg], e?.target?.files[0]?.name, {
+  //       type: e?.target?.files[0]?.type
+  //     });
+  //     // setPreviewImage2(URL.createObjectURL(CFile));
+  //     formik.setFieldValue('taxCopy', CFile);
+  //   } else {
+  //     formik.setFieldValue('taxCopy', null);
+  //   }
+  // };
+  const handleFileChange2 = async (e) => {
     const file = e.target.files[0];
+
     if (file) {
-      const compressImg = await resizeFile(file);
-      const CFile = new File([compressImg], e?.target?.files[0]?.name, {
-        type: e?.target?.files[0]?.type
-      });
-      // setPreviewImage2(URL.createObjectURL(CFile));
-      formik.setFieldValue('taxCopy', CFile);
+      const fileType = file.type;
+
+      // Check if the file is an image or a PDF
+      if (fileType.startsWith('image/')) {
+        try {
+          // Only resize images
+          const compressImg = await resizeFile(file);
+          const CFile = new File([compressImg], file.name, { type: file.type });
+          formik.setFieldValue('taxCopy', CFile);
+        } catch (error) {
+          console.error("Error resizing image:", error);
+          formik.setFieldValue('taxCopy', null);
+        }
+      } else if (fileType === 'application/pdf') {
+        // Directly handle PDF files
+        formik.setFieldValue('taxCopy', file);
+      } else {
+        console.error("Unsupported file type!");
+        formik.setFieldValue('taxCopy', null);
+      }
     } else {
       formik.setFieldValue('taxCopy', null);
     }
   };
 
-  const handleFileChange3 =async (e) => {
-   
+  const handleFileChange3 = async (e) => {
     const file = e.target.files[0];
+
     if (file) {
-      const compressImg = await resizeFile(file);
-      const CFile = new File([compressImg], e?.target?.files[0]?.name, {
-        type: e?.target?.files[0]?.type
-      });
-      // setPreviewImage2(URL.createObjectURL(CFile));
-      formik.setFieldValue('license', CFile);
+      const fileType = file.type;
+
+      // Check if the file is an image or a PDF
+      if (fileType.startsWith('image/')) {
+        try {
+          // Only resize images
+          const compressImg = await resizeFile(file);
+          const CFile = new File([compressImg], file.name, { type: file.type });
+          formik.setFieldValue('license', CFile);
+        } catch (error) {
+          console.error("Error resizing image:", error);
+          formik.setFieldValue('license', null);
+        }
+      } else if (fileType === 'application/pdf') {
+        // Directly handle PDF files
+        formik.setFieldValue('license', file);
+      } else {
+        console.error("Unsupported file type!");
+        formik.setFieldValue('license', null);
+      }
     } else {
       formik.setFieldValue('license', null);
     }
   };
 
+
   const submitForm = (data) => {
     setLoader(true);
     const payload = {
-      ulbId: data?.ulb,
+      // ulbId: data?.ulb,
       applicantName: data?.applicantName,
-      ownerCategory: data?.ownerCategory,
-      ward: data?.ward,
+      ownerCategory: 1,
+      // ward: data?.ward,
       mobileNo: data?.mobileNo,
       email: data?.email,
       address: data?.address,
@@ -304,23 +381,23 @@ const RigRegistrationFormIndex = (props) => {
   }, []);
 
   //Get Ward list by ulb selection
-  useEffect(() => {
-    setLoader(true);
-    AxiosInterceptors.post(api_wardList, { ulbId: formik.values.ulb }, header)
-      .then((res) => {
-        setLoader(false);
-        if (res.data.status) {
-          setWardList(res.data.data);
-          console.log("Ward List", res.data);
-        } else {
-          console.log("Error fetching Ward list");
-        }
-      })
-      .catch((err) => {
-        setLoader(false);
-        console.log("Error while getting Ward list");
-      });
-  }, [formik.values.ulb]);
+  // useEffect(() => {
+  //   setLoader(true);
+  //   AxiosInterceptors.post(api_wardList, { ulbId: formik.values.ulb }, header)
+  //     .then((res) => {
+  //       setLoader(false);
+  //       if (res.data.status) {
+  //         setWardList(res.data.data);
+  //         console.log("Ward List", res.data);
+  //       } else {
+  //         console.log("Error fetching Ward list");
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       setLoader(false);
+  //       console.log("Error while getting Ward list");
+  //     });
+  // }, [formik.values.ulb]);
 
 
   // if (responseScreen?.status == true) {
@@ -346,15 +423,15 @@ const RigRegistrationFormIndex = (props) => {
           </h1>
         </div>
         <div className='overflow-y-auto '>
-          <div className='col-span-12 ml-2 my-2'>
+          {/* <div className='col-span-12 ml-2 my-2'>
             <div className='text-lg text-left text-gray-600 font-semibold'>
-              # Property Details
+              # Property Detail
             </div>
-            {/* <p className='border-b border-gray-500'></p> */}
-          </div>
+            <p className='border-b border-gray-500'></p>
+          </div> */}
 
           <div className='grid grid-cols-1 md:grid-cols-3 bg-white shadow-md rounded-md py-2'>
-            <div className='m-2'>
+            {/* <div className='m-2'>
               <label className={style?.label} htmlFor='ulb'>
                 Select ULB <span className={style?.required}>*</span>
               </label>
@@ -375,9 +452,9 @@ const RigRegistrationFormIndex = (props) => {
                   ? formik.errors.ulb
                   : null}
               </p>
-            </div>
+            </div> */}
 
-            <div className='m-2'>
+            {/* <div className='m-2'>
               <label className={style?.label} htmlFor='ownerCategory'>
                 Category of Application
                 <span className={style?.required}>*</span>
@@ -422,7 +499,7 @@ const RigRegistrationFormIndex = (props) => {
                   ? formik.errors.ward
                   : null}
               </p>
-            </div>
+            </div> */}
           </div>
 
           <div className='col-span-12 ml-2 my-2'>
@@ -623,7 +700,7 @@ const RigRegistrationFormIndex = (props) => {
             </div>
             <div className='m-3'>
               <label className={style?.label} htmlFor='vehicleComapny'>
-                VIN Number<span className={style?.required}>*</span>
+                VIN Number / CH No.<span className={style?.required}>*</span>
               </label>
               <input
                 {...formik.getFieldProps("vehicleComapny")}
@@ -675,7 +752,7 @@ const RigRegistrationFormIndex = (props) => {
                 className={style?.textFiled}
               />
               <p className='text-red-500 text-xs'>
-              {fileSizeError}
+                {fileSizeError}
               </p>
             </div>
             <div className='m-3'>
@@ -708,10 +785,10 @@ const RigRegistrationFormIndex = (props) => {
                 className={style?.textFiled}
               />
               <p className='text-red-500 text-xs'>
-              {fileSizeError}
+                {fileSizeError}
               </p>
             </div>
-           
+
           </div>
           <p className="text-orange-500 px-2">Each document should not exceed a size of 2 MB.</p>
         </div>

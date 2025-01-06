@@ -287,17 +287,19 @@ const ViewPetApplication = () => {
             {openDeleteModal && <PetRegDeleteModal setOpenDeleteModal={setOpenDeleteModal} dataTobeDeleted={dataTobeDeleted} />}
             {/* <PetRegTopButtons active="application" consumerNo={applicationFullData?.application_no} /> */}
             <div className="col-span-2 space-y-2">
-                {applicationFullData?.payment_status == 0 ? <p className="text-xl font-serif">Your application is under : <span className="font-semibold text-orange-700">{applicationFullData?.roleName}</span></p> : <>{applicationFullData?.payment_status == 2 ? <p className="text-xl font-serif"> Your application payment is under : <span className="font-semibold">verification</span></p> : ''}</>}
+                {applicationFullData?.payment_status == 0 && applicationFullData?.applicantsStatus == 1 &&
+                    <p className="text-xl font-serif text-orange-500">Your application is Approved and Payment is Pending.</p>}
+                {applicationFullData?.payment_status == 0 && applicationFullData?.applicantsStatus != 1 ? <p className="text-xl font-serif">Your application is under : <span className="font-semibold text-orange-700">{applicationFullData?.roleName}</span></p> : <>{applicationFullData?.payment_status == 2 ? <p className="text-xl font-serif"> Your application payment is under : <span className="font-semibold">verification</span></p> : ''}</>}
                 <p className="text-xl font-serif">Application No : <span className="font-semibold text-blue-700">{applicationFullData?.application_no}</span></p>
                 {/* <button onClick={() => navigate(-1)} className={`font-semibold md:text-base text-xs bg-indigo-500 text-white border border-indigo-500  px-4 py-1 shadow-lg hover:scale-105 rounded-sm`} >Back</button> */}
-                {applicationFullData?.payment_status == 1 && applicationFullData?.registrationStatus == 2 &&
+                {applicationFullData?.payment_status == 1 && applicationFullData?.registrationStatus == 2 && applicationFullData?.transactionDetails?.verify_status == 1 &&
                     <div className='font-semibold text-lg text-[#37517e]'>
                         <button className="border px-3 py-1 rounded shadow border-orange-500 hover:bg-orange-500 hover:text-white text-orange-500 whitespace-nowrap" onClick={() => navigate(`/rig-license-details/${applicationFullData?.application_id}`)}>Print License</button>
                     </div>
                 }
                 {/* Rig edit  details */}
                 {
-                    applicationFullData?.payment_status == 0 && applicationFullData?.application_type == "New_Apply" ?
+                    applicationFullData?.payment_status == 0 && applicationFullData?.applicantsStatus == "" && applicationFullData?.application_type == "New_Apply" ?
                         <div className='space-x-5 flex justify-end'>
                             <button className='bg-sky-600 hover:bg-sky-500 text-white px-5 py-1 rounded shadow flex justify-end ' onClick={openDialogModal2}>Edit Application</button>
 
@@ -331,10 +333,10 @@ const ViewPetApplication = () => {
                                                 <div className='text-[#37517e]'>ULB Name</div>
                                                 <div className='font-semibold text-sm text-[#37517e]'>{applicationFullData?.ulb_name ? applicationFullData?.ulb_name : "N/A"}</div>
                                             </div>
-                                            <div className='flex-1 text-xs'>
+                                            {/* <div className='flex-1 text-xs'>
                                                 <div className='text-[#37517e]'>Ward No</div>
                                                 <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.ward_name ? applicationFullData?.ward_name : "N/A"}</div>
-                                            </div>
+                                            </div> */}
                                             {/* <div className='flex-1 text-xs'>
                                                 <div className='text-[#37517e]'>Apply Through</div>
                                                 <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.apply_through_name ? applicationFullData?.apply_through_name : "N/A"}</div>
@@ -399,7 +401,7 @@ const ViewPetApplication = () => {
                                                 </div>
                                             </div> */}
                                             <div className='flex-1 text-xs'>
-                                                <div className='text-[#37517e]'>VIN Number</div>
+                                                <div className='text-[#37517e]'> VIN Number / CH No.</div>
                                                 <div className='font-bold text-sm text-[#37517e]'>
                                                     <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.vehicle_name}</div>
                                                 </div>
@@ -529,6 +531,12 @@ const ViewPetApplication = () => {
                             {/* Payment Details */}
                             <div className='bg-white shadow-xl p-4 border border-gray-200'>
                                 <h1 className='px-1 font-semibold font-serif text-xs mt-2 text-[#37517e]'><img src='https://cdn-icons-png.flaticon.com/512/8948/8948774.png' alt="Upload" className='w-5 inline text-[#37517e]' /> Payment Details</h1>
+                                {applicationFullData?.transactionDetails?.payment_mode == "CHEQUE" && applicationFullData?.transactionDetails?.verify_status == 2 &&
+                                    <div className="text-center text-orange-500">
+                                        <p>Payment verification from bank is pending</p>
+                                    </div>
+                                }
+
                                 {loader ? <ShimmerEffectInline /> :
                                     (applicationFullData?.payment_status == 0 && applicationFullData?.registrationStatus == 2) ?
                                         <div className="text-center text-indigo-600">
@@ -612,7 +620,7 @@ const ViewPetApplication = () => {
                         x
                     </p>
                 </div>
-                <EditPetDetailsForm editPetApplicationRef2={editPetApplicationRef2} applicationFullData={editPetData} applicationFullData1={applicationFullData} />
+                <EditPetDetailsForm editPetApplicationRef2={editPetApplicationRef2} applicationFullData={editPetData} applicationFullData1={applicationFullData} docDetails={docDetails} />
             </dialog>
 
 

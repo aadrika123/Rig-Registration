@@ -144,20 +144,20 @@ function PilotWorkflowActions(props) {
 
     }
     AxiosInterceptors.post(api_sendToJSK, requestbody, header)
-    .then((res) => {
-      setisLoading(false)
+      .then((res) => {
+        setisLoading(false)
         if (res.data.status) {
-            // setDocDetails(res.data.data)
-            props.toast("Application Sent Back To JSK");
+          // setDocDetails(res.data.data)
+          props.toast("Application Sent Back To JSK");
         } else {
-            // setDocDetails(null)
-            console.log("Failed to fetch application data")
+          // setDocDetails(null)
+          console.log("Failed to fetch application data")
         }
-    })
-    .catch((err) => {
-      setisLoading(false)
+      })
+      .catch((err) => {
+        setisLoading(false)
         console.log("Error while getting application data")
-    })
+      })
   }
 
   //{////********sending application to level*******//////}
@@ -435,9 +435,13 @@ function PilotWorkflowActions(props) {
     // props.showTabFun(false);
     // props?.openModal('Application has been approved with PT no. 1122')
     // return
+    
+    console.log("safId", props?.id);
+    if (commentText == '') {
+      props?.activateBottomErrorCard(true, 'Please write some comment')
+      return
+    }
     setisLoading(true)
-
-
     // alert("clicked")
     console.log("safId", props?.id);
     console.log("Status for Approve Reject", e.target.value);
@@ -448,6 +452,7 @@ function PilotWorkflowActions(props) {
       workflowId: props?.applicationData?.data?.roleDetails?.workflow_id,
       roleId: props?.applicationData?.data?.roleDetails?.wf_role_id,
       status: e.target.value,
+      comment: commentText,
     };
 
     console.log("before approved requestbody...", requestBody);
@@ -469,7 +474,9 @@ function PilotWorkflowActions(props) {
               props.toast("Application is Rejected", "de-escalated");
           }
           props.showTabFun(false); //HIDING TABS
+
           props?.openModal(`Application has been approved ${nullToNA(response?.data?.data?.applicationNo) == "NA" ? `` : `with Registration No. ${response?.data?.data?.applicationNo} with Licence No.${response?.data?.data?.uniqueTokenId}`}`) // OPENING MODAL
+          setisLoading(false)
         } else {
 
           props?.activateBottomErrorCard(true, response?.data?.message)
@@ -480,19 +487,19 @@ function PilotWorkflowActions(props) {
 
 
       })
-    // .catch(function (error) {
-    //   console.log("errror ", error);
-    //   let msg
-    //     if (e.target.value == '1') {
-    //       msg = 'Something went wrong while approving application. Please try again later.'
-    //     } else {
-    //       msg = 'Something went wrong while rejecting application. Please try again later.'
-    //     }
-    //   props.toast("Oops! Something went wrong", 'error');
-    //   props?.activateBottomErrorCard(true, msg)
-    //   setisLoading(false)
+      // .catch(function (error) {
+      //   console.log("errror ", error);
+      //   let msg
+      //   if (e.target.value == '1') {
+      //     msg = 'Something went wrong while approving application. Please try again later.'
+      //   } else {
+      //     msg = 'Something went wrong while rejecting application. Please try again later.'
+      //   }
+      //   props.toast("Oops! Something went wrong", 'error');
+      //   props?.activateBottomErrorCard(true, msg)
+      //   setisLoading(false)
 
-    // });
+      // });
   };
   console.log("data at timeline .....", props?.id);
   console.log(
@@ -585,7 +592,8 @@ function PilotWorkflowActions(props) {
                 }
 
                 {/* SEND TO ANY LEVEL INDEPENDENTLY */}
-                {props?.permissions?.allow_full_list == true && <div className="mt-4">
+                
+                {/* {props?.permissions?.allow_full_list == true && <div className="mt-4">
                   <div className="form-group mb-6 col-span-5 md:col-span-1 px-2">
                     <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Select Level</label>
                     <select onChange={(e) => setindependentRoleId(e.target.value)} type="text" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md cursor-pointer"
@@ -598,12 +606,14 @@ function PilotWorkflowActions(props) {
                     </select>
 
                   </div>
-                  {/* <div className="flex justify-center items-center">
-                    <button id="btn_independent_level" value={independentRoleId} onClick={sendApplicationToJSK} type="button" className="hover:scale-105 px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Send To JSK</button>
-                  </div> */}
-                </div>}
+                 
+                </div>} */}
 
-                <div className="flex space-x-2">
+
+
+
+
+                {/* <div className="flex space-x-2">
                   {props?.permissions?.can_backward && <div className="flex-initial ">
                     <button
                       type="button"
@@ -612,7 +622,7 @@ function PilotWorkflowActions(props) {
                       className="w-full bg-indigo-500 border-2  shadow-lg text-white text-sm font-semibold rounded-lg  focus:outline-none focus:shadow-outline  hover:shadow-xs p-3 py-2 hover:bg-indigo-600 hover:text-white my-4 text-center"
                       onClick={sendApplicationToLevel}
                     >
-                      Backward
+                      Backwardasdas
                     </button>
                   </div>}
                   {props?.permissions?.can_forward &&
@@ -629,7 +639,7 @@ function PilotWorkflowActions(props) {
                     </div>
                   }
 
-                </div>
+                </div> */}
                 {props?.permissions?.can_bt_da && (
                   <div className="flex-initial ">
                     <button

@@ -69,7 +69,7 @@ const PetOfflinePayment = () => {
     const formik = useFormik({
         enableReinitialize: true,
         initialValues: {
-            paymentMode: "CASH",
+            paymentMode: "",
             remarks: '',
             bankName: '',
             branchName: '',
@@ -99,10 +99,10 @@ const PetOfflinePayment = () => {
         setIsMakingPayment(true)
         // Creating payload for API request
         const payload = {
-            "paymentMode": "CASH",
+            "paymentMode": data?.paymentMode,
             "remarks": data?.remarks,
-            "bankName": data?.branchName,
-            "branchName": data?.remarks,
+            "bankName": data?.bankName,
+            "branchName": data?.branchName,
             "chequeNo": data?.cheque_dd_no,
             "chequeDate": data?.cheque_dd_date,
             "id": id                     //Application Id
@@ -117,6 +117,7 @@ const PetOfflinePayment = () => {
                     fetchApplicationDetails()
                 } else {
                     console.log("Failed to make offline payment", res)
+                    notify(res?.data?.message, "error");
                 }
             })
             .catch((err) => {
@@ -154,7 +155,7 @@ const PetOfflinePayment = () => {
                                             </div>
                                         </div> */}
                                             <div className='flex-1 text-xs'>
-                                                <div className='text-[#37517e]'>VIN Number</div>
+                                                <div className='text-[#37517e]'> VIN Number / CH No.</div>
                                                 <div className='font-bold text-sm text-[#37517e]'>
                                                     <div className='font-bold text-sm text-[#37517e]'>{applicationFullData?.vehicle_name}</div>
                                                 </div>
@@ -224,10 +225,10 @@ const PetOfflinePayment = () => {
                                                                 <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold"><small className=" mt-1 text-sm font-semibold text-red-600 inline ">*</small>Payment Mode</label>
                                                                 <select {...formik.getFieldProps('paymentMode')} type="text" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
                                                                 >
-                                                                    {/* <option  value="" >Select</option> */}
+                                                                    <option value="" >Select</option>
                                                                     <option selected value="CASH" >CASH</option>
-                                                                    {/* <option value="CHEQUE" >CHEQUE</option>
-                                                                    <option value="DD" >DD</option> */}
+                                                                    <option value="CHEQUE" >CHEQUE</option>
+                                                                    <option value="DD" >DD</option>
                                                                 </select>
                                                                 <span className="text-red-600 absolute text-xs">{formik.touched.paymentMode && formik.errors.paymentMode ? formik.errors.paymentMode : null}</span>
                                                             </div>
@@ -346,8 +347,8 @@ const PetOfflinePayment = () => {
                                                             </div>
                                                             <div className='text-xs'>
                                                                 <div className='font-semibold text-sm text-[#37517e]'>
-                                                                    {applicationFullData?.transactionDetails?.verify_status == 1 && "Paid"}
-                                                                    {applicationFullData?.transactionDetails?.verify_status == 2 && "Processing"}
+                                                                    {applicationFullData?.transactionDetails?.verify_status == 1 ?? applicationFullData?.transactionDetails?.verify_status == 0 ? "Paid" : ''}
+                                                                    {applicationFullData?.transactionDetails?.verify_status == 2 ? "Processing" : ''}
                                                                 </div>
                                                             </div>
 
@@ -412,8 +413,8 @@ const PetOfflinePayment = () => {
                                                         </div>
                                                         <div className='text-xs'>
                                                             <div className='font-semibold text-sm text-[#37517e]'>
-                                                                {applicationFullData?.transactionDetails?.verify_status == 1 && "Paid"}
-                                                                {applicationFullData?.transactionDetails?.verify_status == 0 && "Processing"}
+                                                            {applicationFullData?.transactionDetails?.verify_status == 1 || applicationFullData?.transactionDetails?.verify_status == 0 ? "Paid" : ''}
+                                                            {applicationFullData?.transactionDetails?.verify_status == 2 ? "Processing" : ''}
                                                             </div>
                                                         </div>
 

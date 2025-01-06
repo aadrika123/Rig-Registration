@@ -22,10 +22,12 @@ const Heading = (props) => {
             <div className="flex flex-col md:flex-row">
 
                 <div className="flex-initial ml-4">
+                   
                     <div className='text-2xl font-bold text-black google-roboto capitalize'>{props?.heading}</div>
                     <div className='mt-1'>
                         <span className='text-gray-600'><MdVerified className="inline text-green-500 text-xl" />{props?.subHeading}</span>
                     </div>
+
                     <div></div>
                 </div>
                 <div className="flex-1 flex text-right justify-center items-center md:justify-end md:items-end h-full mt-4 md:mt-0">
