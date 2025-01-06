@@ -43,10 +43,10 @@ import CollectionReport from './Components/Pages/PetRegistration/Report/Collecti
 import SuccessfulSubmitModal2 from './Components/Pages/PetRegistration/Form/SuccessfulSubmitModal2';
 import CashVerification from './Components/Pages/PetRegistration/Accounts/CashVerification';
 import BankReconciliation from './Components/Pages/PetRegistration/Accounts/BankReconciliation';
-
+import useModulePermission from "../src/Components/Common/Hooks/useModulePermission";
 
 function App() {
-
+  useModulePermission()
   // 👉 State constants 👈
   const [menuList, setmenuList] = useState(getLocalStorageItemJsonParsed('menuList')); // to store menu list
   const [userDetails, setuserDetails] = useState(getLocalStorageItemJsonParsed('userDetails')); // to store user details
