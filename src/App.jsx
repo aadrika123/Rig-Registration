@@ -47,6 +47,8 @@ import ServiceRestrictionLayout from './Components/Pages/Error/ServiceRestrictio
 import { UseServiceCheck } from './Components/Hooks/UseServiceCheck';
 
 
+function App() {
+  useModulePermission()
 function App(props) {
   UseServiceCheck()
   // 👉 State constants 👈

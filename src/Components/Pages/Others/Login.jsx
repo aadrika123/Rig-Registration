@@ -1,5 +1,5 @@
 import { useMemo, useState, useContext, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { toast } from 'react-hot-toast';
@@ -22,6 +22,10 @@ const validationSchema = Yup.object({
     username: Yup.string().required('Enter Username'),
     password: Yup.string().required('Enter Password')
 })
+
+// const location = useLocation();
+const searchParams = new URLSearchParams(location.search);
+const message = searchParams.get('msg') || '';
 
 function Login() {
     
@@ -125,6 +129,9 @@ function Login() {
 
     return (
         <>
+        {message && (
+                    <div className='w-full h-8 bg-red-600 flex justify-center items-center text-white text-lg p-3'><span className='font-semibold'>⚠️ Permission Denied</span> - {message}</div>
+                )}
 
             <header className=" h-[10vh] border-b border-gray-200 bg-white darks:bg-gray-800 darks:border-gray-800">
                 <div className="container mx-auto xl:max-w-6xl ">
