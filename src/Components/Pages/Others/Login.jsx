@@ -14,6 +14,7 @@ import ulb_data from '@/Components/Common/DynamicData';
 import { checkErrorMessage } from '@/Components/Common/PowerupFunctions';
 import { contextVar } from '@/Components/context/contextVar';
 import rigm from '@/Components/assets/rigm.png';
+import { UseServiceCheck } from '@/Components/Hooks/UseServiceCheck';
 
 const { api_login, api_getFreeMenuList } = ProjectApiList()
 
@@ -23,7 +24,7 @@ const validationSchema = Yup.object({
 })
 
 function Login() {
-
+    
     const { setmenuList, setuserDetails, setheartBeatCounter } = useContext(contextVar)
     const [loaderStatus, setLoaderStatus] = useState(false)
 
@@ -56,7 +57,8 @@ function Login() {
         setLoaderStatus(true)
         let requestBody = {
             email: formik.values.username,
-            password: formik.values.password
+            password: formik.values.password,
+            moduleId: 15
         }
         console.log('--1--before login send...', requestBody)
         AxiosInterceptors.post(api_login, requestBody, header)
@@ -132,7 +134,7 @@ function Login() {
                         <a className="flex items-center py-2 ltr:mr-4 rtl:ml-4 text-xl" href="../index.html">
                             <div> <span className="font-bold text-xl uppercase">
 
-                          {/* //  {`${ulb_data().ulb_name}`} // */}Login - Rig Registration System
+                                {/* //  {`${ulb_data().ulb_name}`} // */}Login - Rig Registration System
 
 
                             </span> <span className="hidden text-gray-700 darks:text-gray-200">{`${ulb_data().ulb_name}`}</span></div>
@@ -336,27 +338,27 @@ function Login() {
                         <div className="flex flex-wrap flex-row -mx-4">
                             <div className="flex-shrink max-w-full px-4 w-full md:w-1/2 text-center md:ltr:text-left md:rtl:text-right">
                                 <ul className="ltr:pl-0 rtl:pr-0 space-x-4">
-                                        <li className="inline-block ltr:mr-3 rtl:ml-3">
-                                            <a className="hover:text-indigo-500" href="#">Support |</a>
-                                        </li>
-                                        <li className="inline-block ltr:mr-3 rtl:ml-3">
-                                            <a className="hover:text-indigo-500" href="#">Help Center |</a>
-                                        </li>
-                                        <li className="inline-block ltr:mr-3 rtl:ml-3">
-                                            <a className="hover:text-indigo-500" href="#">Privacy |</a>
-                                        </li>
-                                        <li className="inline-block ltr:mr-3 rtl:ml-3">
-                                            <a className="hover:text-indigo-500" href="#">Terms of Service</a>
-                                        </li>
-                                    </ul>
+                                    <li className="inline-block ltr:mr-3 rtl:ml-3">
+                                        <a className="hover:text-indigo-500" href="#">Support |</a>
+                                    </li>
+                                    <li className="inline-block ltr:mr-3 rtl:ml-3">
+                                        <a className="hover:text-indigo-500" href="#">Help Center |</a>
+                                    </li>
+                                    <li className="inline-block ltr:mr-3 rtl:ml-3">
+                                        <a className="hover:text-indigo-500" href="#">Privacy |</a>
+                                    </li>
+                                    <li className="inline-block ltr:mr-3 rtl:ml-3">
+                                        <a className="hover:text-indigo-500" href="#">Terms of Service</a>
+                                    </li>
+                                </ul>
                             </div>
                             <div className="flex-shrink max-w-full px-4 w-full md:w-1/2 text-center md:ltr:text-right md:rtl:text-left">
                                 <p className="mb-0 mt-3 md:mt-0">
-                                        <a href="#" className="hover:text-indigo-500">
-                                            {/* {`${ulb_data().ulb_name}`} */}
-                                            UD&HD
-                                            </a> | All right reserved
-                                    </p>
+                                    <a href="#" className="hover:text-indigo-500">
+                                        {/* {`${ulb_data().ulb_name}`} */}
+                                        UD&HD
+                                    </a> | All right reserved
+                                </p>
                             </div>
                         </div>
                     </div>

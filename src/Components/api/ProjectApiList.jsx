@@ -86,6 +86,9 @@ export default function ProjectApiList() {
         api_deleteApplication: `${baseUrl}/api/marriage/`,
         api_editMarriageApplication: `${baseUrl}/api/marriage/edit-application`,
 
+        checkPropertyService: `${baseUrl}/api/get/services-by-module`,
+        getPermittedServiceList: `${baseUrl}/api/get/services-b-ulb-id`,
+
     }
 
 
