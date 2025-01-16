@@ -45,12 +45,14 @@ import CashVerification from './Components/Pages/PetRegistration/Accounts/CashVe
 import BankReconciliation from './Components/Pages/PetRegistration/Accounts/BankReconciliation';
 import ServiceRestrictionLayout from './Components/Pages/Error/ServiceRestrictionLayout';
 import { UseServiceCheck } from './Components/Hooks/UseServiceCheck';
+import useModulePermission from './Components/Common/Hooks/useModulePermission';
 
 
-function App() {
-  useModulePermission()
+// function App() {
+
 function App(props) {
   UseServiceCheck()
+  useModulePermission()
   // 👉 State constants 👈
   const [menuList, setmenuList] = useState(getLocalStorageItemJsonParsed('menuList')); // to store menu list
   const [userDetails, setuserDetails] = useState(getLocalStorageItemJsonParsed('userDetails')); // to store user details
@@ -139,7 +141,7 @@ function App(props) {
             path='/rig-license-details/:id'
             element={<RigLIcenseReceiptEntry />}
           />
-          
+
           <Route index element={<Login />} />
 
           <Route element={<ProtectedRoutes />}>
