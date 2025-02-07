@@ -88,7 +88,7 @@ export default function ProjectApiList() {
 
         checkPropertyService: `${baseUrl}/api/get/services-by-module`,
         getPermittedServiceList: `${baseUrl}/api/get/services-b-ulb-id`,
-
+        api_moduleList: `${baseUrl}/api/user-managment/v2/crud/module/list`,
     }
 
 
