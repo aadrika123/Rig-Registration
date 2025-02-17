@@ -15,12 +15,14 @@ import { checkErrorMessage } from '@/Components/Common/PowerupFunctions';
 import { contextVar } from '@/Components/context/contextVar';
 import rigm from '@/Components/assets/rigm.png';
 import { UseServiceCheck } from '@/Components/Hooks/UseServiceCheck';
+import UseCaptchaGenerator from '@/Components/Common/Hooks/UseCaptchaGenerator';
 
 const { api_login, api_getFreeMenuList } = ProjectApiList()
 
 const validationSchema = Yup.object({
     username: Yup.string().required('Enter Username'),
-    password: Yup.string().required('Enter Password')
+    password: Yup.string().required('Enter Password'),
+    captcha: Yup.string().required("Captcha Required"),
 })
 
 // const location = useLocation();
@@ -28,17 +30,35 @@ const searchParams = new URLSearchParams(location.search);
 const message = searchParams.get('msg') || '';
 
 function Login() {
-    
+    const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+    const { captchaInputField, captchaImage, verifyCaptcha, generateRandomCaptcha } = UseCaptchaGenerator();
     const { setmenuList, setuserDetails, setheartBeatCounter } = useContext(contextVar)
     const [loaderStatus, setLoaderStatus] = useState(false)
 
     const formik = useFormik({
         initialValues: {
             username: '',
-            password: ''
+            password: '',
+            captcha: "",
         },
-        onSubmit: values => {
-            authUser()
+        onSubmit: async (values, { resetForm }) => {
+            setIsFormSubmitted(true);
+            const isvalidcaptcha = verifyCaptcha(values?.captcha, resetForm);
+            if (isvalidcaptcha) {
+                try {
+                    // Call your authentication function (authUser()) here
+                    await authUser(values.username, values.password);
+                    console.log("Form submitted:", values);
+                    setIsFormSubmitted(false);
+                } catch (error) {
+                    // Handle authentication error if needed
+                    console.error("Authentication failed:", error);
+                    setIsFormSubmitted(false); // Reset the form submission status on authentication failure
+                }
+            } else {
+                // alert("Invalid captcha")
+                toast.error("Invalid captcha");
+            }
         },
         validationSchema
     })
@@ -84,12 +104,16 @@ function Login() {
                     console.log('false...')
                     setLoaderStatus(false)
                     toast.error(response?.data?.message)
+                    generateRandomCaptcha();
+                    formik?.setFieldValue("captcha", "");
                 }
             })
             .catch(function (error) {
                 setLoaderStatus(false)
                 console.log('--2--login error...', error)
                 toast.error('Server Error')
+                generateRandomCaptcha();
+                formik?.setFieldValue("captcha", "");
             })
 
     }
@@ -129,9 +153,9 @@ function Login() {
 
     return (
         <>
-        {message && (
-                    <div className='w-full h-8 bg-red-600 flex justify-center items-center text-white text-lg p-3'><span className='font-semibold'>⚠️ Permission Denied</span> - {message}</div>
-                )}
+            {message && (
+                <div className='w-full h-8 bg-red-600 flex justify-center items-center text-white text-lg p-3'><span className='font-semibold'>⚠️ Permission Denied</span> - {message}</div>
+            )}
 
             <header className=" h-[10vh] border-b border-gray-200 bg-white darks:bg-gray-800 darks:border-gray-800">
                 <div className="container mx-auto xl:max-w-6xl ">
@@ -269,12 +293,12 @@ function Login() {
                                                     <h1 className="text-2xl leading-normal mb-3 font-bold text-gray-800 darks:text-gray-300 text-center">Welcome Back</h1>
                                                 </div>
                                                 <hr className="block w-12 h-0.5 mx-auto my-5 bg-gray-700 border-gray-700" />
-                                                <div className="mb-6">
+                                                <div className="mb-2">
                                                     <label htmlFor="inputemail" className="inline-block mb-2">Username</label>
                                                     <input {...formik.getFieldProps('username')} className="w-full leading-5 relative py-2 px-4 rounded text-gray-800 bg-white border border-gray-300 overflow-x-auto focus:outline-none focus:border-gray-400 focus:ring-0 darks:text-gray-300 darks:bg-gray-700 darks:border-gray-700 darks:focus:border-gray-600" defaultValue aria-label="email" type="email" required />
                                                     <span className='text-red-600 text-xs'>{formik.touched.username && formik.errors.username ? formik.errors.username : null}</span>
                                                 </div>
-                                                <div className="mb-6">
+                                                <div className="mb-2">
                                                     <div className="flex flex-wrap flex-row">
                                                         <div className="flex-shrink max-w-full w-1/2">
                                                             <label htmlFor="inputpass" className="inline-block mb-2">Password</label>
@@ -282,6 +306,25 @@ function Login() {
                                                     </div>
                                                     <input {...formik.getFieldProps('password')} className="w-full leading-5 relative py-2 px-4 rounded text-gray-800 bg-white border border-gray-300 overflow-x-auto focus:outline-none focus:border-gray-400 focus:ring-0 darks:text-gray-300 darks:bg-gray-700 darks:border-gray-700 darks:focus:border-gray-600" aria-label="password" type="password" defaultValue required />
                                                     <span className='text-red-600 text-xs'>{formik.touched.password && formik.errors.password ? formik.errors.password : null}</span>
+                                                </div>
+                                                <div className="mb-2 ">
+                                                    <div className="flex justify-between items-center">
+                                                        <div className=" rounded-sm">
+                                                            <img src={captchaImage} className="border rounded w-44 h-14" />
+                                                        </div>
+                                                        <div>
+                                                            <button
+                                                                type="button"
+                                                                onClick={generateRandomCaptcha}
+                                                                className="text-xs text-blue-400"
+                                                            >
+                                                                Reload Captcha
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div className="mt-4">
+                                                        {captchaInputField(formik)}
+                                                    </div>
                                                 </div>
                                                 {/* <div className="mb-6">
                                                         <input className="form-checkbox h-5 w-5 text-indigo-500 darks:bg-gray-700 border border-gray-300 darks:border-gray-700 rounded focus:outline-none" type="checkbox" defaultValue id="remember" />
