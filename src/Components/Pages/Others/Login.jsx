@@ -35,6 +35,20 @@ function Login() {
     const { setmenuList, setuserDetails, setheartBeatCounter } = useContext(contextVar)
     const [loaderStatus, setLoaderStatus] = useState(false)
 
+    // Event Handlers to Disable Copy/Paste
+    const preventCopyPaste = (e) => {
+        e.preventDefault();
+        return false;
+    };
+
+    const preventKeyboardShortcuts = (e) => {
+        if (e.ctrlKey || e.metaKey) {
+            if (['c', 'v', 'x'].includes(e.key.toLowerCase())) {
+                e.preventDefault();
+            }
+        }
+    };
+
     const formik = useFormik({
         initialValues: {
             username: '',
@@ -295,7 +309,14 @@ function Login() {
                                                 <hr className="block w-12 h-0.5 mx-auto my-5 bg-gray-700 border-gray-700" />
                                                 <div className="mb-2">
                                                     <label htmlFor="inputemail" className="inline-block mb-2">Username</label>
-                                                    <input {...formik.getFieldProps('username')} className="w-full leading-5 relative py-2 px-4 rounded text-gray-800 bg-white border border-gray-300 overflow-x-auto focus:outline-none focus:border-gray-400 focus:ring-0 darks:text-gray-300 darks:bg-gray-700 darks:border-gray-700 darks:focus:border-gray-600" defaultValue aria-label="email" type="email" required />
+                                                    <input {...formik.getFieldProps('username')}
+                                                        autoComplete="off"
+                                                        onCopy={preventCopyPaste}
+                                                        onCut={preventCopyPaste}
+                                                        onPaste={preventCopyPaste}
+                                                        onContextMenu={preventCopyPaste}
+                                                        onKeyDown={preventKeyboardShortcuts}
+                                                        className="w-full leading-5 relative py-2 px-4 rounded text-gray-800 bg-white border border-gray-300 overflow-x-auto focus:outline-none focus:border-gray-400 focus:ring-0 darks:text-gray-300 darks:bg-gray-700 darks:border-gray-700 darks:focus:border-gray-600" defaultValue aria-label="email" type="email" required />
                                                     <span className='text-red-600 text-xs'>{formik.touched.username && formik.errors.username ? formik.errors.username : null}</span>
                                                 </div>
                                                 <div className="mb-2">
@@ -304,7 +325,14 @@ function Login() {
                                                             <label htmlFor="inputpass" className="inline-block mb-2">Password</label>
                                                         </div>
                                                     </div>
-                                                    <input {...formik.getFieldProps('password')} className="w-full leading-5 relative py-2 px-4 rounded text-gray-800 bg-white border border-gray-300 overflow-x-auto focus:outline-none focus:border-gray-400 focus:ring-0 darks:text-gray-300 darks:bg-gray-700 darks:border-gray-700 darks:focus:border-gray-600" aria-label="password" type="password" defaultValue required />
+                                                    <input {...formik.getFieldProps('password')}
+                                                        autoComplete="new-password"
+                                                        onCopy={preventCopyPaste}
+                                                        onCut={preventCopyPaste}
+                                                        onPaste={preventCopyPaste}
+                                                        onContextMenu={preventCopyPaste}
+                                                        onKeyDown={preventKeyboardShortcuts}
+                                                        className="w-full leading-5 relative py-2 px-4 rounded text-gray-800 bg-white border border-gray-300 overflow-x-auto focus:outline-none focus:border-gray-400 focus:ring-0 darks:text-gray-300 darks:bg-gray-700 darks:border-gray-700 darks:focus:border-gray-600" aria-label="password" type="password" defaultValue required />
                                                     <span className='text-red-600 text-xs'>{formik.touched.password && formik.errors.password ? formik.errors.password : null}</span>
                                                 </div>
                                                 <div className="mb-2 ">
