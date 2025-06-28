@@ -117,7 +117,7 @@ function Login() {
         let requestBody = {
             email: formik.values.username,
             // password: formik.values.password,
-             password:encryptPassword(formik.values.password), // 🔐 Encrypted using AES-256-CBC
+            password: encryptPassword(formik.values.password), // 🔐 Encrypted using AES-256-CBC
             moduleId: 15
         }
         console.log('--1--before login send...', requestBody)
@@ -348,7 +348,7 @@ function Login() {
                                                         </div>
                                                     </div>
                                                     <input {...formik.getFieldProps('password')}
-                                                        autoComplete="new-password"
+                                                        autoComplete="off"
                                                         onCopy={preventCopyPaste}
                                                         onCut={preventCopyPaste}
                                                         onPaste={preventCopyPaste}
@@ -406,7 +406,7 @@ function Login() {
                                             {/* =========buttons for change and reset password========= */}
                                             <div className="my-4">
                                                 <div className='flex flex-col items-center justify-center flex-wrap gapx-x-2 gap-y-2 w-full poppins'>
-                                                    <span className='text-gray-700 text-sm font-semibold cursor-pointer w-full text-center' onClick={() => setmobileCardStatus(true)}>Forgot Password</span>
+                                                    {/* <span className='text-gray-700 text-sm font-semibold cursor-pointer w-full text-center' onClick={() => setmobileCardStatus(true)}>Forgot Password</span> */}
                                                     {/* <span className='text-gray-700 text-sm font-semibold cursor-pointer w-full text-center' onClick={() => setchange(true)}>Change Password</span> */}
                                                 </div>
                                                 {/* <p className="text-center mb-2">Don't have an account? <a className="hover:text-indigo-500" href="#">Register</a></p> */}

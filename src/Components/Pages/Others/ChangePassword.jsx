@@ -20,6 +20,7 @@ import { allowNumberInput } from '@/Components/Common/PowerupFunctions';
 import ApiHeader from '@/Components/api/ApiHeader';
 import AxiosInterceptors from '@/Components/Common/AxiosInterceptors';
 import useSetTitle from '@/Components/Common/useSetTitle';
+import CryptoJS from 'crypto-js';
 
 const ChangePassword = () => {
 
@@ -61,24 +62,53 @@ const ChangePassword = () => {
         }
     });
 
+      function encryptPassword(plainPassword) {
+            const secretKey = "c2ec6f788fb85720bf48c8cc7c2db572596c585a15df18583e1234f147b1c2897aad12e7bebbc4c03c765d0e878427ba6370439d38f39340d7e";
+    
+            // Match PHP's binary hash key
+            const key = CryptoJS.enc.Latin1.parse(
+                CryptoJS.SHA256(secretKey).toString(CryptoJS.enc.Latin1)
+            );
+    
+            // PHP IV is a 16-character *string* (not hex)
+            const ivString = CryptoJS.SHA256(secretKey).toString().substring(0, 16);
+            const iv = CryptoJS.enc.Latin1.parse(ivString); // treat as string, not hex
+    
+            const encrypted = CryptoJS.AES.encrypt(plainPassword, key, {
+                iv: iv,
+                mode: CryptoJS.mode.CBC,
+                padding: CryptoJS.pad.Pkcs7,
+            });
+    
+            return CryptoJS.enc.Base64.stringify(encrypted.ciphertext);
+        }
+
     // 👉 Submission Function 👈
     const handleSubmit = (values) => {
 
         let body = {
-            password: values.oldPassword,
-            newPassword: values.newPassword
+            // password: values.oldPassword,
+            // newPassword: values.newPassword
+
+
+            password: encryptPassword(values.oldPassword),
+            newPassword: encryptPassword(values.newPassword)
+
+
         }
 
         console.log('request body before hit api => ', body)
 
         setLoaderStatus(true)
 
-        AxiosInterceptors.post(type == 'change' ? api_changePassword : api_forgotPassword, body, ApiHeader())
+        // AxiosInterceptors.post(type == 'change' ? api_changePassword : api_forgotPassword, body, ApiHeader())
+        AxiosInterceptors.post(api_changePassword , body, ApiHeader())
             .then((res) => {
                 if (res?.data?.status == true) {
                     console.log("successfully changed => ", res)
                     toast.success('Password changed successfully !!!')
-                    type == 'change' ? navigate('/home') : navigate('/login')
+                    // type == 'change' ? navigate('/home') : navigate('/login')
+                      navigate('/login')
                 }
 
 
