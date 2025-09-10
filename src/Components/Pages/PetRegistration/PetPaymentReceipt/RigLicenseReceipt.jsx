@@ -11,6 +11,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { nullToNA } from '@/Components/Common/PowerupFunctions';
 // import { nullToNA } from '../../../../Components/Common/PowerUps/PowerupFunctions';
 import jharkhand from "../../../assets/logo1.png";
+import swatchBharat from "../../../assets/swatchBharat.png";
 import { date } from 'yup';
 import moment from 'moment';
 import QrCode from "./QrCode";
@@ -47,19 +48,29 @@ class RigLIcenseReceipt extends React.Component {
 
                             >
 
-                                {/* <img src={logo} alt="" className='h-16 w-16 mx-auto' /> */}
-
-                                <h1 className='font-bold text-center capitalize text-lg mt-8'>
-                                    {this.props?.licenceData?.ulbDetails?.ulb_name} {" "}
-                                </h1>
-                                <h1 className='font-bold text-center capitalize text-lg'>
-                                    Rig Machine License {" "}
-                                </h1>
+                                {/* ULB Logo Header Section */}
+                                <div className='grid grid-cols-3 h-auto '>
+                                    <div className='w-20 h-20 rounded-full'>
+                                        <img src={this.props?.licenceData?.ulbDetails?.ulb_logo} alt='ULB logo' className='w-full h-full object-contain' />
+                                    </div>
+                                    <div className='font-bold mx-auto -ml-16 mt-3 whitespace-nowrap'>
+                                        <span className='uppercase text-center text-xl'>
+                                            {this.props?.licenceData?.ulbDetails?.ulb_name}
+                                        </span>
+                                       
+                                        <h1 className='font-semibold text-center uppercase text-lg mt-4 border border-gray-500 -ml-6'>
+                                            Rig Machine License
+                                        </h1>
+                                    </div>
+                                    {/* <div className='w-36 h-36 rounded-full ml-28 -mt-5'>
+                                        <img src={swatchBharat} alt='Swatch Bharat logo' className='w-full h-full object-contain' />
+                                    </div> */}
+                                </div>
                                 {this.props?.licenceData?.application?.ulb_logo != "" ? (
                                     <img
                                         src={jharkhand}
                                         alt=''
-                                        className=' w-72 h-72 absolute z-10 bg-transparent opacity-20 mt-[10rem] ml-40 rounded-full'
+                                        className=' w-72 h-72 absolute z-10 bg-transparent opacity-20 mt-[6rem] ml-36 rounded-full'
                                     />
                                 ) : (
                                     <div className='w-72 h-72 absolute z-10 bg-transparent opacity-20 mt-[10rem] ml-40 rounded-full'>
