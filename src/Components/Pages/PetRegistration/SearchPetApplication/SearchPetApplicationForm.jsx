@@ -93,6 +93,15 @@ const SearchPetApplicationForm = (props) => {
         console.log("View button clicked", value)
         navigate(`/viewRigApplication/${value}`)
     }
+    // Function to determine row styling based on application status
+    const getRowClassName = (row) => {
+        const applicationStatus = row.original?.application_status;
+        if (applicationStatus === "BTC") {
+            return "bg-red-100 hover:bg-red-200";
+        }
+        return "bg-white hover:bg-slate-100";
+    };
+
     // Definition of table columns for displaying search results
     const tableColumns = [
         {
@@ -164,6 +173,9 @@ const SearchPetApplicationForm = (props) => {
                 } else if (value == "Pending") {
 
                     return <span className="text-orange-600">Pending</span>;
+                } else if (value == "BTC") {
+
+                    return <span className="text-blue-600">BTC</span>;
                 } else {
 
                     return <span className="text-red-600">Rejected</span>;
@@ -264,6 +276,7 @@ const SearchPetApplicationForm = (props) => {
                                 requestBody={requestBody}
                                 changeData={changeData} // sending body
                                 search={false}
+                                getRowClassName={getRowClassName} // sending row styling function
                             />}
                         </div>
                     </>

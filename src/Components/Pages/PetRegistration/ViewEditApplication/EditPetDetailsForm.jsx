@@ -164,17 +164,17 @@ const EditPetDetailsForm = (props) => {
             payloadFormData.append(key, payload[key]);
         }
 
-        payloadFormData.append("documents[0][image]", fitnessImage);
-        payloadFormData.append("documents[0][docCode]", "FITNESS");
-        payloadFormData.append("documents[0][ownerDtlId]", "");
+        // payloadFormData.append("documents[0][image]", fitnessImage);
+        // payloadFormData.append("documents[0][docCode]", "FITNESS");
+        // payloadFormData.append("documents[0][ownerDtlId]", "");
 
-        payloadFormData.append("documents[1][image]", taxCopyImage);
-        payloadFormData.append("documents[1][docCode]", "TAX");
-        payloadFormData.append("documents[1][ownerDtlId]", "");
+        // payloadFormData.append("documents[1][image]", taxCopyImage);
+        // payloadFormData.append("documents[1][docCode]", "TAX");
+        // payloadFormData.append("documents[1][ownerDtlId]", "");
 
-        payloadFormData.append("documents[2][image]", licenseImage);
-        payloadFormData.append("documents[2][docCode]", "LICENSE");
-        payloadFormData.append("documents[2][ownerDtlId]", "");
+        // payloadFormData.append("documents[2][image]", licenseImage);
+        // payloadFormData.append("documents[2][docCode]", "LICENSE");
+        // payloadFormData.append("documents[2][ownerDtlId]", "");
 
         AxiosInterceptors.post(api_peteditdetails, payloadFormData, ApiHeader2())
             .then((res) => {
@@ -502,7 +502,7 @@ const EditPetDetailsForm = (props) => {
                                     : null}
                             </p>
                         </div>
-                        <div className='m-3'>
+                        {/* <div className='m-3'>
                             <label className={style?.label} htmlFor='fitness'>
                                 Pollution Certificate<span className={style?.required}>*</span>
                             </label>
@@ -552,7 +552,7 @@ const EditPetDetailsForm = (props) => {
                                     ? formik.errors.license
                                     : null}
                             </p>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
                 <p
