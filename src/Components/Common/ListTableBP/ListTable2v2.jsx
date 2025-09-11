@@ -127,8 +127,9 @@ function ListTable2(props) {
                         <tbody {...getTableBodyProps()} className="text-sm">
                             {rows.map((row, index) => {
                                 prepareRow(row)
+                                const rowClassName = props?.getRowClassName ? props.getRowClassName(row) : "bg-white hover:bg-slate-100";
                                 return (
-                                    <tr {...row.getRowProps()} className="bg-white hover:bg-slate-100 border-b border-gray-200">
+                                    <tr {...row.getRowProps()} className={`${rowClassName} border-b border-gray-200`}>
                                         {row?.cells?.map((cell, index) => {
                                             return <td {...cell.getCellProps()} className="px-2 py-2 text-sm text-left">{cell.render('Cell')}</td>
                                         })}
