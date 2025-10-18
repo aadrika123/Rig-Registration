@@ -13,7 +13,7 @@ import { useState } from "react";
 import Modal from "react-modal";
 import { useFormik } from "formik";
 import { toast } from "react-hot-toast";
-import "animate.css";
+// import "animate.css";
 import { useEffect } from "react";
 import axios from "axios";
 import ApiHeader from "@/Components/api/ApiHeader";

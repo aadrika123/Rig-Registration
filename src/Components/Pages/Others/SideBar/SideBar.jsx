@@ -12,7 +12,7 @@ import React, { useContext } from 'react'
 import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import './SideBar.css'
-import 'animate.css'
+// import 'animate.css'
 import { MdOutlineDashboard, MdOutlineSpaceDashboard } from 'react-icons/md';
 import { contextVar } from '@/Components/context/contextVar'
 import { BsBuildings, BsCaretRight } from 'react-icons/bs';
