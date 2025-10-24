@@ -15,8 +15,9 @@ import { checkErrorMessage } from '@/Components/Common/PowerupFunctions';
 import { contextVar } from '@/Components/context/contextVar';
 import rigm from '@/Components/assets/rigm.png';
 import { UseServiceCheck } from '@/Components/Hooks/UseServiceCheck';
-import UseCaptchaGenerator from '@/Components/Common/Hooks/UseCaptchaGenerator';
+// import UseCaptchaGenerator from '@/Components/Common/Hooks/UseCaptchaGenerator';
 import CryptoJS from 'crypto-js';
+import UseCaptchaGeneratorServer from '@/Components/Common/Hooks/UseCaptchaGeneratorServer';
 const { api_login, api_getFreeMenuList } = ProjectApiList()
 
 const validationSchema = Yup.object({
@@ -31,9 +32,18 @@ const message = searchParams.get('msg') || '';
 
 function Login() {
     const [isFormSubmitted, setIsFormSubmitted] = useState(false);
-    const { captchaInputField, captchaImage, verifyCaptcha, generateRandomCaptcha } = UseCaptchaGenerator();
+    // const { captchaInputField, captchaImage, verifyCaptcha, generateRandomCaptcha } = UseCaptchaGenerator();
     const { setmenuList, setuserDetails, setheartBeatCounter } = useContext(contextVar)
     const [loaderStatus, setLoaderStatus] = useState(false)
+
+    const {
+        catptchaTextField,
+        captchaData,  // Contains captcha_id and captcha_code
+        captchaImage,
+        verifyCaptcha,
+        newGeneratedCaptcha,
+        loading
+    } = UseCaptchaGeneratorServer();
 
     // Event Handlers to Disable Copy/Paste
     const preventCopyPaste = (e) => {
@@ -78,8 +88,8 @@ function Login() {
         },
         onSubmit: async (values, { resetForm }) => {
             setIsFormSubmitted(true);
-            const isvalidcaptcha = verifyCaptcha(values?.captcha, resetForm);
-            if (isvalidcaptcha) {
+            
+           
                 try {
                     // Call your authentication function (authUser()) here
                     await authUser(values.username, values.password);
@@ -90,10 +100,7 @@ function Login() {
                     console.error("Authentication failed:", error);
                     setIsFormSubmitted(false); // Reset the form submission status on authentication failure
                 }
-            } else {
-                // alert("Invalid captcha")
-                toast.error("Invalid captcha");
-            }
+           
         },
         validationSchema
     })
@@ -118,7 +125,10 @@ function Login() {
             email: formik.values.username,
             // password: formik.values.password,
             password: encryptPassword(formik.values.password), // 🔐 Encrypted using AES-256-CBC
-            moduleId: 15
+            moduleId: 15,
+            captcha_id: captchaData.captcha_id,      // Add captcha_id
+            captcha_code: encryptPassword(formik.values.captcha)      // Send user's captcha input
+
         }
         console.log('--1--before login send...', requestBody)
         AxiosInterceptors.post(api_login, requestBody, header)
@@ -140,15 +150,15 @@ function Login() {
                     console.log('false...')
                     setLoaderStatus(false)
                     toast.error(response?.data?.message)
-                    generateRandomCaptcha();
+                    // generateRandomCaptcha();
                     formik?.setFieldValue("captcha", "");
                 }
             })
             .catch(function (error) {
                 setLoaderStatus(false)
                 console.log('--2--login error...', error)
-                toast.error('Server Error')
-                generateRandomCaptcha();
+                // toast.error('Server Error')
+                // generateRandomCaptcha();
                 formik?.setFieldValue("captcha", "");
             })
 
@@ -357,23 +367,46 @@ function Login() {
                                                         className="w-full leading-5 relative py-2 px-4 rounded text-gray-800 bg-white border border-gray-300 overflow-x-auto focus:outline-none focus:border-gray-400 focus:ring-0 darks:text-gray-300 darks:bg-gray-700 darks:border-gray-700 darks:focus:border-gray-600" aria-label="password" type="password" defaultValue required />
                                                     <span className='text-red-600 text-xs'>{formik.touched.password && formik.errors.password ? formik.errors.password : null}</span>
                                                 </div>
-                                                <div className="mb-2 ">
+                                                <div className="mb-2">
                                                     <div className="flex justify-between items-center">
-                                                        <div className=" rounded-sm">
-                                                            <img src={captchaImage} className="border rounded w-44 h-14" />
+                                                        <div className="rounded-sm">
+                                                            {loading ? (
+                                                                <div className="w-[200px] h-[60px] flex items-center justify-center bg-gray-200">
+                                                                    Loading...
+                                                                </div>
+                                                            ) : (
+                                                                <img src={captchaImage} alt="captcha" />
+                                                            )}
                                                         </div>
                                                         <div>
                                                             <button
                                                                 type="button"
-                                                                onClick={generateRandomCaptcha}
+                                                                onClick={newGeneratedCaptcha}
                                                                 className="text-xs text-blue-400"
+                                                                disabled={loading}
                                                             >
                                                                 Reload Captcha
                                                             </button>
                                                         </div>
                                                     </div>
-                                                    <div className="mt-4">
-                                                        {captchaInputField(formik)}
+                                                    <div className="mt-3">
+                                                        <input
+                                                            {...formik.getFieldProps("captcha")}
+                                                            className="w-full leading-5 py-1.5 px-3 rounded text-gray-800 bg-white border border-gray-300 focus:outline-none focus:border-gray-400"
+                                                            type="text"
+                                                            required
+                                                            autoComplete="off"
+                                                            onCopy={preventCopyPaste}
+                                                            onCut={preventCopyPaste}
+                                                            onPaste={preventCopyPaste}
+                                                            onContextMenu={preventCopyPaste}
+                                                            onKeyDown={preventKeyboardShortcuts}
+                                                        />
+                                                        <span className="text-red-600 text-xs">
+                                                            {formik.touched.captcha && formik.errors.captcha
+                                                                ? formik.errors.captcha
+                                                                : null}
+                                                        </span>
                                                     </div>
                                                 </div>
                                                 {/* <div className="mb-6">
