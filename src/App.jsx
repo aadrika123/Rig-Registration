@@ -46,43 +46,55 @@ import BankReconciliation from './Components/Pages/PetRegistration/Accounts/Bank
 import ServiceRestrictionLayout from './Components/Pages/Error/ServiceRestrictionLayout';
 import { UseServiceCheck } from './Components/Hooks/UseServiceCheck';
 import useModulePermission from './Components/Common/Hooks/useModulePermission';
-
+import AuthGuard from './guard/RoleBaseGuard';
 
 // function App() {
 
 function App(props) {
-  UseServiceCheck()
-  useModulePermission()
+  UseServiceCheck();
+  useModulePermission();
   // 👉 State constants 👈
-  const [menuList, setmenuList] = useState(getLocalStorageItemJsonParsed('menuList')); // to store menu list
-  const [userDetails, setuserDetails] = useState(getLocalStorageItemJsonParsed('userDetails')); // to store user details
+  const [menuList, setmenuList] = useState(
+    getLocalStorageItemJsonParsed('menuList')
+  ); // to store menu list
+  const [userDetails, setuserDetails] = useState(
+    getLocalStorageItemJsonParsed('userDetails')
+  ); // to store user details
   const [titleText, settitleText] = useState('');
-  const [refresh, setrefresh] = useState(0)
+  const [refresh, setrefresh] = useState(0);
   const [titleBarVisibility, settitleBarVisibility] = useState(true);
-  const [heartBeatCounter, setheartBeatCounter] = useState(1) // to check authentication
-  const [toggleBar, settoggleBar] = useState(window.innerWidth <= 763 ? false : true) // toggle state for Side Bar
+  const [heartBeatCounter, setheartBeatCounter] = useState(1); // to check authentication
+  const [toggleBar, settoggleBar] = useState(
+    window.innerWidth <= 763 ? false : true
+  ); // toggle state for Side Bar
 
   // 👉 Manage sidebar to hide and show for responsiveness 👈
   window.addEventListener('resize', function () {
-    window.innerWidth <= 763 && settoggleBar(false)
-    window.innerWidth >= 1280 && settoggleBar(true)
+    window.innerWidth <= 763 && settoggleBar(false);
+    window.innerWidth >= 1280 && settoggleBar(true);
   });
 
   // 👉 Context data used globally 👈
   const contextData = {
     notify: (toastData, toastType) => toast[toastType](toastData),
-    menuList, setmenuList,
-    userDetails, setuserDetails,
-    titleText, settitleText,
-    titleBarVisibility, settitleBarVisibility,
-    heartBeatCounter, setheartBeatCounter,
-    toggleBar, settoggleBar,
-    refresh, setrefresh
-  }
+    menuList,
+    setmenuList,
+    userDetails,
+    setuserDetails,
+    titleText,
+    settitleText,
+    titleBarVisibility,
+    settitleBarVisibility,
+    heartBeatCounter,
+    setheartBeatCounter,
+    toggleBar,
+    settoggleBar,
+    refresh,
+    setrefresh
+  };
 
   // 👉 Routes Json 👈
   const allRoutes = [
-
     { path: '/transfer', element: <TransferPage /> },
     { path: '/change-password', element: <ChangePassword /> },
     // { path: '/home', element: <PetDashboard /> },
@@ -90,12 +102,22 @@ function App(props) {
     // { path: '/rig-registration-form', element: <RegRegisterForm /> },
     { path: '/rig-workflow', element: <PetRegWorkflowEntry /> },
 
-    { path: '/search-approved-pet-registration', element: <SearchApprovedPetApplication /> },
-    { path: '/PetRegistrationPreviewList/:registration_id', element: <PetRegistrationPreviewList /> },
-    { path: '/viewPreviewApplication/:id', element: <ViewApprovedPreviewApplication /> },
-    { path: '/search-rejected-pet-registration', element: <SearchRejectPetApplication /> },
-
-
+    {
+      path: '/search-approved-pet-registration',
+      element: <SearchApprovedPetApplication />
+    },
+    {
+      path: '/PetRegistrationPreviewList/:registration_id',
+      element: <PetRegistrationPreviewList />
+    },
+    {
+      path: '/viewPreviewApplication/:id',
+      element: <ViewApprovedPreviewApplication />
+    },
+    {
+      path: '/search-rejected-pet-registration',
+      element: <SearchRejectPetApplication />
+    },
 
     // { path: '/pet-registration', element: <PetRegistrationIndex /> },
     { path: '/rig-renewal/:id', element: <PetRenewalFormIndex /> },
@@ -103,65 +125,61 @@ function App(props) {
     { path: '/successfull-submit', element: <SuccessfulSubmitModal /> },
     { path: '/successfull-edit', element: <SuccessfulSubmitModal2 /> },
 
-
-
     { path: '/rig-payment-offline/:id', element: <PetOfflinePayment /> },
-
 
     { path: '/rig-registration-form', element: <RigRegistrationFormIndex /> },
     { path: '/search-rig-registration', element: <SearchPetApplicationForm /> },
     { path: '/viewRejectApplication/:id', element: <ViewRejectApplication /> },
-    { path: '/viewApprovedApplication/:id', element: <ViewApprovedApplication /> },
+    {
+      path: '/viewApprovedApplication/:id',
+      element: <ViewApprovedApplication />
+    },
     { path: '/reject-rig-application', element: <RejectPetApplication /> },
     { path: '/approved-rig-application', element: <ApprovedPetApplication /> },
     { path: '/collection-report', element: <CollectionReport /> },
     { path: '/cash-verification', element: <CashVerification /> },
     { path: '/bank-reconciliation', element: <BankReconciliation /> },
-    { path: '/service-restriction', element: <ServiceRestrictionLayout /> },
+    { path: '/service-restriction', element: <ServiceRestrictionLayout /> }
 
     // <Route path="/service-restriction" element={<ServiceRestrictionLayout />} />
-  ]
-
+  ];
 
   // { path: '/rig-payment-receipt/:transNo', element: <PetPaymentReceiptIndex /> },
   // { path: '/rig-license-details/:id', element: <RigLIcenseReceiptEntry /> },
   return (
     <>
-
       <Toaster />
 
       <contextVar.Provider value={contextData}>
-
         <Routes>
           <Route
-            path='/rig-payment-receipt/:transNo'
+            path="/rig-payment-receipt/:transNo"
             element={<PetPaymentReceiptIndex />}
           />
           <Route
-            path='/rig-license-details/:id'
+            path="/rig-license-details/:id"
             element={<RigLIcenseReceiptEntry />}
           />
 
           <Route index element={<Login />} />
 
-          <Route element={<ProtectedRoutes />}>
-
-            {
-              allRoutes?.map((elem) =>
-                <Route path={elem?.path} element={elem?.element} />
-              )
+          <Route
+            element={
+              <AuthGuard>
+                <ProtectedRoutes />
+              </AuthGuard>
             }
-
+          >
+            {allRoutes?.map((elem) => (
+              <Route path={elem?.path} element={elem?.element} />
+            ))}
           </Route>
 
-          <Route path='*' element={<ErrorPage />} />
-
+          <Route path="*" element={<ErrorPage />} />
         </Routes>
-
       </contextVar.Provider>
-
     </>
-  )
+  );
 }
 
-export default App
+export default App;
