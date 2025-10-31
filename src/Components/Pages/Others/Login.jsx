@@ -20,7 +20,7 @@ import { contextVar } from '@/Components/context/contextVar';
 import rigm from '@/Components/assets/rigm.png';
 import { UseServiceCheck } from '@/Components/Hooks/UseServiceCheck';
 // import UseCaptchaGenerator from '@/Components/Common/Hooks/UseCaptchaGenerator';
-import CryptoJS from 'crypto-js';
+import CryptoJS, { enc } from 'crypto-js';
 import UseCaptchaGeneratorServer from '@/Components/Common/Hooks/UseCaptchaGeneratorServer';
 import useSystemUniqueID from '@/Components/Hooks/useSystemUniqueId';
 import { Eye, EyeOffIcon } from 'lucide-react';
