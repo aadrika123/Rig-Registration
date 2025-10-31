@@ -23,6 +23,7 @@ import { UseServiceCheck } from '@/Components/Hooks/UseServiceCheck';
 import CryptoJS from 'crypto-js';
 import UseCaptchaGeneratorServer from '@/Components/Common/Hooks/UseCaptchaGeneratorServer';
 import useSystemUniqueID from '@/Components/Hooks/useSystemUniqueId';
+import { Eye, EyeOffIcon } from 'lucide-react';
 const { api_login, api_getFreeMenuList } = ProjectApiList();
 
 const validationSchema = Yup.object({
@@ -38,6 +39,7 @@ const message = searchParams.get('msg') || '';
 function Login() {
   const { fingerprint } = useSystemUniqueID();
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   // const { captchaInputField, captchaImage, verifyCaptcha, generateRandomCaptcha } = UseCaptchaGenerator();
   const { setmenuList, setuserDetails, setheartBeatCounter } =
     useContext(contextVar);
@@ -124,8 +126,6 @@ function Login() {
       Accept: 'application/json',
     },
   };
-
-
 
   //authUser function which authenticate user credentials
   const authUser = (e) => {
@@ -530,20 +530,29 @@ function Login() {
                               </label>
                             </div>
                           </div>
-                          <input
-                            {...formik.getFieldProps('password')}
-                            autoComplete="off"
-                            onCopy={preventCopyPaste}
-                            onCut={preventCopyPaste}
-                            onPaste={preventCopyPaste}
-                            onContextMenu={preventCopyPaste}
-                            onKeyDown={preventKeyboardShortcuts}
-                            className="w-full leading-5 relative py-2 px-4 rounded text-gray-800 bg-white border border-gray-300 overflow-x-auto focus:outline-none focus:border-gray-400 focus:ring-0 darks:text-gray-300 darks:bg-gray-700 darks:border-gray-700 darks:focus:border-gray-600"
-                            aria-label="password"
-                            type="password"
-                            defaultValue
-                            required
-                          />
+                          <div className="relative">
+                            <input
+                              {...formik.getFieldProps('password')}
+                              autoComplete="off"
+                              onCopy={preventCopyPaste}
+                              onCut={preventCopyPaste}
+                              onPaste={preventCopyPaste}
+                              onContextMenu={preventCopyPaste}
+                              onKeyDown={preventKeyboardShortcuts}
+                              className="w-full leading-5 relative py-2 px-4 pr-10 rounded text-gray-800 bg-white border border-gray-300 overflow-x-auto focus:outline-none focus:border-gray-400 focus:ring-0 darks:text-gray-300 darks:bg-gray-700 darks:border-gray-700 darks:focus:border-gray-600"
+                              aria-label="password"
+                              type={showPassword ? 'text' : 'password'}
+                              defaultValue
+                              required
+                            />
+                            <button
+                              type="button"
+                              onClick={() => setShowPassword(!showPassword)}
+                              className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
+                            >
+                              {showPassword ? <EyeOffIcon /> : <Eye />}
+                            </button>
+                          </div>
                           <span className="text-red-600 text-xs">
                             {formik.touched.password && formik.errors.password
                               ? formik.errors.password
