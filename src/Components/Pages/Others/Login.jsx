@@ -136,7 +136,7 @@ function Login() {
       moduleId: 15,
       captcha_id: captchaData.captcha_id,
       captcha_code: encryptPassword(formik.values.captcha),
-      systemUniqueId: fingerprint,
+      systemUniqueId: encryptPassword(fingerprint),
     };
     console.log('--1--before login send...', requestBody);
     AxiosInterceptors.post(api_login, requestBody, header)
