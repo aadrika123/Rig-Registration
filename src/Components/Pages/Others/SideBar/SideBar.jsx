@@ -8,15 +8,15 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // 👉 Importing Packages 👈
-import React, { useContext } from 'react';
-import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import './SideBar.css';
+import React, { useContext } from "react";
+import { useState } from "react";
+import { NavLink } from "react-router-dom";
+import "./SideBar.css";
 // import 'animate.css'
-import { MdOutlineDashboard, MdOutlineSpaceDashboard } from 'react-icons/md';
-import { contextVar } from '@/Components/context/contextVar';
-import { BsBuildings, BsCaretRight } from 'react-icons/bs';
-import { FcBusinessman } from 'react-icons/fc';
+import { MdOutlineDashboard, MdOutlineSpaceDashboard } from "react-icons/md";
+import { contextVar } from "@/Components/context/contextVar";
+import { BsBuildings, BsCaretRight } from "react-icons/bs";
+import { FcBusinessman } from "react-icons/fc";
 
 const SideBar = (props) => {
   // 👉 Context constants 👈
@@ -24,11 +24,11 @@ const SideBar = (props) => {
 
   // 👉 State constants 👈
   const [dropDown, setdropDown] = useState(false);
-  const [dropName, setdropName] = useState('');
+  const [dropName, setdropName] = useState("");
 
-  let bg = 'slate'; // background color
-  let mcolor = 'indigo'; // menu color
-  let tcolor = 'gray'; // text color
+  let bg = "slate"; // background color
+  let mcolor = "indigo"; // menu color
+  let tcolor = "gray"; // text color
 
   // 👉 CSS constants 👈
   const dropMenuBtn = `block w-full pl-7 py-2 px-6 clear-both whitespace-nowrap text-sm hover:bg-${mcolor}-700 hover:text-${tcolor}-100 rounded-md text-sm animate__animated animate__fadeIn animate__faster `;
@@ -44,7 +44,8 @@ const SideBar = (props) => {
     setdropName(val);
   };
 
-  const filterMenu = props?.menu?.filter((item) => item.is_sidebar) || [];
+  // const filterMenu = props?.menu?.filter((item) => item.is_sidebar) || [];
+  const filterMenu = props?.menu || [];
   return (
     <>
       {/* 👉 ======Main Section========== 👈 */}
@@ -72,7 +73,7 @@ const SideBar = (props) => {
                     class={`text-xl text-${tcolor}-800 flex flex-col items-start justify-center relative`}
                   >
                     <span className="flex justify-center w-full">
-                      {' '}
+                      {" "}
                       <span
                         className={`text-[50px] flex justify-center py-2 text-${tcolor}-800`}
                       >
@@ -83,7 +84,7 @@ const SideBar = (props) => {
                       {userDetails?.roles?.map((elem) => elem)}
                     </span>
                     <span className="flex justify-center w-full uppercase text-sm font-semibold">
-                      {' '}
+                      {" "}
                       {userDetails?.userName}
                     </span>
                   </div>
@@ -105,37 +106,37 @@ const SideBar = (props) => {
                             }}
                           >
                             <NavLink
-                              to={item?.path == '' ? null : item?.path}
+                              to={item?.path == "" ? null : item?.path}
                               className={({ isActive }) =>
                                 (isActive && item?.children?.length == 0
                                   ? ` bg-${mcolor}-600 text-${tcolor}-100 `
-                                  : ' ') +
+                                  : " ") +
                                 `${mobileMenuBtn} ` +
-                                'flex gap-4 items-center'
+                                "flex gap-4 items-center"
                               }
                               onClick={() => {
                                 dropFun(item?.name);
-                                dropName == item?.name && setdropName('');
+                                dropName == item?.name && setdropName("");
                               }}
                             >
-                              {' '}
+                              {" "}
                               <span>
                                 <MdOutlineDashboard />
-                              </span>{' '}
+                              </span>{" "}
                               <div className="flex justify-between items-center flex-1">
                                 <span>{item?.name}</span>
                                 {item?.path == null && (
                                   <span
                                     className={
                                       dropName == item?.name
-                                        ? 'transition-all duration-200 ease-in-out rotate-90'
-                                        : 'transition-all duration-200 ease-in-out rotate-0'
+                                        ? "transition-all duration-200 ease-in-out rotate-90"
+                                        : "transition-all duration-200 ease-in-out rotate-0"
                                     }
                                   >
                                     <BsCaretRight />
                                   </span>
                                 )}
-                              </div>{' '}
+                              </div>{" "}
                             </NavLink>
 
                             {item?.children?.length > 0 &&
@@ -155,14 +156,14 @@ const SideBar = (props) => {
                                           className={({ isActive }) =>
                                             (isActive
                                               ? ` bg-${mcolor}-700 text-${tcolor}-100 `
-                                              : ' ') +
+                                              : " ") +
                                             `${dropMenuBtn} ` +
-                                            'flex gap-3 items-center'
+                                            "flex gap-3 items-center"
                                           }
                                         >
                                           <span>
                                             <MdOutlineSpaceDashboard />
-                                          </span>{' '}
+                                          </span>{" "}
                                           <span className="">{elem?.name}</span>
                                         </NavLink>
                                       </li>
