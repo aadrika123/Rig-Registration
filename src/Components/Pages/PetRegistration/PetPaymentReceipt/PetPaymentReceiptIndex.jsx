@@ -11,21 +11,20 @@ import { nullToNA } from "@/Components/Common/PowerupFunctions";
 import { QRCodeSVG } from "qrcode.react";
 import QrCode from "./QrCode";
 import BackendUrl from "@/Components/api/BackendUrl";
-import swatchBharat from "@/Components/assets/swatchBharat.png"
+import swatchBharat from "@/Components/assets/swatchBharat.png";
 // import { QrCode } from "lucide-react";
 
 // Functional component for displaying Pet Payment Receipt
 const PetPaymentReceiptIndex = () => {
-
   // State to hold fetched data and loading state
   const [fetchedData, setFetchedData] = useState();
   const [isDataLoading, setIsDataLoading] = useState(false);
 
   // Custom hook to set the document title
-  useSetTitle("Rig Payment Receipt")
+  useSetTitle("Rig Payment Receipt");
 
   // Extracting transaction number from the route parameters
-  const { transNo } = useParams()
+  const { transNo } = useParams();
 
   // Ref for the component to be printed
   const componentRef = useRef();
@@ -40,10 +39,11 @@ const PetPaymentReceiptIndex = () => {
 
   // Function to fetch data based on the transaction number
   const fetchData = () => {
-    console.log("called........")
+    console.log("called........");
     setIsDataLoading(true);
 
-    axios.post(api_petPaymentReceipt, { transactionNo: transNo }, header)
+    axios
+      .post(api_petPaymentReceipt, { transactionNo: transNo }, header)
       .then((res) => {
         if (res?.data?.status) {
           setFetchedData(res?.data?.data);
@@ -62,13 +62,13 @@ const PetPaymentReceiptIndex = () => {
 
   // Fetch data when the component mounts
   useEffect(() => {
-    fetchData()
+    fetchData();
   }, []);
 
   console.log("data", fetchedData);
   return (
     <>
-      <div className="" >
+      <div className="">
         <div>
           <div className="md:px-0 flex-1 "></div>
           <div className="md:px-0 flex-1 ">
@@ -81,12 +81,15 @@ const PetPaymentReceiptIndex = () => {
             </button>
           </div>
         </div>
-        <div id="printableArea" className="w-full h-full flex justify-center items-center p-4  mt-6 " ref={componentRef}>
+        <div
+          id="printableArea"
+          className="w-full h-full flex justify-center items-center p-4  mt-6 "
+          ref={componentRef}
+        >
           <div className="">
             <div className="font-tahoma">
               <div className="border-2 border-dashed border-gray-600  bg-white p-4 w-full h-auto     ">
                 <div className="grid grid-col-1 md:grid-col-12 lg:grid-col-12 relative">
-
                   <div className="">
                     <img
                       src={ulb_data()?.state_logo}
@@ -98,35 +101,39 @@ const PetPaymentReceiptIndex = () => {
 
                 {/* rmc */}
 
-
-                <div className='grid grid-cols-3 h-auto bordr'>
-                  <div className='w-20 h-20 rounded-full '>
-                    <img src={fetchedData?.ulbDetails?.ulb_logo} alt='logo'></img>
+                <div className="grid grid-cols-3 h-auto bordr">
+                  <div className="w-20 h-20 rounded-full ">
+                    <img
+                      src={fetchedData?.ulbDetails?.ulb_logo}
+                      alt="logo"
+                    ></img>
                   </div>
-                  <div className='font-bold mx-auto  -ml-16 mt-3 whitespace-nowrap  '>
-                    <span className='uppercase text-center text-xl '>
+                  <div className="font-bold mx-auto  -ml-16 mt-3 whitespace-nowrap  ">
+                    <span className="uppercase text-center text-xl ">
                       {fetchedData?.ulb}
                     </span>
-                    <h1 className='font-normal text-center  text-xs -ml-8'>
+                    <h1 className="font-normal text-center  text-xs -ml-8">
                       {nullToNA(fetchedData?.ulb_address)}
                     </h1>
-                    <h1 className='font-normal text-center  text-xs -ml-8'>
+                    <h1 className="font-normal text-center  text-xs -ml-8">
                       {nullToNA(fetchedData?.ulb_email)}
                     </h1>
-                    <h1 className='font-semibold text-center uppercase text-lg mt-4 border border-gray-500 -ml-6'>
+                    <h1 className="font-semibold text-center uppercase text-lg mt-4 border border-gray-500 -ml-6">
                       {" "}
                       Rig Machine Registration
                     </h1>
-                    <h1 className='font-semibold text-center uppercase text-md border-b border-l border-r border-gray-500 -ml-6'>
-                      {fetchedData?.VerifyStatus == '2' ? "Provisional" : "PAYMENT"} RECEIPT
+                    <h1 className="font-semibold text-center uppercase text-md border-b border-l border-r border-gray-500 -ml-6">
+                      {fetchedData?.VerifyStatus == "2"
+                        ? "Provisional"
+                        : "PAYMENT"}{" "}
+                      RECEIPT
                     </h1>
                   </div>
 
-                  <div className='w-36 h-36 rounded-full ml-28 -mt-5'>
-                    <img src={swatchBharat} alt='logo'></img>
+                  <div className="w-36 h-36 rounded-full ml-28 -mt-5">
+                    <img src={swatchBharat} alt="logo"></img>
                   </div>
                 </div>
-
 
                 {/* <div className="grid grid-col-1 md:grid-col-12 lg:grid-col-12 p-1 ">
                   <div className="">
@@ -152,7 +159,6 @@ const PetPaymentReceiptIndex = () => {
                   <h1 className="font-semibold text-center border mx-auto px-8 border-black text-2xl mt-2">Payment Receipt</h1>
                 </div> */}
 
-
                 {/* detail section 1 */}
                 <div>
                   <table className="w-full  p-2 mt-2">
@@ -163,13 +169,17 @@ const PetPaymentReceiptIndex = () => {
                             Registration No. :
                           </h1>
 
-                          <h1 className="flex   pl-2">{fetchedData?.applicationNo}</h1>
+                          <h1 className="flex   pl-2">
+                            {fetchedData?.applicationNo}
+                          </h1>
                         </div>
                         <div className="flex p-1 text-1xl">
                           <h1 className="flex text-gray-900  font-semibold">
                             Transaction No. :
                           </h1>
-                          <h1 className="flex   pl-2">{fetchedData?.transactionNo || "N/A"}</h1>
+                          <h1 className="flex   pl-2">
+                            {fetchedData?.transactionNo || "N/A"}
+                          </h1>
                         </div>
                       </td>
                       <td className=" ">
@@ -177,10 +187,10 @@ const PetPaymentReceiptIndex = () => {
                           <h1 className="flex text-gray-900 font-semibold  ">
                             Date :
                           </h1>
-                          <h1 className="flex  pl-2 ">{fetchedData?.paymentDate}</h1>
-
+                          <h1 className="flex  pl-2 ">
+                            {fetchedData?.paymentDate}
+                          </h1>
                         </div>
-
                       </td>
                     </tr>
                   </table>
@@ -193,37 +203,59 @@ const PetPaymentReceiptIndex = () => {
                     Shri/Smt - &nbsp; <span>{fetchedData?.applicantName}</span>
                   </h1>
                   <h1 className="ml-8  flex mt-2">
-                    <span className="font-semibold whitespace-nowrap">Address of vehicle owner - &nbsp; </span>  <span>{fetchedData?.address}</span>
+                    <span className="font-semibold whitespace-nowrap">
+                      Address of vehicle owner - &nbsp;{" "}
+                    </span>{" "}
+                    <span>{fetchedData?.address}</span>
                   </h1>
 
                   <h1 className="ml-8 mt-4 ">
-                    A Sum of Rs <span className="font-semibold">{fetchedData?.paidAmount} </span>
-                    <span className="font-semibold">(Twenty Five Thousand only/-)</span>
+                    A Sum of Rs{" "}
+                    <span className="font-semibold">
+                      {fetchedData?.paidAmount}{" "}
+                    </span>
+                    <span className="font-semibold">
+                      (Twenty Five Thousand only/-)
+                    </span>
                     <span className="ml-2">
                       {" "}
-                      towards <span className="font-semibold">{fetchedData?.toward}</span>{" "}
+                      towards{" "}
+                      <span className="font-semibold">
+                        {fetchedData?.toward}
+                      </span>{" "}
                     </span>{" "}
                     <span>
-                      <h1 className="mt-1"> Payment Mode :   <span className="font-semibold">  {fetchedData?.paymentMode} </span> dated <span className="font-semibold">{fetchedData?.paymentDate}.</span></h1>
+                      <h1 className="mt-1">
+                        {" "}
+                        Payment Mode :{" "}
+                        <span className="font-semibold">
+                          {" "}
+                          {fetchedData?.paymentMode}{" "}
+                        </span>{" "}
+                        dated{" "}
+                        <span className="font-semibold">
+                          {fetchedData?.paymentDate}.
+                        </span>
+                      </h1>
                       {/* <h1 className="mt-1"> Type of Animal :   <span className="font-semibold">  {fetchedData?.typeOfAnimal || 'NA'} </span></h1>
                    <h1 className="mt-1"> Type of Breed :   <span className="font-semibold">  {fetchedData?.typeOfBreed || 'NA' } </span></h1> */}
-
                     </span>
-
-
-
-
                   </h1>
                   <div className="mt-4 px-8">
                     <span>
                       {/* Vehicle Details : <br /> */}
                       <h1 className="">
-                        Vehicle Registration No -  <span className="font-semibold">{fetchedData?.vehicleNo}</span>
+                        Vehicle Registration No -{" "}
+                        <span className="font-semibold">
+                          {fetchedData?.vehicleNo}
+                        </span>
                       </h1>
                       <h1 className=" mt-1">
-                        VIN / CH No -  <span className="font-semibold">{fetchedData?.vehicleName}</span>
+                        VIN / CH No -{" "}
+                        <span className="font-semibold">
+                          {fetchedData?.vehicleName}
+                        </span>
                       </h1>
-
                     </span>
                   </div>
                   {/* <div className=" p-8 float-right">
@@ -238,17 +270,18 @@ const PetPaymentReceiptIndex = () => {
                   </div> */}
 
                   <div className="mt-[2%]">
-
-
                     <div className="flex-1 p-8">
                       <div className="flex">
                         <div className="flex items-center space-x-4">
                           <QrCode
-                            size='80'
+                            size="80"
                             url={`${QrUrl}/rig/rig-payment-receipt/${fetchedData?.transactionNo}`}
                           />
                           <div className="">
-                            <h1 className="">N.B Cheque/Draft/Bankers Cheque are subject to realisation</h1>
+                            <h1 className="">
+                              N.B Cheque/Draft/Bankers Cheque are subject to
+                              realisation
+                            </h1>
 
                             <p>
                               For More Details Please Visit:{" "}
@@ -264,19 +297,14 @@ const PetPaymentReceiptIndex = () => {
                                                             {fetchedData?.ulbDetails?.ulb_toll_free_no} */}
                               </span>
                             </p>
-
                           </div>
-
                         </div>
-
                       </div>
-
                     </div>
-                    <h1 className="text-center text-xs">** This is a computer-generated receipt and it does not require a signature. **</h1>
-
-
-
-
+                    <h1 className="text-center text-xs">
+                      ** This is a computer-generated receipt and it does not
+                      require a signature. **
+                    </h1>
                   </div>
 
                   {/* <div className="grid grid-col-1 md:grid-col-12 lg:grid-col-12 p-3 ">
@@ -292,7 +320,6 @@ const PetPaymentReceiptIndex = () => {
                 {/* holding tax details */}
 
                 {/* swatch bharat logo */}
-
               </div>
             </div>
           </div>
@@ -302,4 +329,4 @@ const PetPaymentReceiptIndex = () => {
   );
 };
 
-export default PetPaymentReceiptIndex
+export default PetPaymentReceiptIndex;
