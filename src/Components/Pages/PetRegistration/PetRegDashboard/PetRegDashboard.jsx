@@ -95,8 +95,6 @@ function PetRegDashboard() {
                 heading={"Rig Home Page"}
                 // ulbName={"Akshay"}
                 subHeading={"Verified Account"}
-
-                changePasswordLink={'/change-password'}
                 // mainWorkflowLink={'/rig-workflow'}
                 applyLink={'/rig-registration-form'}
             // applyLink={'/rig-registration-form'}
