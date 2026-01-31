@@ -673,7 +673,7 @@ function PilotWorkflowActions(props) {
                       <button
                         type="button"
                         id="btn_approve"
-                        value={1}
+                        value={2}
                         className="block w-full bg-green-500 border-2  shadow-lg text-white text-sm font-semibold rounded-lg  focus:outline-none focus:shadow-outline  hover:shadow-xs p-3 py-2 hover:bg-green-600 hover:text-white my-4"
                         onClick={approveRejectApplication}
                       >
