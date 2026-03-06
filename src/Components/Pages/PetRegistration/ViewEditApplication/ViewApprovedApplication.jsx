@@ -183,8 +183,8 @@ const ViewApprovedApplication = () => {
                       <div className="flex-1 text-xs">
                         <div className="text-[#37517e]">ULB Name</div>
                         <div className="font-semibold text-sm text-[#37517e]">
-                          {applicationFullData?.ulb_name
-                            ? applicationFullData?.ulb_name
+                          {applicationFullData?.ulbDetails?.ulb_name
+                            ? applicationFullData?.ulbDetails?.ulb_name
                             : "N/A"}
                         </div>
                       </div>
@@ -195,8 +195,8 @@ const ViewApprovedApplication = () => {
                       <div className="flex-1 text-xs">
                         <div className="text-[#37517e]">Application Type</div>
                         <div className="font-bold text-sm text-[#37517e]">
-                          {applicationFullData?.ref_application_type
-                            ? applicationFullData?.ref_application_type
+                          {applicationFullData
+                            ? applicationFullData?.application_type
                             : "N/A"}
                         </div>
                       </div>
@@ -281,20 +281,19 @@ const ViewApprovedApplication = () => {
                                                 </div>
                                             </div> */}
                       <div className="flex-1 text-xs">
-                        <div className="text-[#37517e]">
-                          {" "}
-                          VIN Number / CH No.
-                        </div>
+                        <div className="text-[#37517e]"> Vehicle Name</div>
                         <div className="font-bold text-sm text-[#37517e]">
                           <div className="font-bold text-sm text-[#37517e]">
-                            {applicationFullData?.vehicle_name}
+                            {applicationFullData?.vehicleDetails
+                              ?.vehicle_name || "N/A"}
                           </div>
                         </div>
                       </div>
                       <div className="flex-1 text-xs">
-                        <div className="text-[#37517e]">Registration No.</div>
+                        <div className="text-[#37517e]">Vehicle No.</div>
                         <div className="font-bold text-sm text-[#37517e]">
-                          {applicationFullData?.vehicle_no}
+                          {applicationFullData?.vehicleDetails?.vehicle_no ||
+                            "N/A"}
                         </div>
                       </div>
                     </div>
@@ -348,19 +347,19 @@ const ViewApprovedApplication = () => {
                             1
                           </td>
                           <td className="px-2 py-2 text-sm text-left text-[#37517e]">
-                            {applicationFullData?.applicant_name
-                              ? applicationFullData?.applicant_name
+                            {applicationFullData?.ownerDetails?.applicant_name
+                              ? applicationFullData?.ownerDetails?.applicant_name
                               : "N/A"}
                           </td>
 
                           <td className="px-2 py-2 text-sm text-left text-[#37517e]">
-                            {applicationFullData?.mobile_no
-                              ? applicationFullData?.mobile_no
+                            {applicationFullData?.ownerDetails?.mobile_no
+                              ? applicationFullData?.ownerDetails?.mobile_no
                               : "N/A"}
                           </td>
                           <td className="px-2 py-2 text-sm text-left text-[#37517e]">
-                            {applicationFullData?.email
-                              ? applicationFullData?.email
+                            {applicationFullData?.ownerDetails?.email
+                              ? applicationFullData?.ownerDetails?.email
                               : "N/A"}
                           </td>
                           {/* <td className="px-2 py-2 text-sm text-left text-[#37517e]">{applicationFullData?.pan_no ? applicationFullData?.pan_no : "N/A"}</td> */}
