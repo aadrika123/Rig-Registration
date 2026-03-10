@@ -13,6 +13,7 @@ import useSetTitle from "@/Components/Common/useSetTitle";
 import { nullToNA } from "@/Components/Common/PowerupFunctions";
 import { useFormik } from "formik";
 import ApiHeader2 from "@/Components/api/ApiHeader2";
+import { getLocalStorageItemJsonParsed } from "@/Components/Common/localstorage";
 
 // Component for viewing details of a pet application
 const ViewPetApplication = () => {
@@ -137,6 +138,8 @@ const ViewPetApplication = () => {
       const documentFormData = new FormData();
       documentFormData.append(`image`, document.image);
       documentFormData.append(`id`, id);
+      documentFormData.append("ulb_id", getLocalStorageItemJsonParsed("ulbId"));
+      documentFormData.append("module_id", 15);
 
       AxiosInterceptors.post(docReUpload, documentFormData, ApiHeader2())
         .then((res) => {
@@ -156,7 +159,7 @@ const ViewPetApplication = () => {
           setLoader(false);
           console.log(
             "Error while re-uploading document..",
-            err?.response?.data?.error
+            err?.response?.data?.error,
           );
         });
     } else {
@@ -171,7 +174,7 @@ const ViewPetApplication = () => {
     AxiosInterceptors.post(
       api_PetRegViewApplication,
       { applicationId: id },
-      header
+      header,
     )
       .then((res) => {
         setLoader(false);
@@ -331,7 +334,7 @@ const ViewPetApplication = () => {
                 className="border px-3 py-1 rounded shadow border-orange-500 hover:bg-orange-500 hover:text-white text-orange-500 whitespace-nowrap"
                 onClick={() =>
                   navigate(
-                    `/rig-license-details/${applicationFullData?.application_id}`
+                    `/rig-license-details/${applicationFullData?.application_id}`,
                   )
                 }
               >
@@ -593,7 +596,7 @@ const ViewPetApplication = () => {
                                   onClick={() =>
                                     handleViewClick(
                                       items?.doc_path,
-                                      items?.doc_code
+                                      items?.doc_code,
                                     )
                                   }
                                 >
@@ -820,7 +823,7 @@ const ViewPetApplication = () => {
                           <div className="font-semibold text-sm text-[#37517e]">
                             {moment(
                               applicationFullData?.transactionDetails
-                                ?.created_at
+                                ?.created_at,
                             ).format("DD-MM-yy") || "N/A"}
                           </div>
                         </div>
@@ -830,7 +833,7 @@ const ViewPetApplication = () => {
                               className="border px-3 py-1 rounded shadow border-blue-500 hover:bg-blue-500 hover:text-white text-blue-500 whitespace-nowrap"
                               onClick={() =>
                                 navigate(
-                                  `/rig-payment-receipt/${applicationFullData?.transactionDetails?.tran_no}`
+                                  `/rig-payment-receipt/${applicationFullData?.transactionDetails?.tran_no}`,
                                 )
                               }
                             >
@@ -932,7 +935,7 @@ const ViewPetApplication = () => {
                                   onClick={() =>
                                     handleViewClick(
                                       items?.doc_path,
-                                      items?.doc_code
+                                      items?.doc_code,
                                     )
                                   }
                                 >
