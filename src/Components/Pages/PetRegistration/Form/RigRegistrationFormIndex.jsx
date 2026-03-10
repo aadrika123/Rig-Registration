@@ -22,6 +22,7 @@ import { resizeFile } from "@/Components/Common/ImageResizer/UseImgResizer";
 // import { allowCharacterInput } from "src/Components/Common/PowerUps/PowerupFunctions";
 // import { useContext } from 'react'
 import { contextVar } from "@/Components/context/contextVar";
+import { getLocalStorageItemJsonParsed } from "@/Components/Common/localstorage";
 
 const style = {
   required: "text-red-700 font-semibold",
@@ -47,19 +48,21 @@ const RigRegistrationFormIndex = (props) => {
   const [licenseImage, setLicenseImage] = useState();
   const [responseScreen, setresponseScreen] = useState();
 
-  const [fileSizeError, setFileSizeError] = useState('');
-  const { userDetails } = useContext(contextVar)
+  const [fileSizeError, setFileSizeError] = useState("");
+  const { userDetails } = useContext(contextVar);
   // const { api_ulbList, header, api_wardList } = WaterApiList();
-  useSetTitle("Search Application")
+  useSetTitle("Search Application");
   const {
     api_RigRegistrationApplyForm,
     api_PetRegistrationMaster,
     api_ListOfSafHolding,
     api_getUserDetailsByHoldingSaf,
-    header1, api_ulbList, header, api_wardList
+    header1,
+    api_ulbList,
+    header,
+    api_wardList,
   } = PetRegAPIList();
   const navigate = useNavigate();
-
 
   // ==== Formik Start
   const validationSchema = yup.object({
@@ -119,11 +122,8 @@ const RigRegistrationFormIndex = (props) => {
     // vehicleFrom: "",
     // panNo: "",
     // holdingNo: "",
-
-
-
   };
-  console.log("userDetails", userDetails)
+  console.log("userDetails", userDetails);
 
   let payloadFormData = new FormData();
 
@@ -134,7 +134,6 @@ const RigRegistrationFormIndex = (props) => {
       console.log("clicked");
       console.log(values, "formSubmitValues==>");
       submitForm(values);
-
     },
     validationSchema,
   });
@@ -147,7 +146,7 @@ const RigRegistrationFormIndex = (props) => {
       name == "driverName" &&
         formik.setFieldValue(
           "driverName",
-          allowCharacterInput(value, formik.values.driverName, 20)
+          allowCharacterInput(value, formik.values.driverName, 20),
         );
     }
 
@@ -184,25 +183,25 @@ const RigRegistrationFormIndex = (props) => {
       const fileType = file.type;
 
       // Check if the file is an image or a PDF
-      if (fileType.startsWith('image/')) {
+      if (fileType.startsWith("image/")) {
         try {
           // Only resize images
           const compressImg = await resizeFile(file);
           const CFile = new File([compressImg], file.name, { type: file.type });
-          formik.setFieldValue('fitness', CFile);
+          formik.setFieldValue("fitness", CFile);
         } catch (error) {
           console.error("Error resizing image:", error);
-          formik.setFieldValue('fitness', null);
+          formik.setFieldValue("fitness", null);
         }
-      } else if (fileType === 'application/pdf') {
+      } else if (fileType === "application/pdf") {
         // Directly handle PDF files
-        formik.setFieldValue('fitness', file);
+        formik.setFieldValue("fitness", file);
       } else {
         console.error("Unsupported file type!");
-        formik.setFieldValue('fitness', null);
+        formik.setFieldValue("fitness", null);
       }
     } else {
-      formik.setFieldValue('fitness', null);
+      formik.setFieldValue("fitness", null);
     }
   };
 
@@ -227,25 +226,25 @@ const RigRegistrationFormIndex = (props) => {
       const fileType = file.type;
 
       // Check if the file is an image or a PDF
-      if (fileType.startsWith('image/')) {
+      if (fileType.startsWith("image/")) {
         try {
           // Only resize images
           const compressImg = await resizeFile(file);
           const CFile = new File([compressImg], file.name, { type: file.type });
-          formik.setFieldValue('taxCopy', CFile);
+          formik.setFieldValue("taxCopy", CFile);
         } catch (error) {
           console.error("Error resizing image:", error);
-          formik.setFieldValue('taxCopy', null);
+          formik.setFieldValue("taxCopy", null);
         }
-      } else if (fileType === 'application/pdf') {
+      } else if (fileType === "application/pdf") {
         // Directly handle PDF files
-        formik.setFieldValue('taxCopy', file);
+        formik.setFieldValue("taxCopy", file);
       } else {
         console.error("Unsupported file type!");
-        formik.setFieldValue('taxCopy', null);
+        formik.setFieldValue("taxCopy", null);
       }
     } else {
-      formik.setFieldValue('taxCopy', null);
+      formik.setFieldValue("taxCopy", null);
     }
   };
 
@@ -256,28 +255,27 @@ const RigRegistrationFormIndex = (props) => {
       const fileType = file.type;
 
       // Check if the file is an image or a PDF
-      if (fileType.startsWith('image/')) {
+      if (fileType.startsWith("image/")) {
         try {
           // Only resize images
           const compressImg = await resizeFile(file);
           const CFile = new File([compressImg], file.name, { type: file.type });
-          formik.setFieldValue('license', CFile);
+          formik.setFieldValue("license", CFile);
         } catch (error) {
           console.error("Error resizing image:", error);
-          formik.setFieldValue('license', null);
+          formik.setFieldValue("license", null);
         }
-      } else if (fileType === 'application/pdf') {
+      } else if (fileType === "application/pdf") {
         // Directly handle PDF files
-        formik.setFieldValue('license', file);
+        formik.setFieldValue("license", file);
       } else {
         console.error("Unsupported file type!");
-        formik.setFieldValue('license', null);
+        formik.setFieldValue("license", null);
       }
     } else {
-      formik.setFieldValue('license', null);
+      formik.setFieldValue("license", null);
     }
   };
-
 
   const submitForm = (data) => {
     setLoader(true);
@@ -297,8 +295,6 @@ const RigRegistrationFormIndex = (props) => {
       // driverBirthDate: data?.driverBirthDate,
       // vehicleFrom: data?.vehicleFrom,
       // panNo: data?.panNo,
-
-
     };
     console.log(payload, "payload====>>");
 
@@ -317,18 +313,24 @@ const RigRegistrationFormIndex = (props) => {
     payloadFormData.append("documents[2][image]", formik?.values?.license);
     payloadFormData.append("documents[2][docCode]", "LICENSE");
     payloadFormData.append("documents[2][ownerDtlId]", "");
+    payloadFormData.append("ulb_id", getLocalStorageItemJsonParsed("ulbId"));
+    payloadFormData.append("module_id", 15);
 
-    AxiosInterceptors.post(api_RigRegistrationApplyForm, payloadFormData, ApiHeader2())
+    AxiosInterceptors.post(
+      api_RigRegistrationApplyForm,
+      payloadFormData,
+      ApiHeader2(),
+    )
       .then((res) => {
         setLoader(false);
         // setresponseScreen(response?.data);
         if (res.data.status) {
           toast.success(res?.data?.message, "success");
-          // window.location.reload(); 
+          // window.location.reload();
           // setresponseScreen(response?.data);
           // navigate('/successfull-submit', (response?.data));
-          navigate('/successfull-submit', {
-            state: res?.data
+          navigate("/successfull-submit", {
+            state: res?.data,
           });
         } else {
           toast.error(res?.data?.message, "error");
@@ -343,7 +345,7 @@ const RigRegistrationFormIndex = (props) => {
         setLoader(false);
         console.log(
           "Error while applying for pet registration..",
-          err?.response?.data?.error
+          err?.response?.data?.error,
         );
       });
   };
@@ -399,7 +401,6 @@ const RigRegistrationFormIndex = (props) => {
   //     });
   // }, [formik.values.ulb]);
 
-
   // if (responseScreen?.status == true) {
   //   return (
   //     <>
@@ -415,14 +416,14 @@ const RigRegistrationFormIndex = (props) => {
       <form
         onSubmit={formik.handleSubmit}
         onChange={handleChange}
-        className='mb-20 px-20  py-8 rounded-md'
+        className="mb-20 px-20  py-8 rounded-md"
       >
         <div className="text-center font-semibold text-2xl ">
           <h1 className="bg-indigo-600 px-auto text-white ">
             Rig (HYDT) Registration Application
           </h1>
         </div>
-        <div className='overflow-y-auto '>
+        <div className="overflow-y-auto ">
           {/* <div className='col-span-12 ml-2 my-2'>
             <div className='text-lg text-left text-gray-600 font-semibold'>
               # Property Detail
@@ -430,7 +431,7 @@ const RigRegistrationFormIndex = (props) => {
             <p className='border-b border-gray-500'></p>
           </div> */}
 
-          <div className='grid grid-cols-1 md:grid-cols-3 bg-white shadow-md rounded-md py-2'>
+          <div className="grid grid-cols-1 md:grid-cols-3 bg-white shadow-md rounded-md py-2">
             {/* <div className='m-2'>
               <label className={style?.label} htmlFor='ulb'>
                 Select ULB <span className={style?.required}>*</span>
@@ -502,44 +503,44 @@ const RigRegistrationFormIndex = (props) => {
             </div> */}
           </div>
 
-          <div className='col-span-12 ml-2 my-2'>
-            <div className='text-lg text-left text-gray-600 font-semibold'>
+          <div className="col-span-12 ml-2 my-2">
+            <div className="text-lg text-left text-gray-600 font-semibold">
               # Applicant Details
             </div>
             {/* <p className='border-b border-gray-500'></p> */}
           </div>
 
-          <div className='bg-white shadow-md rounded-md py-2'>
-            <div className='grid grid-cols-1 md:grid-cols-3 '>
-              <div className='m-2'>
-                <label className={style?.label} htmlFor='applicantName'>
+          <div className="bg-white shadow-md rounded-md py-2">
+            <div className="grid grid-cols-1 md:grid-cols-3 ">
+              <div className="m-2">
+                <label className={style?.label} htmlFor="applicantName">
                   Name of Applicant<span className={style?.required}>*</span>
                 </label>
                 <input
                   //   disabled={formik.values.ownerCategory != 2}
                   {...formik.getFieldProps("applicantName")}
-                  maxLength='70'
-                  type='text'
-                  name='applicantName'
+                  maxLength="70"
+                  type="text"
+                  name="applicantName"
                   className={style?.textFiled}
                 />
-                <p className='text-red-500 text-xs'>
+                <p className="text-red-500 text-xs">
                   {formik.touched.applicantName && formik.errors.applicantName
                     ? formik.errors.applicantName
                     : null}
                 </p>
               </div>
-              <div className='m-3'>
-                <label className={style?.label} htmlFor='mobileNo'>
+              <div className="m-3">
+                <label className={style?.label} htmlFor="mobileNo">
                   Mobile No<span className={style?.required}>*</span>
                 </label>
                 <input
                   //   disabled={formik.values.ownerCategory != 2}
                   {...formik.getFieldProps("mobileNo")}
-                  type='text'
+                  type="text"
                   maxLength={10}
-                  name='mobileNo'
-                  id='mobileNo'
+                  name="mobileNo"
+                  id="mobileNo"
                   className={style?.textFiled}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
@@ -549,24 +550,24 @@ const RigRegistrationFormIndex = (props) => {
                     }
                   }}
                 />
-                <p className='text-red-500 text-xs'>
+                <p className="text-red-500 text-xs">
                   {formik.touched.mobileNo && formik.errors.mobileNo
                     ? formik.errors.mobileNo
                     : null}
                 </p>
               </div>
-              <div className='m-2'>
-                <label className={style?.label} htmlFor='email'>
+              <div className="m-2">
+                <label className={style?.label} htmlFor="email">
                   Email
                 </label>
                 <input
                   {...formik.getFieldProps("email")}
-                  type='email'
-                  maxLength='70'
-                  name='email'
+                  type="email"
+                  maxLength="70"
+                  name="email"
                   className={style?.textFiled}
                 />
-                <p className='text-red-500 text-xs'>
+                <p className="text-red-500 text-xs">
                   {formik.touched.email && formik.errors.email
                     ? formik.errors.email
                     : null}
@@ -591,19 +592,19 @@ const RigRegistrationFormIndex = (props) => {
               </div> */}
             </div>
 
-            <div className='m-3'>
-              <label className={style?.label} htmlFor='address'>
+            <div className="m-3">
+              <label className={style?.label} htmlFor="address">
                 Address<span className={style?.required}>*</span>
               </label>
               <textarea
                 // disabled={formik.values.ownerCategory != 2}
                 {...formik.getFieldProps("address")}
-                name='address'
-                maxLength='500'
-                rows='3'
+                name="address"
+                maxLength="500"
+                rows="3"
                 className={style?.textArea}
               ></textarea>
-              <p className='text-red-500 text-xs'>
+              <p className="text-red-500 text-xs">
                 {formik.touched.address && formik.errors.address
                   ? formik.errors.address
                   : null}
@@ -611,13 +612,12 @@ const RigRegistrationFormIndex = (props) => {
             </div>
           </div>
 
-          <div className='col-span-12 ml-2 my-2'>
-            <div className='text-lg text-left text-gray-600 font-semibold'>
+          <div className="col-span-12 ml-2 my-2">
+            <div className="text-lg text-left text-gray-600 font-semibold">
               # Vehicle Details
             </div>
           </div>
-          <div className='grid grid-cols-1 md:grid-cols-3 bg-white shadow-md rounded-md py-2'>
-
+          <div className="grid grid-cols-1 md:grid-cols-3 bg-white shadow-md rounded-md py-2">
             {/*  <div className='m-3'>
               <label className={style?.label} htmlFor='driverName'>
                 Name of Driver<span className={style?.required}>*</span>
@@ -674,15 +674,15 @@ const RigRegistrationFormIndex = (props) => {
               </p>
             </div> */}
 
-            <div className='m-3'>
-              <label className={style?.label} htmlFor='registrationNumber'>
+            <div className="m-3">
+              <label className={style?.label} htmlFor="registrationNumber">
                 Registration No.<span className={style?.required}>*</span>
               </label>
               <input
                 {...formik.getFieldProps("registrationNumber")}
-                maxLength='10'
-                type='text'
-                name='registrationNumber'
+                maxLength="10"
+                type="text"
+                name="registrationNumber"
                 className={style?.textFiled}
                 onChange={(e) => {
                   // Convert the input value to uppercase
@@ -691,23 +691,22 @@ const RigRegistrationFormIndex = (props) => {
                   formik.setFieldValue("registrationNumber", upperCaseValue);
                 }}
               />
-              <p className='text-red-500 text-xs'>
+              <p className="text-red-500 text-xs">
                 {formik.touched.registrationNumber &&
-                  formik.errors.registrationNumber
+                formik.errors.registrationNumber
                   ? formik.errors.registrationNumber
                   : null}
               </p>
             </div>
-            <div className='m-3'>
-              <label className={style?.label} htmlFor='vehicleComapny'>
+            <div className="m-3">
+              <label className={style?.label} htmlFor="vehicleComapny">
                 VIN Number / CH No.<span className={style?.required}>*</span>
               </label>
               <input
                 {...formik.getFieldProps("vehicleComapny")}
-                maxLength='17'
-
-                type='text'
-                name='vehicleComapny'
+                maxLength="17"
+                type="text"
+                name="vehicleComapny"
                 className={style?.textFiled}
                 onChange={(e) => {
                   // Convert the input value to uppercase
@@ -716,7 +715,7 @@ const RigRegistrationFormIndex = (props) => {
                   formik.setFieldValue("vehicleComapny", upperCaseValue);
                 }}
               />
-              <p className='text-red-500 text-xs'>
+              <p className="text-red-500 text-xs">
                 {formik.touched.vehicleComapny && formik.errors.vehicleComapny
                   ? formik.errors.vehicleComapny
                   : null}
@@ -739,88 +738,84 @@ const RigRegistrationFormIndex = (props) => {
                   : null}
               </p>
             </div> */}
-            <div className='m-3'>
-              <label className={style?.label} htmlFor='fitness'>
+            <div className="m-3">
+              <label className={style?.label} htmlFor="fitness">
                 Pollution Certificate<span className={style?.required}>*</span>
               </label>
               <input
                 onChange={handleFileChange}
                 // {...formik.getFieldProps("fitness")}
-                maxLength='50'
-                type='file'
-                name='fitness'
+                maxLength="50"
+                type="file"
+                name="fitness"
                 className={style?.textFiled}
               />
-              <p className='text-red-500 text-xs'>
-                {fileSizeError}
-              </p>
+              <p className="text-red-500 text-xs">{fileSizeError}</p>
             </div>
-            <div className='m-3'>
-              <label className={style?.label} htmlFor='taxCopy'>
+            <div className="m-3">
+              <label className={style?.label} htmlFor="taxCopy">
                 Tax Copy<span className={style?.required}>*</span>
               </label>
               <input
                 onChange={handleFileChange2}
                 // {...formik.getFieldProps("taxCopy")}
 
-                maxLength='50'
-                type='file'
-                name='taxCopy'
+                maxLength="50"
+                type="file"
+                name="taxCopy"
                 className={style?.textFiled}
               />
-              <p className='text-red-500 text-xs'>
-                {fileSizeError}
-              </p>
+              <p className="text-red-500 text-xs">{fileSizeError}</p>
             </div>
-            <div className='m-3'>
-              <label className={style?.label} htmlFor='license'>
-                Registration Of Certificate<span className={style?.required}>*</span>
+            <div className="m-3">
+              <label className={style?.label} htmlFor="license">
+                Registration Of Certificate
+                <span className={style?.required}>*</span>
               </label>
               <input
                 onChange={handleFileChange3}
                 // {...formik.getFieldProps("license")}
-                maxLength='50'
-                type='file'
-                name='license'
+                maxLength="50"
+                type="file"
+                name="license"
                 className={style?.textFiled}
               />
-              <p className='text-red-500 text-xs'>
-                {fileSizeError}
-              </p>
+              <p className="text-red-500 text-xs">{fileSizeError}</p>
             </div>
-
           </div>
-          <p className="text-orange-500 px-2">Each document should not exceed a size of 2 MB.</p>
+          <p className="text-orange-500 px-2">
+            Each document should not exceed a size of 2 MB.
+          </p>
         </div>
 
         <p
-          className='flex mt-3 gap-x-3'
+          className="flex mt-3 gap-x-3"
           onClick={() => setIsChecked(!isChecked)}
         >
           <input
-            type='checkbox'
+            type="checkbox"
             checked={isChecked}
-            name=''
-            id=''
+            name=""
+            id=""
             onChange={(e) => setIsChecked(e.target.checked)}
           />
-          <p className=' select-none'>
+          <p className=" select-none">
             I have entered the correct information and agree to the terms and
             conditions.
           </p>
         </p>
 
-        <p className='text-red-500 font-semibold text-center mt-3'>
+        <p className="text-red-500 font-semibold text-center mt-3">
           {errorMessage && errorMessage}
         </p>
-        <div className='flex justify-center my-5 '>
+        <div className="flex justify-center my-5 ">
           {formSubmitting ? (
             <p>Form Submitting..</p>
           ) : (
             <button
-              type='submit'
+              type="submit"
               disabled={!isChecked}
-              className='disabled:opacity-40 bg-indigo-600 hover:bg-indigo-700 px-8 py-2 text-white rounded shadow '
+              className="disabled:opacity-40 bg-indigo-600 hover:bg-indigo-700 px-8 py-2 text-white rounded shadow "
             >
               Submit Application
             </button>
@@ -831,6 +826,4 @@ const RigRegistrationFormIndex = (props) => {
   );
 };
 
-export default RigRegistrationFormIndex
-
-
+export default RigRegistrationFormIndex;

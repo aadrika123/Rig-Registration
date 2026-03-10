@@ -1,40 +1,40 @@
-import { useMemo, useState, useContext, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import { toast } from 'react-hot-toast';
-import './login.css';
-import { RotatingLines } from 'react-loader-spinner';
-import ProjectApiList from '@/Components/api/ProjectApiList';
-import ApiHeader from '@/Components/api/ApiHeader';
-import img from '@/Components/assets/img.svg';
-import AxiosInterceptors from '@/Components/Common/AxiosInterceptors';
+import { useMemo, useState, useContext, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { toast } from "react-hot-toast";
+import "./login.css";
+import { RotatingLines } from "react-loader-spinner";
+import ProjectApiList from "@/Components/api/ProjectApiList";
+import ApiHeader from "@/Components/api/ApiHeader";
+import img from "@/Components/assets/img.svg";
+import AxiosInterceptors from "@/Components/Common/AxiosInterceptors";
 import {
   getLocalStorageItem,
   setLocalStorageItem,
   setLocalStorageItemStrigified,
-} from '@/Components/Common/localstorage';
-import ulb_data from '@/Components/Common/DynamicData';
-import { checkErrorMessage } from '@/Components/Common/PowerupFunctions';
-import { contextVar } from '@/Components/context/contextVar';
-import rigm from '@/Components/assets/rigm.png';
-import { UseServiceCheck } from '@/Components/Hooks/UseServiceCheck';
+} from "@/Components/Common/localstorage";
+import ulb_data from "@/Components/Common/DynamicData";
+import { checkErrorMessage } from "@/Components/Common/PowerupFunctions";
+import { contextVar } from "@/Components/context/contextVar";
+import rigm from "@/Components/assets/rigm.png";
+import { UseServiceCheck } from "@/Components/Hooks/UseServiceCheck";
 // import UseCaptchaGenerator from '@/Components/Common/Hooks/UseCaptchaGenerator';
-import CryptoJS, { enc } from 'crypto-js';
-import UseCaptchaGeneratorServer from '@/Components/Common/Hooks/UseCaptchaGeneratorServer';
-import useSystemUniqueID from '@/Components/Hooks/useSystemUniqueId';
-import { Eye, EyeOffIcon } from 'lucide-react';
+import CryptoJS, { enc } from "crypto-js";
+import UseCaptchaGeneratorServer from "@/Components/Common/Hooks/UseCaptchaGeneratorServer";
+import useSystemUniqueID from "@/Components/Hooks/useSystemUniqueId";
+import { Eye, EyeOffIcon } from "lucide-react";
 const { api_login, api_getFreeMenuList } = ProjectApiList();
 
 const validationSchema = Yup.object({
-  username: Yup.string().required('Enter Username'),
-  password: Yup.string().required('Enter Password'),
-  captcha: Yup.string().required('Captcha Required'),
+  username: Yup.string().required("Enter Username"),
+  password: Yup.string().required("Enter Password"),
+  captcha: Yup.string().required("Captcha Required"),
 });
 
 // const location = useLocation();
 const searchParams = new URLSearchParams(location.search);
-const message = searchParams.get('msg') || '';
+const message = searchParams.get("msg") || "";
 
 function Login() {
   const { fingerprint } = useSystemUniqueID();
@@ -62,7 +62,7 @@ function Login() {
 
   const preventKeyboardShortcuts = (e) => {
     if (e.ctrlKey || e.metaKey) {
-      if (['c', 'v', 'x'].includes(e.key.toLowerCase())) {
+      if (["c", "v", "x"].includes(e.key.toLowerCase())) {
         e.preventDefault();
       }
     }
@@ -70,11 +70,11 @@ function Login() {
 
   function encryptPassword(plainPassword) {
     const secretKey =
-      'c2ec6f788fb85720bf48c8cc7c2db572596c585a15df18583e1234f147b1c2897aad12e7bebbc4c03c765d0e878427ba6370439d38f39340d7e';
+      "c2ec6f788fb85720bf48c8cc7c2db572596c585a15df18583e1234f147b1c2897aad12e7bebbc4c03c765d0e878427ba6370439d38f39340d7e";
 
     // Match PHP's binary hash key
     const key = CryptoJS.enc.Latin1.parse(
-      CryptoJS.SHA256(secretKey).toString(CryptoJS.enc.Latin1)
+      CryptoJS.SHA256(secretKey).toString(CryptoJS.enc.Latin1),
     );
 
     // PHP IV is a 16-character *string* (not hex)
@@ -92,9 +92,9 @@ function Login() {
 
   const formik = useFormik({
     initialValues: {
-      username: '',
-      password: '',
-      captcha: '',
+      username: "",
+      password: "",
+      captcha: "",
     },
     onSubmit: async (values, { resetForm }) => {
       setIsFormSubmitted(true);
@@ -102,11 +102,11 @@ function Login() {
       try {
         // Call your authentication function (authUser()) here
         await authUser(values.username, values.password);
-        console.log('Form submitted:', values);
+        console.log("Form submitted:", values);
         setIsFormSubmitted(false);
       } catch (error) {
         // Handle authentication error if needed
-        console.error('Authentication failed:', error);
+        console.error("Authentication failed:", error);
         setIsFormSubmitted(false); // Reset the form submission status on authentication failure
       }
     },
@@ -116,14 +116,14 @@ function Login() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    getLocalStorageItem('token') != 'null' &&
-      getLocalStorageItem('token') != null &&
-      navigate('/home');
+    getLocalStorageItem("token") != "null" &&
+      getLocalStorageItem("token") != null &&
+      navigate("/home");
   }, []);
 
   const header = {
     headers: {
-      Accept: 'application/json',
+      Accept: "application/json",
     },
   };
 
@@ -138,37 +138,41 @@ function Login() {
       captcha_code: encryptPassword(formik.values.captcha),
       systemUniqueId: encryptPassword(fingerprint),
     };
-    console.log('--1--before login send...', requestBody);
+    console.log("--1--before login send...", requestBody);
     AxiosInterceptors.post(api_login, requestBody, header)
       .then(function (response) {
-        console.log('message check login ', response.data);
+        console.log("message check login ", response.data);
         // return
         if (response.data.status == true) {
-          setLocalStorageItem('token', response?.data?.data?.token);
+          setLocalStorageItem("token", response?.data?.data?.token);
+          setLocalStorageItem(
+            "ulbId",
+            response?.data?.data?.userDetails?.ulb_id,
+          );
           setLocalStorageItemStrigified(
-            'userDetails',
-            response?.data?.data?.userDetails
+            "userDetails",
+            response?.data?.data?.userDetails,
           );
 
           fetchMenuList();
           setheartBeatCounter((prev) => prev + 1);
-          navigate('/home'); //navigate to home page after login
+          navigate("/home"); //navigate to home page after login
 
-          toast.success('Login Successfull');
+          toast.success("Login Successfull");
         } else {
-          console.log('false...');
+          console.log("false...");
           setLoaderStatus(false);
           toast.error(response?.data?.message);
           newGeneratedCaptcha();
-          formik?.setFieldValue('captcha', '');
+          formik?.setFieldValue("captcha", "");
         }
       })
       .catch(function (error) {
         setLoaderStatus(false);
-        console.log('--2--login error...', error);
+        console.log("--2--login error...", error);
         // toast.error('Server Error')
         // generateRandomCaptcha();
-        formik?.setFieldValue('captcha', '');
+        formik?.setFieldValue("captcha", "");
       });
   };
 
@@ -177,29 +181,29 @@ function Login() {
     let requestBody = {
       moduleId: 15,
     };
-    console.log('request body', requestBody);
+    console.log("request body", requestBody);
 
     AxiosInterceptors.post(api_getFreeMenuList, requestBody, ApiHeader())
       .then(function (response) {
         console.log(
-          'fetched menu list.....',
-          response?.data?.data?.userDetails?.roles
+          "fetched menu list.....",
+          response?.data?.data?.userDetails?.roles,
         );
         // return
         if (response.data.status == true) {
           setLocalStorageItemStrigified(
-            'menuList',
-            response?.data?.data?.permission
+            "menuList",
+            response?.data?.data?.permission,
           );
           setLocalStorageItemStrigified(
-            'userDetails',
-            response?.data?.data?.userDetails
+            "userDetails",
+            response?.data?.data?.userDetails,
           );
 
           setmenuList(response?.data?.data?.permission);
           setuserDetails(response?.data?.data?.userDetails);
         } else {
-          console.log('false menu list => ', response?.data?.message);
+          console.log("false menu list => ", response?.data?.message);
           setLoaderStatus(false);
           seterrorMsg(checkErrorMessage(response.data.message));
         }
@@ -207,7 +211,7 @@ function Login() {
       .catch(function (error) {
         setLoaderStatus(false);
         seterroState(true);
-        console.log('--2--login error...', error);
+        console.log("--2--login error...", error);
       });
   };
 
@@ -215,7 +219,7 @@ function Login() {
     <>
       {message && (
         <div className="w-full h-8 bg-red-600 flex justify-center items-center text-white text-lg p-3">
-          <span className="font-semibold">⚠️ Permission Denied</span> -{' '}
+          <span className="font-semibold">⚠️ Permission Denied</span> -{" "}
           {message}
         </div>
       )}
@@ -233,11 +237,11 @@ function Login() {
               href="../index.html"
             >
               <div>
-                {' '}
+                {" "}
                 <span className="font-bold text-xl uppercase">
                   {/* //  {`${ulb_data().ulb_name}`} // */}Login - Rig
                   Registration System
-                </span>{' '}
+                </span>{" "}
                 <span className="hidden text-gray-700 darks:text-gray-200">{`${
                   ulb_data().ulb_name
                 }`}</span>
@@ -271,7 +275,7 @@ function Login() {
                   id="mobile-canvas"
                   xDescription="Mobile menu"
                   x-show="open"
-                  style={{ display: 'none' }}
+                  style={{ display: "none" }}
                 >
                   {/* bg open */}
                   <span className="fixed bg-gray-900 bg-opacity-70 w-full h-full inset-x-0 top-0" />
@@ -444,7 +448,7 @@ function Login() {
                         className="flex justify-between items-center relative bg-yellow-100 text-yellow-900 p-3 rounded-lg mb-4"
                       >
                         <div>
-                          How to apply? please read the documentation on{' '}
+                          How to apply? please read the documentation on{" "}
                           <a
                             href="../docs/customize.html"
                             className="underline font-semibold"
@@ -500,7 +504,7 @@ function Login() {
                             Username
                           </label>
                           <input
-                            {...formik.getFieldProps('username')}
+                            {...formik.getFieldProps("username")}
                             autoComplete="off"
                             onCopy={preventCopyPaste}
                             onCut={preventCopyPaste}
@@ -532,7 +536,7 @@ function Login() {
                           </div>
                           <div className="relative">
                             <input
-                              {...formik.getFieldProps('password')}
+                              {...formik.getFieldProps("password")}
                               autoComplete="off"
                               onCopy={preventCopyPaste}
                               onCut={preventCopyPaste}
@@ -541,7 +545,7 @@ function Login() {
                               onKeyDown={preventKeyboardShortcuts}
                               className="w-full leading-5 relative py-2 px-4 pr-10 rounded text-gray-800 bg-white border border-gray-300 overflow-x-auto focus:outline-none focus:border-gray-400 focus:ring-0 darks:text-gray-300 darks:bg-gray-700 darks:border-gray-700 darks:focus:border-gray-600"
                               aria-label="password"
-                              type={showPassword ? 'text' : 'password'}
+                              type={showPassword ? "text" : "password"}
                               defaultValue
                               required
                             />
@@ -583,7 +587,7 @@ function Login() {
                           </div>
                           <div className="mt-3">
                             <input
-                              {...formik.getFieldProps('captcha')}
+                              {...formik.getFieldProps("captcha")}
                               className="w-full leading-5 py-1.5 px-3 rounded text-gray-800 bg-white border border-gray-300 focus:outline-none focus:border-gray-400"
                               type="text"
                               required
@@ -666,7 +670,7 @@ function Login() {
                     </h1>
                     <p className="text-base mb-4 text-gray-500">
                       Manage citizen government services with easy of access and
-                      serve them in no time.{' '}
+                      serve them in no time.{" "}
                     </p>
                   </div>
                 </div>
@@ -708,7 +712,7 @@ function Login() {
                   <a href="#" className="hover:text-indigo-500">
                     {/* {`${ulb_data().ulb_name}`} */}
                     UD&HD
-                  </a>{' '}
+                  </a>{" "}
                   | All right reserved
                 </p>
               </div>
